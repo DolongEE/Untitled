@@ -6,8 +6,9 @@ public class Managers : MonoBehaviour
     public static Managers Instance { get { return s_instance; } }
 
     #region Core
+    private static NPCManager _npc = new NPCManager();
 
-
+    public static NPCManager NPC { get { return _npc; } }
     #endregion
 
     private void Awake()
