@@ -3,20 +3,20 @@ using UnityEngine.InputSystem;
 
 public class StartQuestStep : QuestStep
 {
-    private int pressed = 0;
-    private int end = 5;
+    public int pressed = 0;
+    public int end = 5;
 
     private void OnEnable()
     {
-        GameEventsManager.instance.inputEvents.onSubmitPressed += Submit;
+        GameEventsManager.instance.inputEvents.onSubmitPressed += StartQuest;
     }
 
     private void OnDisable()
     {
-        GameEventsManager.instance.inputEvents.onSubmitPressed -= Submit;
+        GameEventsManager.instance.inputEvents.onSubmitPressed -= StartQuest;
     }
 
-    void Submit()
+    void StartQuest()
     {
         if (pressed < end)
         {
@@ -24,19 +24,6 @@ public class StartQuestStep : QuestStep
         }
 
         if (pressed >= end)
-        {
-            FinishedQuestStep();
-        }
-    }
-
-    void Press()
-    {
-        if(pressed < end)
-        {
-            pressed++;
-        }
-
-        if (pressed >= end) 
         {
             FinishedQuestStep();
         }

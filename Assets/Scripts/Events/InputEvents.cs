@@ -3,6 +3,15 @@ using System;
 
 public class InputEvents
 {
+    public event Action<Vector3> onMovePressed;
+    public void MovePressed(Vector3 moveDir)
+    {
+        if (onMovePressed != null)
+        {
+            onMovePressed(moveDir);
+        }
+    }
+
     public event Action onSubmitPressed;
     public void SubmitPressed()
     {

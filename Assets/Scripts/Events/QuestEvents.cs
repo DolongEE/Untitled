@@ -2,6 +2,15 @@ using System;
 
 public class QuestEvents
 {
+    public event Action onQuestLevelChange;
+    public void QuestLevelChange()
+    {
+        if (onQuestLevelChange != null)
+        {
+            onQuestLevelChange();
+        }
+    }
+
     public event Action<string> onStartQuest;
     public void StartQuest(string id)
     {

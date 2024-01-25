@@ -13,12 +13,21 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "QuestLogToggle",
+                    "type": "Button",
+                    "id": "1ceac611-cc9c-48b5-a62b-633d5963c00d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
                 {
                     "name": "",
-                    "id": "52ce8643-2295-4438-9e5e-834fba21c7b5",
+                    "id": "f27634d6-9108-4192-ae70-901938eafa2e",
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
@@ -29,12 +38,23 @@
                 },
                 {
                     "name": "",
-                    "id": "8a1a3cf4-d520-4980-98fb-d99678ea5ba2",
+                    "id": "44dd97c2-0abf-4388-85c0-920339429a9a",
                     "path": "<Keyboard>/enter",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Submit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fb7df5a3-6ca2-4b06-a9b6-49e33602518b",
+                    "path": "<Keyboard>/g",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "QuestLogToggle",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

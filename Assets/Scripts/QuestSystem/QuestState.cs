@@ -5,7 +5,8 @@ using UnityEngine;
 public enum QuestState
 {
     REQUIREMENTS_NOT_MET,
-    CAN_START,
+    CAN_START,    
+    TALKEND,
     IN_PROGRESS,
     CAN_FINISH,
     FINISHED,

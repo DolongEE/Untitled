@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <id>k__BackingField: StartQuest
   displayName: Start Quest!
+  questLevelRequirement: 0
   questPrerequisites: []
-  questStepPrefabs: []
+  questStepPrefabs:
+  - {fileID: 946765200413255547, guid: c5c6c21c9ba6636469e45f0aeca81c7a, type: 3}
   goldReward: 50
   itemReward: 
