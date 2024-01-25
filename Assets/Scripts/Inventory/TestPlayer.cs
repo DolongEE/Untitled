@@ -1,39 +1,45 @@
-using Palmmedia.ReportGenerator.Core.Reporting.Builders;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class TestPlayer : MonoBehaviour
 {
     [Header("인벤토리")]
     public Inventory inventory;
-    [Header("가방")]
-    public GameObject bag;
+    public Camera cam;
 
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
+        // UI 이벤트가 발생한 경우 처리하지 않음
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
 
-            if(hit.collider != null)
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hitInfo;
+
+            if (Physics.Raycast(ray, out hitInfo))
             {
-                HitCheckObject(hit);
+                HitCheckObject(hitInfo);
             }
-        }
+            else
+            {
+                Vector2 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
+                RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
 
-        if(Input.GetKeyDown(KeyCode.I))
-        {
-            bag.SetActive(!bag.activeSelf);
+                if (hit.collider != null)
+                {
+                    HitCheckObject(hit);
+                }
+            }
         }
     }
 
-    void HitCheckObject(RaycastHit2D hit)
+    void HitCheckObject(RaycastHit hit)
     {
         IObjectItem clickInterface = hit.transform.gameObject.GetComponent<IObjectItem>();
 
-        if(clickInterface != null)
+        if (clickInterface != null)
         {
             Item item = clickInterface.ClickItem();
             Debug.Log($"{item.itemName}");
@@ -43,17 +49,17 @@ public class TestPlayer : MonoBehaviour
         }
     }
 
-    #region 마우스가 가리키는 곳
-    //private void OnDrawGizmos()
-    //{
-    //    Vector3 mousePosition = Input.mousePosition;
-    //    mousePosition.z = Camera.main.nearClipPlane;
-    //    Vector3 worldMousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+    void HitCheckObject(RaycastHit2D hit)
+    {
+        IObjectItem clickInterface = hit.transform.gameObject.GetComponent<IObjectItem>();
 
-    //    Gizmos.color = Color.red;
+        if (clickInterface != null)
+        {
+            Item item = clickInterface.ClickItem();
+            Debug.Log($"{item.itemName}");
+            inventory.AddItem(item);
 
-    //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-    //    Gizmos.DrawLine(ray.origin, ray.origin + ray.direction * 10f);
-    //}
-    #endregion
+            hit.transform.gameObject.SetActive(false);
+        }
+    }
 }
