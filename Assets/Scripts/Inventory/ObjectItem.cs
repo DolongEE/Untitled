@@ -31,7 +31,7 @@ public class ObjectItem : MonoBehaviour, IObjectItem
     }
     private void OnMouseEnter()
     {
-        ItemManager.instance.ShowTooltip(itemName, itemTooltip, itemImage, transform.position + new Vector3(0f, 3.0f, 0f));
+        ItemManager.instance.ShowTooltip(itemName, itemTooltip, itemImage, transform.position + new Vector3(0f, 3f, 0f));
     }
 
     private void OnMouseExit()
