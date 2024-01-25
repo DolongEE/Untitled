@@ -1,10 +1,11 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
+    public static bool inventoryActivated = false;
+    public GameObject bag;
+
     public List<Item> items;
 
     [SerializeField]
@@ -16,14 +17,34 @@ public class Inventory : MonoBehaviour
     private void OnValidate()
     {
         slots = slotParent.GetComponentsInChildren<Slot>();
+        //UnityEditor.EditorUtility.SetDirty(this);
     }
 #endif
     void Awake()
     {
-        FreshSlot();
+        RefreshSlot();
+    }
+    void Update()
+    {
+        InventoryOnOff();
     }
 
-    public void FreshSlot()
+    private void InventoryOnOff()
+    {
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            inventoryActivated = !inventoryActivated;
+
+            if(inventoryActivated)
+            {
+                bag.SetActive(true);
+            }
+            else
+                bag.SetActive(false);
+        }
+    }
+
+    public void RefreshSlot()
     {
         int i = 0;
         for (; i < items.Count && i < slots.Length; i++)
@@ -41,7 +62,7 @@ public class Inventory : MonoBehaviour
         if (items.Count < slots.Length)
         {
             items.Add(_item);
-            FreshSlot();
+            RefreshSlot();
         }
         else
         {
