@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2635017302392559172}
   - component: {fileID: 3755486140265955210}
   - component: {fileID: 7671901911233545945}
-  - component: {fileID: 5708839065606381728}
+  - component: {fileID: 6001119493965517957}
   - component: {fileID: 222011859730276777}
   m_Layer: 0
   m_Name: FrostSword
@@ -109,7 +109,7 @@ CapsuleCollider:
   m_Height: 2.3473368
   m_Direction: 1
   m_Center: {x: 0.00000023841858, y: 0.8556296, z: -0.000000007450582}
---- !u!54 &5708839065606381728
+--- !u!54 &6001119493965517957
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
