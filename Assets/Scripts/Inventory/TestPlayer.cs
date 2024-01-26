@@ -11,7 +11,7 @@ public class TestPlayer : MonoBehaviour
     void Update()
     {
         // UI 이벤트가 발생한 경우 처리하지 않음
-        if (EventSystem.current.IsPointerOverGameObject())
+        if (EventSystem.current.IsPointerOverGameObject() == true)
             return;
 
         if (Input.GetMouseButtonDown(0))

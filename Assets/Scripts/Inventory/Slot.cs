@@ -3,11 +3,9 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class Slot : MonoBehaviour,
-    IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+    IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler,
+    IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
-    private Rect rect;
-    private ItemManager itemManager;
-
     public Image image;
     public Button button;
 
@@ -28,8 +26,6 @@ public class Slot : MonoBehaviour,
     {
         image = GetComponent<Image>();
         button = GetComponent<Button>();
-        rect = transform.parent.parent.GetComponent<RectTransform>().rect;
-        itemManager = FindObjectOfType<ItemManager>();
     }
 
     public void SetColor(float alpha)
@@ -56,10 +52,15 @@ public class Slot : MonoBehaviour,
     public void OnPointerEnter(PointerEventData eventData)
     {
         // 슬롯에 있는 아이템에 마우스를 올리면 툴팁이 나옴
+        if(_item != null)
+        {
+            ItemManager.instance.ShowTooltip2D(_item, transform.GetComponent<RectTransform>().position);
+        }
     }
     public void OnPointerExit(PointerEventData eventData)
     {
         // 슬롯에 있는 아이템에서 마우스를 떼면 툴팁 사라짐
+        ItemManager.instance.HideTooltip2D();
     }
     public void OnPointerClick(PointerEventData eventData)
     {

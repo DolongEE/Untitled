@@ -27,8 +27,18 @@ public class ItemManager : MonoBehaviour
 
     public GameObject tooltipPrefab;
     private GameObject tooltipInstance;
+    [SerializeField]
+    private slotTooltip slottoolTip;
 
-    public void ShowTooltip(string itemName, string itemTooltip, Sprite itemImage, Vector3 position)
+    public void ShowTooltip2D(Item _item, Vector3 _pos)
+    {
+        slottoolTip.ShowTooltip(_item, _pos);
+    }
+    public void HideTooltip2D()
+    {
+        slottoolTip.HideTooltip();
+    }
+    public void ShowTooltip3D(string itemName, string itemTooltip, Sprite itemImage, Vector3 position)
     {
         if (tooltipPrefab != null)
         {
@@ -45,8 +55,7 @@ public class ItemManager : MonoBehaviour
             }
         }
     }
-
-    public void HideTooltip()
+    public void HideTooltip3D()
     {
         if (tooltipInstance != null)
         {
