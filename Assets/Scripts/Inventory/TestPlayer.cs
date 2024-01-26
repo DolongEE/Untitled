@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -22,16 +23,6 @@ public class TestPlayer : MonoBehaviour
             {
                 HitCheckObject(hitInfo);
             }
-            else
-            {
-                Vector2 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
-                RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
-
-                if (hit.collider != null)
-                {
-                    HitCheckObject(hit);
-                }
-            }
         }
     }
 
@@ -39,27 +30,14 @@ public class TestPlayer : MonoBehaviour
     {
         IObjectItem clickInterface = hit.transform.gameObject.GetComponent<IObjectItem>();
 
-        if (clickInterface != null)
+        if(clickInterface != null)
         {
             Item item = clickInterface.ClickItem();
             Debug.Log($"{item.itemName}");
-            inventory.AddItem(item);
+            inventory.items.Add(item);
+            inventory.AcquireItem(item);
 
-            hit.transform.gameObject.SetActive(false);
-        }
-    }
-
-    void HitCheckObject(RaycastHit2D hit)
-    {
-        IObjectItem clickInterface = hit.transform.gameObject.GetComponent<IObjectItem>();
-
-        if (clickInterface != null)
-        {
-            Item item = clickInterface.ClickItem();
-            Debug.Log($"{item.itemName}");
-            inventory.AddItem(item);
-
-            hit.transform.gameObject.SetActive(false);
+            Destroy(hit.transform.gameObject);
         }
     }
 }

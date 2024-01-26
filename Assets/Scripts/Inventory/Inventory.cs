@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
     public static bool inventoryActivated = false;
+    public static Inventory instance;
     public GameObject bag;
 
     public List<Item> items;
@@ -57,16 +59,21 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void AddItem(Item _item)
+    public void AcquireItem(Item item)
     {
-        if (items.Count < slots.Length)
+        int i = 0;
+        if(Item.ItemType.Equipment != item.itemType)
         {
-            items.Add(_item);
-            RefreshSlot();
+            //장비가 아닐 경우 갯수 표기를 위한 함수
         }
-        else
+
+        for (; i < slots.Length; i++)
         {
-            print("슬롯이 가득 차 있습니다.");
+            if (slots[i].item == null)
+            {
+                slots[i].AddItem(item);
+                return;
+            }
         }
     }
 }

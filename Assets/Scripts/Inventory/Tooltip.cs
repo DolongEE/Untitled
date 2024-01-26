@@ -3,28 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemManager : MonoBehaviour
+public class Tooltip : MonoBehaviour
 {
-    private static ItemManager _instance;
-    public static ItemManager instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = FindObjectOfType<ItemManager>();
-
-                if (_instance == null)
-                {
-                    GameObject itemManager = new GameObject("ItemManager");
-                    _instance = itemManager.AddComponent<ItemManager>();
-                }
-            }
-
-            return _instance;
-        }
-    }
-
     public GameObject tooltipPrefab;
     private GameObject tooltipInstance;
 
@@ -32,7 +12,7 @@ public class ItemManager : MonoBehaviour
     {
         if (tooltipPrefab != null)
         {
-            tooltipInstance = Instantiate(tooltipPrefab, position, Quaternion.Euler(30f, 0f, 0f));
+            tooltipInstance = Instantiate(tooltipPrefab, position, Quaternion.identity);
 
             Image[] tooltipImage = tooltipInstance.GetComponentsInChildren<Image>();
             Text[] tooltipText = tooltipInstance.GetComponentsInChildren<Text>();
@@ -45,7 +25,6 @@ public class ItemManager : MonoBehaviour
             }
         }
     }
-
     public void HideTooltip()
     {
         if (tooltipInstance != null)
