@@ -3,23 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemManager : MonoBehaviour
+public class InventoryManager : MonoBehaviour
 {
-    private static ItemManager _instance;
-    public static ItemManager instance
+    private static InventoryManager _instance;
+    public static InventoryManager instance
     {
         get
         {
             if (_instance == null)
-            {
-                _instance = FindObjectOfType<ItemManager>();
-
-                if (_instance == null)
-                {
-                    GameObject itemManager = new GameObject("ItemManager");
-                    _instance = itemManager.AddComponent<ItemManager>();
-                }
-            }
+                _instance = FindObjectOfType<InventoryManager>();
 
             return _instance;
         }
@@ -27,16 +19,15 @@ public class ItemManager : MonoBehaviour
 
     public GameObject tooltipPrefab;
     private GameObject tooltipInstance;
-    [SerializeField]
-    private slotTooltip slottoolTip;
+    public slotTooltip tooltip;
 
     public void ShowTooltip2D(Item _item, Vector3 _pos)
     {
-        slottoolTip.ShowTooltip(_item, _pos);
+        tooltip.ShowTooltip(_item, _pos);
     }
     public void HideTooltip2D()
     {
-        slottoolTip.HideTooltip();
+        tooltip.HideTooltip();
     }
     public void ShowTooltip3D(string itemName, string itemTooltip, Sprite itemImage, Vector3 position)
     {

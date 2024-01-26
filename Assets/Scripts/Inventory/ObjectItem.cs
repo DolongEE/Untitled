@@ -26,16 +26,16 @@ public class ObjectItem : MonoBehaviour, IObjectItem
     }
     public Item ClickItem()
     {
-        ItemManager.instance.HideTooltip3D();
+        InventoryManager.instance.HideTooltip3D();
         return this.item;
     }
     private void OnMouseEnter()
     {
-        ItemManager.instance.ShowTooltip3D(itemName, itemTooltip, itemImage, transform.position + new Vector3(0f, 3f, 0f));
+        InventoryManager.instance.ShowTooltip3D(itemName, itemTooltip, itemImage, transform.position + new Vector3(0f, 3f, 0f));
     }
 
     private void OnMouseExit()
     {
-        ItemManager.instance.HideTooltip3D();
+        InventoryManager.instance.HideTooltip3D();
     }
 }

@@ -8,6 +8,11 @@ public class TestPlayer : MonoBehaviour
     public Inventory inventory;
     public Camera cam;
 
+    private void Start()
+    {
+        inventory = FindObjectOfType<Inventory>();
+    }
+
     void Update()
     {
         // UI 이벤트가 발생한 경우 처리하지 않음

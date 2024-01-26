@@ -8,6 +8,7 @@ public class Slot : MonoBehaviour,
 {
     public Image image;
     public Button button;
+    private Rect baseRect;
 
     private Item _item;
     public Item item
@@ -26,6 +27,7 @@ public class Slot : MonoBehaviour,
     {
         image = GetComponent<Image>();
         button = GetComponent<Button>();
+        baseRect = transform.parent.parent.parent.GetComponent<RectTransform>().rect;
     }
 
     public void SetColor(float alpha)
@@ -42,7 +44,7 @@ public class Slot : MonoBehaviour,
         SetColor(1);
     }
 
-    private void ClearSlot()
+    private void RemoveItem()
     {
         _item = null;
         image.sprite = null;
@@ -52,15 +54,15 @@ public class Slot : MonoBehaviour,
     public void OnPointerEnter(PointerEventData eventData)
     {
         // 슬롯에 있는 아이템에 마우스를 올리면 툴팁이 나옴
-        if(_item != null)
+        if (_item != null)
         {
-            ItemManager.instance.ShowTooltip2D(_item, transform.GetComponent<RectTransform>().position);
+            InventoryManager.instance.ShowTooltip2D(_item, transform.GetComponent<RectTransform>().position);
         }
     }
     public void OnPointerExit(PointerEventData eventData)
     {
         // 슬롯에 있는 아이템에서 마우스를 떼면 툴팁 사라짐
-        ItemManager.instance.HideTooltip2D();
+        InventoryManager.instance.HideTooltip2D();
     }
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -68,7 +70,20 @@ public class Slot : MonoBehaviour,
         {
             if (_item != null)
             {
-                // 아이템 장착
+                if(_item.itemType == Item.ItemType.Equipment)
+                {
+                    // 아이템 장착
+                    GameObject arms = GameObject.Find("LeftArm");
+                    GameObject weapon = Instantiate(_item.itemPrefab, arms.transform.position, Quaternion.Euler(-20f, 90f, 45f));
+                    weapon.transform.SetParent(arms.transform);
+                    Destroy(weapon.GetComponent<Rigidbody>());
+
+                    RemoveItem();
+                }
+                else
+                {
+                    Debug.Log("장비 아이템이 아닙니다.");
+                }
             }
         }
     }
@@ -79,31 +94,20 @@ public class Slot : MonoBehaviour,
         {
             DragSlot.instance.dragSlot = this;
             DragSlot.instance.DragSetImage(image);
+            DragSlot.instance.SetColor(0.5f);
             DragSlot.instance.transform.position = eventData.position;
         }
     }
     public void OnDrag(PointerEventData eventData)
     {
-        // 아이템 반투명 해져서 옮겨지는 중
+        // 아이템 옮겨지는 중
         if (_item != null)
         {
             DragSlot.instance.transform.position = eventData.position;
+
+            // 드래그 중에는 다른 툴팁이 뜨지 않도록
+            InventoryManager.instance.HideTooltip2D();
         }
-    }
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        // 드래그 끝
-        //if (DragSlot.instance.transform.localPosition.x < rect.xMin ||
-        //   DragSlot.instance.transform.localPosition.x > rect.xMax ||
-        //   DragSlot.instance.transform.localPosition.y < rect.yMin ||
-        //   DragSlot.instance.transform.localPosition.y > rect.yMax)
-        //{
-        //    Instantiate(DragSlot.instance.dragSlot._item.itemPrefab,
-        //        itemManager.transform.position + itemManager.transform.forward, Quaternion.Euler(90, 0, 0));
-        //    DragSlot.instance.dragSlot.ClearSlot();
-        //}
-        DragSlot.instance.SetColor(0);
-        DragSlot.instance.dragSlot = null;
     }
     public void OnDrop(PointerEventData eventData)
     {
@@ -112,6 +116,24 @@ public class Slot : MonoBehaviour,
         {
             ChangeSlot();
         }
+    }
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        // 아이템이 인벤토리 바깥으로 넘어가게 될 경우 바닥에 버려짐.
+        if (DragSlot.instance.transform.localPosition.x < baseRect.xMin ||
+            DragSlot.instance.transform.localPosition.x > baseRect.xMax ||
+            DragSlot.instance.transform.localPosition.y < baseRect.yMin ||
+            DragSlot.instance.transform.localPosition.y > baseRect.yMax)
+        {
+            Vector3 itemPos = GameObject.Find("FpsController").transform.position;
+
+            Instantiate(DragSlot.instance.dragSlot._item.itemPrefab,
+                itemPos + new Vector3(0f, 0f, 2f), Quaternion.Euler(90f, 0, 0));
+            DragSlot.instance.dragSlot.RemoveItem();
+        }
+        // 드래그 끝
+        DragSlot.instance.SetColor(0);
+        DragSlot.instance.dragSlot = null;
     }
     private void ChangeSlot()
     {
@@ -122,6 +144,6 @@ public class Slot : MonoBehaviour,
         if (tempItem != null)
             DragSlot.instance.dragSlot.AddItem(tempItem);
         else
-            DragSlot.instance.dragSlot.ClearSlot();
+            DragSlot.instance.dragSlot.RemoveItem();
     }
 }
