@@ -11,18 +11,48 @@ public class Item : ScriptableObject
         ETC
     }
 
-    [Header("아이템 이름")]
+    [Header("Item Name")]
     public string itemName;
-    [Header("아이템 이미지")]
+    [Header("Item Image")]
     public Sprite itemImage;
-    [Header("아이템 설명")]
+    [Header("Item Descript")]
     public string itemDescription;
-    [Header("아이템 타입")]
+    [Header("Item Type")]
     public ItemType itemType;
-    [Header("아이템 프리팹")]
+    [Header("Item Prefab")]
     public GameObject itemPrefab;
+    [Header("Item Equipped Status")]
+    [SerializeField]
+    private bool isEquipped = false;
+    [Header("Item Acquired")]
+    [SerializeField]
+    private bool isAcquired = false;
 
     // 스탯 정보
+
+    public bool IsEquip
+    {
+        get
+        {
+            return isEquipped;
+        }
+        set
+        {
+            isEquipped = value;
+        }
+    }
+
+    public bool IsAcquire
+    {
+        get
+        {
+            return isAcquired;
+        }
+        set
+        {
+            isAcquired = value;
+        }
+    }
 
 #if UNITY_EDITOR
     private void OnValidate()
