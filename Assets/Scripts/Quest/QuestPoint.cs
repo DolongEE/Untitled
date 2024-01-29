@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using TMPro;
 using UnityEngine;
 
@@ -8,7 +7,7 @@ public class QuestPoint : MonoBehaviour
 {
     [Header("Quest")]
     [SerializeField] private QuestInfoSO questInfoForPoint;
-    [SerializeField] private NPCInfoSO npcInfoForPoint;
+    [SerializeField] private NPCInfoDiologSO npcInfoForPoint;
 
     [Header("Object")]
     [SerializeField] private GameObject pnlLogBox;
@@ -25,8 +24,6 @@ public class QuestPoint : MonoBehaviour
     private QuestIcon questIcon;
     private int logCount;
 
-
-
     private void Awake()
     {
         questId = questInfoForPoint.id;
@@ -36,16 +33,16 @@ public class QuestPoint : MonoBehaviour
 
     private void OnEnable()
     {
-        GameEventsManager.instance.questEvents.onQuestStateChange += QuestStateChange;
-        GameEventsManager.instance.inputEvents.onSubmitPressed += SubmitPressed;
-        GameEventsManager.instance.inputEvents.onQuestLogTogglePressed += TogglePressed;
+        Managers.EVENT.questEvents.onQuestStateChange += QuestStateChange;
+        Managers.EVENT.inputEvents.onSubmitPressed += SubmitPressed;
+        Managers.EVENT.inputEvents.onQuestLogTogglePressed += TogglePressed;
     }
 
     private void OnDisable()
     {
-        GameEventsManager.instance.questEvents.onQuestStateChange -= QuestStateChange;
-        GameEventsManager.instance.inputEvents.onSubmitPressed -= SubmitPressed;
-        GameEventsManager.instance.inputEvents.onQuestLogTogglePressed -= TogglePressed;
+        Managers.EVENT.questEvents.onQuestStateChange -= QuestStateChange;
+        Managers.EVENT.inputEvents.onSubmitPressed -= SubmitPressed;
+        Managers.EVENT.inputEvents.onQuestLogTogglePressed -= TogglePressed;
     }
 
     private void QuestStateChange(Quest quest)
@@ -99,11 +96,11 @@ public class QuestPoint : MonoBehaviour
         {
             if (currentQuestState.Equals(QuestState.CAN_START) && startPoint)
             {
-                GameEventsManager.instance.questEvents.StartQuest(questId);
+                Managers.EVENT.questEvents.StartQuest(questId);
             }
             else if (currentQuestState.Equals(QuestState.CAN_FINISH) && finishPoint)
             {
-                GameEventsManager.instance.questEvents.FinishQuest(questId);
+                Managers.EVENT.questEvents.FinishQuest(questId);
             }
             logCount = 0;
             pnlLogBox.SetActive(false);

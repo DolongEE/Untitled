@@ -6,36 +6,61 @@ public class Managers : MonoBehaviour
     public static Managers Instance { get { return s_instance; } }
 
     #region Core
-    private static NPCManager _npc = new NPCManager();
+    private static GameEventsManager s_event = new GameEventsManager();
+    private static MonsterManager s_monster = new MonsterManager();
+    private static QuestManager s_quest = new QuestManager();
+    private static ResourcesManager s_resource = new ResourcesManager();
 
-    public static NPCManager NPC { get { return _npc; } }
+    public static GameEventsManager EVENT {  get { return s_event; } }
+    public static MonsterManager MONSTER { get { return s_monster; } }
+    public static QuestManager QUEST { get { return s_quest; } }
+    public static ResourcesManager RESOURCE { get {  return s_resource; } }
     #endregion
 
     private void Awake()
-    {
-
-    }
-
-    private void Start()
     {
         Init();
     }
 
     private void Update()
     {
+        s_quest.Update();
+    }
 
+    private void OnEnable()
+    {
+        s_quest.Enable();
+        
+    }
+    private void OnDisable()
+    {
+        s_quest.Disable();
     }
 
     private static void Init()
     {
+        GameObject go = GameObject.Find("@Managers");
         if (s_instance == null)
-        {
-            GameObject manager = GameObject.Find("@Managers");
-            if (manager == null)
-                manager = new GameObject { name = "@Managers" };
-
-            DontDestroyOnLoad(manager);
-
+        {            
+            if (go == null)
+                go = new GameObject { name = "@Managers" };
+            DontDestroyOnLoad(go); 
         }
+        s_resource.Init();
+        s_event.Init();
+        s_monster.Init();
+        s_quest.Init();
+        Debug.Log("Manager Init Success");
+    }    
+
+    public GameObject CreateObject(string objName, Transform parent)
+    {
+        GameObject go = new GameObject { name = objName };
+        go.transform.SetParent(parent);
+
+        return go;
     }
+
+
+
 }

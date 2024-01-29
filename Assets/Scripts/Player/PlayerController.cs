@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float speed = 10.0f;
+
+
     public float sensitivity = 30.0f;
     public float WaterHeight = 15.5f;
     CharacterController character;
@@ -17,13 +19,16 @@ public class PlayerController : MonoBehaviour
     public bool otherAction = false;
 
     void Start()
-    {
-        //LockCursor();
+    {        
         character = GetComponent<CharacterController>();
         if (Application.isEditor)
         {
             webGLRightClickRotation = false;
             sensitivity = sensitivity * 1.5f;
+        }
+        else
+        {
+            LockCursor();
         }
     }
 

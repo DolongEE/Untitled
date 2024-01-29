@@ -1,3 +1,4 @@
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,7 +9,7 @@ public class InputManager : MonoBehaviour
     {
         if (context.started)
         {
-            GameEventsManager.instance.inputEvents.SubmitPressed();            
+            Managers.EVENT.inputEvents.SubmitPressed();
         }
     }
 
@@ -16,7 +17,7 @@ public class InputManager : MonoBehaviour
     {
         if (context.started)
         {
-            GameEventsManager.instance.inputEvents.QuestLogTogglePressed();
+            Managers.EVENT.inputEvents.QuestLogTogglePressed();
         }
     }
 }

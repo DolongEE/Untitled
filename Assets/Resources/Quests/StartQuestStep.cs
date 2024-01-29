@@ -8,12 +8,12 @@ public class StartQuestStep : QuestStep
 
     private void OnEnable()
     {
-        GameEventsManager.instance.inputEvents.onSubmitPressed += StartQuest;
+        Managers.EVENT.inputEvents.onSubmitPressed += StartQuest;
     }
 
     private void OnDisable()
     {
-        GameEventsManager.instance.inputEvents.onSubmitPressed -= StartQuest;
+        Managers.EVENT.inputEvents.onSubmitPressed -= StartQuest;
     }
 
     void StartQuest()

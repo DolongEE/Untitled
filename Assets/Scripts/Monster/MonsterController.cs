@@ -1,53 +1,46 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Timeline;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 public class MonsterController : MonoBehaviour
 {
+    [SerializeField] MonsterInfoSO monsterInfo;
     // 몬스터 정찰
     [SerializeField] bool DebugMode = false;
-    [Range(0f, 360f)][SerializeField] float ViewAngle = 0f;
-    [SerializeField] float ViewRadius = 6f;
-    [SerializeField] LayerMask TargetMask;
-    [SerializeField] LayerMask ObstacleMask;
-
-    [SerializeField] PatrolPath patrolPath;
-    [SerializeField] float waypointRange = 1f;
-    [SerializeField] float waypointDelay = 3f;
+    [SerializeField] float ViewAngle { get { return monsterInfo.viewAngle; } }
+    [SerializeField] float ViewRadius { get { return monsterInfo.viewRadious; } }
+    [SerializeField] LayerMask TargetMask { get { return monsterInfo.targetMask; } }
+    [SerializeField] LayerMask ObstacleMask { get { return monsterInfo.obstacleMask; } }
+    
+    [SerializeField] float waypointRange { get { return monsterInfo.waypointRange; } }
+    [SerializeField] float waypointDelay { get { return monsterInfo.waypointDelay; } }
     private int currentWaypointIndex = 0;
 
+    [SerializeField] PatrolPath patrolPath;
+
     // 경계
-    [SerializeField] float alertTime = 3f;
+    [SerializeField] float alertTime { get { return monsterInfo.alertTime; } }
     private bool isDetect;
-    private float targetDistance;
 
     private float timeSinceLastSawPlayer = Mathf.Infinity;
     private float timeSinceArrivedPath = Mathf.Infinity;
 
-    [SerializeField] private float speed = 0.5f;
-    
     // TODO - 스탯으로 통합
-    private float hp = 100;
+    private float attackDamage;
+    private float speed;
+
+    Health health;
+
+    private void Init()
+    {
+        health = GetComponent<Health>();
+        health.SetHealth(monsterInfo.health);
+
+        attackDamage = monsterInfo.attackDamage;
+        speed = monsterInfo.speed;
+    }
 
     private void Awake()
     {
-
-    }
-
-    private void Start()
-    {
-
-    }
-
-    private void Update()
-    {
-        if (Die())
-            return;
-
-
-
+        Init();
     }
 
     private void UpdateTimers()
@@ -58,15 +51,12 @@ public class MonsterController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Die())
-            return;
-
         Detecting();
 
         // 공격
-        if (isDetect && CanAttack())
+        if (isDetect)
         {
-            Debug.Log("플레이어 어택");
+            // TODO - Attack
             AttackBehaviour();
         }
         // 경계
@@ -129,24 +119,6 @@ public class MonsterController : MonoBehaviour
         {
             TargetToMove(nextPosition, targetDir);            
         }
-    }
-
-    private void Damaged()
-    {
-
-    }
-
-    private bool Die()
-    {
-        if (hp <= 0)
-            return true;
-
-        return false;
-    }
-
-    private bool CanAttack()
-    {
-        return false;
     }
 
     private void TargetToMove(Vector3 target, Vector3 dir)

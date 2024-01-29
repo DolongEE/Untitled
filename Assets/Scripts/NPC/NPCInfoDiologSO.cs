@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NPCInfoSO", menuName = "ScriptableObjects/NPCInfoSO", order = 2)]
-public class NPCInfoSO : ScriptableObject
+[CreateAssetMenu(fileName = "NPCInfoDiologSO", menuName = "ScriptableObjects/NPCInfoDiologSO", order = 1)]
+public class NPCInfoDiologSO : ScriptableObject
 {
     [field: SerializeField] public string id { get; private set; }
 
