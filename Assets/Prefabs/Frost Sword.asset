@@ -17,3 +17,5 @@ MonoBehaviour:
   itemDescription: "\uC11C\uB9AC\uAC00 \uAE43\uB4E0 \uAC80! \uCC28\uAC11\uB2E4!"
   itemType: 0
   itemPrefab: {fileID: 4463543880736965250, guid: 79c6d5e659cb9894a9ef0bfdb6744895, type: 3}
+  isEquipped: 0
+  isAcquired: 0

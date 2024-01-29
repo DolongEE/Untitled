@@ -8,14 +8,9 @@ public interface IObjectItem
 
 public class ObjectItem : MonoBehaviour, IObjectItem
 {
-    [Header("아이템")]
     public Item item;
-
-    [Header("아이템 이미지")]
     public Sprite itemImage;
-    [Header("아이템 이름")]
     public string itemName;
-    [Header("아이템 설명")]
     public string itemTooltip;
 
     void Start()
@@ -26,16 +21,16 @@ public class ObjectItem : MonoBehaviour, IObjectItem
     }
     public Item ClickItem()
     {
-        InventoryManager.instance.HideTooltip3D();
+        UIManager.Instance.inventoryManager.HideTooltip3D();
         return this.item;
     }
     private void OnMouseEnter()
     {
-        InventoryManager.instance.ShowTooltip3D(itemName, itemTooltip, itemImage, transform.position + new Vector3(0f, 3f, 0f));
+        UIManager.Instance.inventoryManager.ShowTooltip3D(itemName, itemTooltip, itemImage, transform.position + new Vector3(0f, 3f, 0f));
     }
 
     private void OnMouseExit()
     {
-        InventoryManager.instance.HideTooltip3D();
+        UIManager.Instance.inventoryManager.HideTooltip3D();
     }
 }

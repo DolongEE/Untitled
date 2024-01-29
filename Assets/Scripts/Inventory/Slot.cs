@@ -42,9 +42,10 @@ public class Slot : MonoBehaviour,
         _item = item;
         image.sprite = item.itemImage;
         SetColor(1);
+        item.IsAcquire = true;
     }
 
-    private void RemoveItem()
+    public void RemoveItem()
     {
         _item = null;
         image.sprite = null;
@@ -54,15 +55,15 @@ public class Slot : MonoBehaviour,
     public void OnPointerEnter(PointerEventData eventData)
     {
         // 슬롯에 있는 아이템에 마우스를 올리면 툴팁이 나옴
-        if (_item != null)
+        if (_item != null && _item.IsEquip == false)
         {
-            InventoryManager.instance.ShowTooltip2D(_item, transform.GetComponent<RectTransform>().position);
+            UIManager.Instance.inventoryManager.ShowTooltip2D(_item, transform.GetComponent<RectTransform>().position);
         }
     }
     public void OnPointerExit(PointerEventData eventData)
     {
         // 슬롯에 있는 아이템에서 마우스를 떼면 툴팁 사라짐
-        InventoryManager.instance.HideTooltip2D();
+        UIManager.Instance.inventoryManager.HideTooltip2D();
     }
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -72,17 +73,8 @@ public class Slot : MonoBehaviour,
             {
                 if(_item.itemType == Item.ItemType.Equipment)
                 {
-                    // 아이템 장착
-                    GameObject arms = GameObject.Find("LeftArm");
-                    GameObject weapon = Instantiate(_item.itemPrefab, arms.transform.position, Quaternion.Euler(-20f, 90f, 45f));
-                    weapon.transform.SetParent(arms.transform);
-                    Destroy(weapon.GetComponent<Rigidbody>());
-
+                    UIManager.Instance.inventoryManager.EquipItem(_item);
                     RemoveItem();
-                }
-                else
-                {
-                    Debug.Log("장비 아이템이 아닙니다.");
                 }
             }
         }
@@ -106,7 +98,7 @@ public class Slot : MonoBehaviour,
             DragSlot.instance.transform.position = eventData.position;
 
             // 드래그 중에는 다른 툴팁이 뜨지 않도록
-            InventoryManager.instance.HideTooltip2D();
+            UIManager.Instance.inventoryManager.HideTooltip2D();
         }
     }
     public void OnDrop(PointerEventData eventData)

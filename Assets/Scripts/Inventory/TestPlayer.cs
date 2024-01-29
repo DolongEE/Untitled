@@ -1,6 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.HID;
 
 public class TestPlayer : MonoBehaviour
 {
@@ -24,25 +25,29 @@ public class TestPlayer : MonoBehaviour
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitInfo;
 
-            if (Physics.Raycast(ray, out hitInfo))
+            if (Physics.Raycast(ray, out hitInfo) && hitInfo.transform.CompareTag("Item"))
             {
-                HitCheckObject(hitInfo);
+                UIManager.Instance.inventoryManager.HitCheckObject(hitInfo);
+                Destroy(hitInfo.transform.gameObject);
             }
         }
     }
 
-    void HitCheckObject(RaycastHit hit)
-    {
-        IObjectItem clickInterface = hit.transform.gameObject.GetComponent<IObjectItem>();
+    //void HitCheckObject(RaycastHit hit)
+    //{
+    //    IObjectItem clickInterface = hit.transform.gameObject.GetComponent<IObjectItem>();
 
-        if(clickInterface != null)
-        {
-            Item item = clickInterface.ClickItem();
-            Debug.Log($"{item.itemName}");
-            inventory.items.Add(item);
-            inventory.AcquireItem(item);
+    //    if(clickInterface != null)
+    //    {
+    //        Item item = clickInterface.ClickItem();
 
-            Destroy(hit.transform.gameObject);
-        }
-    }
+    //        if(item.IsAcquire == false)
+    //        {
+    //            inventory.items.Add(item);
+    //            inventory.AcquireItem(item);
+    //        }
+
+    //        Destroy(hit.transform.gameObject);
+    //    }
+    //}
 }
