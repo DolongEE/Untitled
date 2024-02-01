@@ -1,7 +1,6 @@
-using System.ComponentModel;
 using UnityEngine;
 
-[CreateAssetMenu]
+[CreateAssetMenu(menuName = "Items/Item")]
 public class Item : ScriptableObject
 {
     public enum ItemType
@@ -21,38 +20,8 @@ public class Item : ScriptableObject
     public ItemType itemType;
     [Header("Item Prefab")]
     public GameObject itemPrefab;
-    [Header("Item Equipped Status")]
-    [SerializeField]
-    private bool isEquipped = false;
-    [Header("Item Acquired")]
-    [SerializeField]
-    private bool isAcquired = false;
 
     // Ω∫≈» ¡§∫∏
-
-    public bool IsEquip
-    {
-        get
-        {
-            return isEquipped;
-        }
-        set
-        {
-            isEquipped = value;
-        }
-    }
-
-    public bool IsAcquire
-    {
-        get
-        {
-            return isAcquired;
-        }
-        set
-        {
-            isAcquired = value;
-        }
-    }
 
 #if UNITY_EDITOR
     private void OnValidate()

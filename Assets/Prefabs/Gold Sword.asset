@@ -15,7 +15,5 @@ MonoBehaviour:
   itemName: "\uD669\uAE08\uAC80"
   itemImage: {fileID: 21300000, guid: e49dc83d702a71f43ae508f4ecf9fcac, type: 3}
   itemDescription: "\uD669\uAE08 \uC6A9\uC0AC\uC758 \uAC80! \uC9F1 \uC138\uB2E4."
-  itemType: 0
+  itemType: 2
   itemPrefab: {fileID: 498837136617433126, guid: 2620b1dbfa5b347488589c883154e02c, type: 3}
-  isEquipped: 0
-  isAcquired: 0

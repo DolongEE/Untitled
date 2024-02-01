@@ -3,20 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class slotTooltip : MonoBehaviour
+public class ToolTip2D : MonoBehaviour
 {
     [Header("툴팁 오브젝트")]
-    [SerializeField]
-    private GameObject tooltip;
+    [SerializeField] private GameObject tooltip;
 
-    [SerializeField]
-    private Image itemImage;
-    [SerializeField]
-    private Text itemName;
-    [SerializeField]
-    private Text itemDescription;
+    [SerializeField] private Image itemImage;
+    [SerializeField] private Text itemName;
+    [SerializeField] private Text itemDescription;
 
-    public void ShowTooltip(Item _item, Vector3 _pos)
+    public void ShowTooltip2D(Item _item, Vector3 _pos)
     {
         tooltip.SetActive(true);
 
@@ -59,7 +55,7 @@ public class slotTooltip : MonoBehaviour
         itemDescription.text = _item.itemDescription;
     }
 
-    public void HideTooltip()
+    public void HideTooltip2D()
     {
         tooltip.SetActive(false);
     }

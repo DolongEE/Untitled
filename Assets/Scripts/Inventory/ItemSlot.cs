@@ -2,15 +2,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class Slot : MonoBehaviour,
+public class ItemSlot : MonoBehaviour,
     IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler,
     IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
-    public Image image;
-    public Button button;
-    private Rect baseRect;
-
-    private Item _item;
+    [SerializeField] private Item _item;
     public Item item
     {
         get
@@ -23,26 +19,27 @@ public class Slot : MonoBehaviour,
         }
     }
 
+    public Image image;
+    protected Rect baseRect;
+
     void Start()
     {
         image = GetComponent<Image>();
-        button = GetComponent<Button>();
         baseRect = transform.parent.parent.parent.GetComponent<RectTransform>().rect;
     }
 
-    public void SetColor(float alpha)
+    public void SetColor(float _alpha)
     {
         Color color = image.color;
-        color.a = alpha;
+        color.a = _alpha;
         image.color = color;
     }
 
-    public void AddItem(Item item)
+    public void AddItem(Item newItem)
     {
-        _item = item;
-        image.sprite = item.itemImage;
+        _item = newItem;
+        image.sprite = newItem.itemImage;
         SetColor(1);
-        item.IsAcquire = true;
     }
 
     public void RemoveItem()
@@ -52,34 +49,43 @@ public class Slot : MonoBehaviour,
         SetColor(0);
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    public virtual void OnPointerEnter(PointerEventData eventData)
     {
         // 슬롯에 있는 아이템에 마우스를 올리면 툴팁이 나옴
-        if (_item != null && _item.IsEquip == false)
+        if (_item != null)
         {
-            UIManager.Instance.inventoryManager.ShowTooltip2D(_item, transform.GetComponent<RectTransform>().position);
+            UIManager.Instance.tooltip3D.ShowTooltip2D(_item, transform.GetComponent<RectTransform>().position);
         }
     }
-    public void OnPointerExit(PointerEventData eventData)
+    public virtual void OnPointerExit(PointerEventData eventData)
     {
         // 슬롯에 있는 아이템에서 마우스를 떼면 툴팁 사라짐
-        UIManager.Instance.inventoryManager.HideTooltip2D();
+        if (_item != null)
+        {
+            UIManager.Instance.tooltip3D.HideTooltip2D();
+        }
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (eventData.button == PointerEventData.InputButton.Left)
+        // 인벤토리에서 우클릭 시 아이템 장착
+        if (eventData.button == PointerEventData.InputButton.Right)
         {
-            if (_item != null)
+            if (_item != null && _item.itemType == Item.ItemType.Equipment)
             {
-                if(_item.itemType == Item.ItemType.Equipment)
+                if(InventoryManager.isEquippedItem == false)
                 {
-                    UIManager.Instance.inventoryManager.EquipItem(_item);
-                    RemoveItem();
+                    UIManager.Instance.inventoryManager.EquipItemFromInventory(_item);
+                    Debug.Log("아이템 장착");
+                }
+                else
+                {
+                    UIManager.Instance.inventoryManager.UnEquipItemFromEquip(_item);
+                    Debug.Log("아이템 해제");
                 }
             }
         }
     }
-    public void OnBeginDrag(PointerEventData eventData)
+    public virtual void OnBeginDrag(PointerEventData eventData)
     {
         // 아이템 반투명 해져서 들어올려짐
         if (_item != null)
@@ -90,7 +96,7 @@ public class Slot : MonoBehaviour,
             DragSlot.instance.transform.position = eventData.position;
         }
     }
-    public void OnDrag(PointerEventData eventData)
+    public virtual void OnDrag(PointerEventData eventData)
     {
         // 아이템 옮겨지는 중
         if (_item != null)
@@ -98,19 +104,21 @@ public class Slot : MonoBehaviour,
             DragSlot.instance.transform.position = eventData.position;
 
             // 드래그 중에는 다른 툴팁이 뜨지 않도록
-            UIManager.Instance.inventoryManager.HideTooltip2D();
+            UIManager.Instance.tooltip3D.HideTooltip2D();
         }
     }
-    public void OnDrop(PointerEventData eventData)
+    public virtual void OnDrop(PointerEventData eventData)
     {
         // 아이템 다른 슬롯으로 옮겨짐
         if (DragSlot.instance.dragSlot != null)
         {
-            ChangeSlot();
+            ChangeDraggedSlot();
+            UIManager.Instance.inventoryManager.UnEquipItemFromEquip(_item);
         }
     }
-    public void OnEndDrag(PointerEventData eventData)
+    public virtual void OnEndDrag(PointerEventData eventData)
     {
+        // 드래그 끝
         // 아이템이 인벤토리 바깥으로 넘어가게 될 경우 바닥에 버려짐.
         if (DragSlot.instance.transform.localPosition.x < baseRect.xMin ||
             DragSlot.instance.transform.localPosition.x > baseRect.xMax ||
@@ -121,21 +129,46 @@ public class Slot : MonoBehaviour,
 
             Instantiate(DragSlot.instance.dragSlot._item.itemPrefab,
                 itemPos + new Vector3(0f, 0f, 2f), Quaternion.Euler(90f, 0, 0));
-            DragSlot.instance.dragSlot.RemoveItem();
+            DragSlot.instance.SetColor(0);
+            DragSlot.instance.dragSlot = null;
+
         }
-        // 드래그 끝
-        DragSlot.instance.SetColor(0);
-        DragSlot.instance.dragSlot = null;
+        else
+        {
+            DragSlot.instance.SetColor(0);
+            DragSlot.instance.dragSlot = null;
+        }
     }
-    private void ChangeSlot()
+    public void ChangeDraggedSlot()
     {
         Item tempItem = _item;
 
         AddItem(DragSlot.instance.dragSlot._item);
 
         if (tempItem != null)
+        {
             DragSlot.instance.dragSlot.AddItem(tempItem);
+        }
         else
+        {
             DragSlot.instance.dragSlot.RemoveItem();
+        }
     }
+
+    #region Gizmos
+    // 아이템 버리는 공간 보여주는 기즈모
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+
+        Vector3[] corners = new Vector3[4];
+        transform.parent.parent.parent.GetComponent<RectTransform>().GetWorldCorners(corners);
+
+        for (int i = 0; i < corners.Length; i++)
+        {
+            int nextIndex = (i + 1) % corners.Length;
+            Gizmos.DrawLine(corners[i], corners[nextIndex]);
+        }
+    }
+    #endregion
 }
