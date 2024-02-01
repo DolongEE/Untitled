@@ -12,7 +12,7 @@ public class InventoryManager : MonoBehaviour
 
     private void Start()
     {
-        cam = GameObject.Find("FpsController").GetComponentInChildren<Camera>();
+        cam = Camera.main;
     }
 
     void Update()
@@ -48,65 +48,67 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public void EquipItemFromInventory(Item _item)
+    public void EquipItemFromInventory(EquippableItem _item)
     {
-        if (_item is Item)
+        if (_item is EquippableItem)
         {
             EquipItem(_item);
+            Debug.Log("아이템 장착");
         }
     }
 
-    public void UnEquipItemFromEquip(Item _item)
+    public void UnEquipItemFromEquip(EquippableItem _item)
     {
-        if (_item is Item)
+        if (_item is EquippableItem)
         {
             UnEquipItem(_item);
+            Debug.Log("아이템 해제");
         }
     }
 
     //아이템 장착 해제, 툴팁 정보 표시
-    private void EquipItem(Item _item)
+    private void EquipItem(EquippableItem _item)
     {
         if (_item != null)
         {
             // 장비 아이템일 경우
-            if (_item.itemType == Item.ItemType.Equipment)
-            {
-                GameObject arms = GameObject.Find("LeftArm");
-                GameObject weapon = Instantiate(_item.itemPrefab, arms.transform.position, Quaternion.Euler(new Vector3(-30f, 90f, 0f)));
-                weapon.transform.SetParent(arms.transform);
+            GameObject arms = GameObject.Find("LeftArm");
+            GameObject weapon = Instantiate(_item.itemPrefab, arms.transform.position, Quaternion.Euler(new Vector3(-30f, 90f, 0f)));
+            weapon.transform.SetParent(arms.transform);
 
-                UIManager.Instance.tooltip2D.HideTooltip2D();
+            UIManager.Instance.tooltip2D.HideTooltip2D();
 
-                equipment.equipItems.Add(_item);
-                equipment.AcquireItem(_item);
+            inventory.ReturnItem(_item);
+            inventory.items.Remove(_item);
 
-                inventory.items.Remove(_item);
-                inventory.ReturnItem(_item);
+            equipment.equipItems.Add(_item);
+            equipment.AcquireItem(_item);
 
-                isEquippedItem = true;
-            }
-            else
-            {
-                Debug.Log("장착할 수 없는 타입의 무기");
-            }
+            PlayerStatus.Instance.EquipItem(_item);
+
+            isEquippedItem = true;
         }
     }
 
-    private void UnEquipItem(Item _item)
+    private void UnEquipItem(EquippableItem _item)
     {
         if (_item != null)
         {
             // 아이템 장착 해제시 모델 삭제 및 아이템 다시 슬롯으로
             // 장비창에서 클릭했을 경우에도 아이템 슬롯으로 이동되게
             GameObject arms = GameObject.Find("LeftArm");
-            Destroy(arms.transform.GetChild(0).gameObject);
+            if (arms.transform.childCount > 0)
+            {
+                Destroy(arms.transform.GetChild(0).gameObject);
+            }
+
+            equipment.ReturnItem(_item);
+            equipment.equipItems.Remove(_item);
 
             inventory.items.Add(_item);
             inventory.AcquireItem(_item);
 
-            equipment.equipItems.Remove(_item);
-            equipment.ReturnItem(_item);
+            PlayerStatus.Instance.UnequipItem(_item);
 
             isEquippedItem = false;
         }
