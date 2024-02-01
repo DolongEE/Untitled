@@ -1,6 +1,6 @@
 
 
-public enum MonsterType
+public enum EnemyType
 {
     Normal,
     Boss,

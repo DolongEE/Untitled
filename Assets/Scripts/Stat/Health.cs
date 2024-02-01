@@ -15,12 +15,6 @@ public class Health : MonoBehaviour
         _maxHealth = health;
     }
 
-    //사망 체크
-    public bool IsDead()
-    {
-        return isDead;
-    }
-
     //데미지 계산
     public void TakeDamage(GameObject instigator, float damage)
     {
@@ -36,17 +30,22 @@ public class Health : MonoBehaviour
     //체력 퍼센트 반환
     public float GetPercentage()
     {
-        return (_health / _health) * 100;
+        return (_health / _maxHealth) * 100;
     }
 
 
     //사망 처리
-    void Dead()
+    private void Dead()
     {
         if (isDead) return;
 
-        isDead = true;      
-        
+        isDead = true;
+    }
+
+    //사망 체크
+    public bool IsDead()
+    {
+        return isDead;
     }
 
 }

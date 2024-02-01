@@ -6,11 +6,11 @@ using UnityEngine;
 public class QuestPoint : MonoBehaviour
 {
     [Header("Quest")]
-    [SerializeField] private QuestInfoSO questInfoForPoint;
-    [SerializeField] private NPCInfoDiologSO npcInfoForPoint;
+    [SerializeField] private QuestInfoSO questInfoQuest;
+    [SerializeField] private NPCInfoDiologSO npcInfoDiolog;
 
     [Header("Object")]
-    [SerializeField] private GameObject pnlLogBox;
+    [SerializeField] private GameObject canvasLogBox;
     [SerializeField] private TextMeshProUGUI txtLogBox;
 
     [Header("Config")]
@@ -19,16 +19,16 @@ public class QuestPoint : MonoBehaviour
 
     private bool playerIsNear = false;
     private string questId;
-    private QuestState currentQuestState;
+    private QuestStates currentQuestState;
 
     private QuestIcon questIcon;
     private int logCount;
 
     private void Awake()
     {
-        questId = questInfoForPoint.id;
+        questId = questInfoQuest.id;
         questIcon = GetComponentInChildren<QuestIcon>();
-        pnlLogBox.SetActive(false);
+        canvasLogBox.SetActive(false);
     }
 
     private void OnEnable()
@@ -64,21 +64,21 @@ public class QuestPoint : MonoBehaviour
         if (playerIsNear == false)
             return;
 
-        if (npcInfoForPoint != null)
+        if (npcInfoDiolog != null)
         {
             switch (currentQuestState)
             {
-                case QuestState.CAN_START:
-                    Talking(npcInfoForPoint.init);
+                case QuestStates.CAN_START:
+                    Talking(npcInfoDiolog.init);
                     break;
-                case QuestState.IN_PROGRESS:
-                    Talking(npcInfoForPoint.progress);
+                case QuestStates.IN_PROGRESS:
+                    Talking(npcInfoDiolog.progress);
                     break;
-                case QuestState.CAN_FINISH:
-                    Talking(npcInfoForPoint.reward);
+                case QuestStates.CAN_FINISH:
+                    Talking(npcInfoDiolog.reward);
                     break;
-                case QuestState.FINISHED:
-                    Talking(npcInfoForPoint.end);
+                case QuestStates.FINISHED:
+                    Talking(npcInfoDiolog.end);
                     break;
             }
         }
@@ -89,21 +89,21 @@ public class QuestPoint : MonoBehaviour
     {
         if (logCount < logs.Length)
         {
-            pnlLogBox.SetActive(true);
+            canvasLogBox.SetActive(true);
             txtLogBox.text = logs[logCount++];
         }
         else
         {
-            if (currentQuestState.Equals(QuestState.CAN_START) && startPoint)
+            if (currentQuestState.Equals(QuestStates.CAN_START) && startPoint)
             {
                 Managers.EVENT.questEvents.StartQuest(questId);
             }
-            else if (currentQuestState.Equals(QuestState.CAN_FINISH) && finishPoint)
+            else if (currentQuestState.Equals(QuestStates.CAN_FINISH) && finishPoint)
             {
                 Managers.EVENT.questEvents.FinishQuest(questId);
             }
             logCount = 0;
-            pnlLogBox.SetActive(false);
+            canvasLogBox.SetActive(false);
         }        
     }
 

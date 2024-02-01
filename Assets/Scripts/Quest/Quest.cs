@@ -5,13 +5,13 @@ using UnityEngine;
 public class Quest
 {
     public QuestInfoSO info;
-    public QuestState state;
+    public QuestStates state;
     private int currentQuestStepIndex;
 
     public Quest(QuestInfoSO questInfo)
     {
         info = questInfo;
-        state = QuestState.REQUIREMENTS_NOT_MET;
+        state = QuestStates.REQUIREMENTS_NOT_MET;
         currentQuestStepIndex = 0;
     }
 

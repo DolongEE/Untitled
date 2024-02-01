@@ -5,14 +5,14 @@ public class Managers : MonoBehaviour
     private static Managers s_instance = null;
     public static Managers Instance { get { return s_instance; } }
 
-    #region Core
+    #region Core    
     private static GameEventsManager s_event = new GameEventsManager();
-    private static MonsterManager s_monster = new MonsterManager();
+    private static EnemyManager s_enemy = new EnemyManager();
     private static QuestManager s_quest = new QuestManager();
     private static ResourcesManager s_resource = new ResourcesManager();
-
+        
     public static GameEventsManager EVENT {  get { return s_event; } }
-    public static MonsterManager MONSTER { get { return s_monster; } }
+    public static EnemyManager ENEMY { get { return s_enemy; } }
     public static QuestManager QUEST { get { return s_quest; } }
     public static ResourcesManager RESOURCE { get {  return s_resource; } }
     #endregion
@@ -48,7 +48,7 @@ public class Managers : MonoBehaviour
         }
         s_resource.Init();
         s_event.Init();
-        s_monster.Init();
+        s_enemy.Init();
         s_quest.Init();
         Debug.Log("Manager Init Success");
     }    

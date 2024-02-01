@@ -10,7 +10,7 @@ public class QuestIcon : MonoBehaviour
     [SerializeField] private GameObject requirementsNotMetToFinishIcon;
     [SerializeField] private GameObject canFinishIcon;
 
-    public void SetState(QuestState newState, bool startPoint, bool finishPoint)
+    public void SetState(QuestStates newState, bool startPoint, bool finishPoint)
     {
         // set all to inactive
         requirementsNotMetToStartIcon.SetActive(false);
@@ -21,19 +21,19 @@ public class QuestIcon : MonoBehaviour
         // set the appropriate one to active based on the new state
         switch (newState)
         {
-            case QuestState.REQUIREMENTS_NOT_MET:
+            case QuestStates.REQUIREMENTS_NOT_MET:
                 if (startPoint) { requirementsNotMetToStartIcon.SetActive(true); }
                 break;
-            case QuestState.CAN_START:
+            case QuestStates.CAN_START:
                 if (startPoint) { canStartIcon.SetActive(true); }
                 break;
-            case QuestState.IN_PROGRESS:
+            case QuestStates.IN_PROGRESS:
                 if (finishPoint) { requirementsNotMetToFinishIcon.SetActive(true); }
                 break;
-            case QuestState.CAN_FINISH:
+            case QuestStates.CAN_FINISH:
                 if (finishPoint) { canFinishIcon.SetActive(true); }
                 break;
-            case QuestState.FINISHED:
+            case QuestStates.FINISHED:
                 break;
             default:
                 Debug.LogWarning("Quest State not recognized by switch statement for quest icon: " + newState);

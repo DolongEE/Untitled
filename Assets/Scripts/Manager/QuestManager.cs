@@ -48,9 +48,9 @@ public class QuestManager
     {
         foreach (Quest quest in _questDictionary.Values)
         {
-            if (quest.state == QuestState.REQUIREMENTS_NOT_MET && CheckRequirementsMet(quest))
+            if (quest.state == QuestStates.REQUIREMENTS_NOT_MET && CheckRequirementsMet(quest))
             {
-                ChangeQuestState(quest.info.id, QuestState.CAN_START);
+                ChangeQuestState(quest.info.id, QuestStates.CAN_START);
             }
         }
     }
@@ -73,7 +73,7 @@ public class QuestManager
         Managers.EVENT.questEvents.onQuestLevelChange -= QuestLevelChange;
     }
 
-    private void ChangeQuestState(string id, QuestState state)
+    private void ChangeQuestState(string id, QuestStates state)
     {
         Quest quest = GetQuestById(id);
         quest.state = state;
@@ -96,7 +96,7 @@ public class QuestManager
 
         foreach (QuestInfoSO prerequisiteQuestInfo in quest.info.questPrerequisites)
         {
-            if (GetQuestById(prerequisiteQuestInfo.id).state != QuestState.FINISHED)
+            if (GetQuestById(prerequisiteQuestInfo.id).state != QuestStates.FINISHED)
             {
                 meetsRequirements = false;
             }
@@ -110,7 +110,7 @@ public class QuestManager
     {
         Quest quest = GetQuestById(id);
         quest.InstantiateCurrentQuestStep(QuestRoot.transform);
-        ChangeQuestState(quest.info.id, QuestState.IN_PROGRESS);
+        ChangeQuestState(quest.info.id, QuestStates.IN_PROGRESS);
         Debug.Log($"Quest Start : {quest.info.id}");
     }
 
@@ -125,7 +125,7 @@ public class QuestManager
         }
         else
         {
-            ChangeQuestState(quest.info.id, QuestState.CAN_FINISH);
+            ChangeQuestState(quest.info.id, QuestStates.CAN_FINISH);
         }
     }
 
@@ -133,7 +133,7 @@ public class QuestManager
     {
         Quest quest = GetQuestById(id);
         ClaimRewards(quest);
-        ChangeQuestState(quest.info.id, QuestState.FINISHED);
+        ChangeQuestState(quest.info.id, QuestStates.FINISHED);
         Managers.EVENT.questEvents.QuestLevelChange();
         Debug.Log($"Quest Finish : {quest.info.id}");
     }
