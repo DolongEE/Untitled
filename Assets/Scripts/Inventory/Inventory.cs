@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class Inventory : MonoBehaviour
 {
@@ -23,7 +22,7 @@ public class Inventory : MonoBehaviour
     }
 #endif
 
-    private void InitRefreshSlot()
+    public void InitRefreshSlot()
     {
         int i = 0;
         for (; i < itemSlots.Length; i++)

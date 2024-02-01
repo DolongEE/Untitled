@@ -21,8 +21,6 @@ public class Item : ScriptableObject
     [Header("Item Prefab")]
     public GameObject itemPrefab;
 
-    // Ω∫≈» ¡§∫∏
-
 #if UNITY_EDITOR
     private void OnValidate()
     {

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -30,10 +31,11 @@ public class UIManager : MonoBehaviour
     public InventoryManager inventoryManager;
     public GameObject itemBag;
     public GameObject equipmentBag;
+    public GameObject statBag;
+
     public GameObject tooltipPrefab;
     public ToolTip2D tooltip2D;
     public ToolTip3D tooltip3D;
-
 
     private void Awake()
     {
@@ -61,11 +63,13 @@ public class UIManager : MonoBehaviour
             {
                 itemBag.SetActive(true);
                 equipmentBag.SetActive(true);
+                statBag.SetActive(true);
             }
             else
             {
                 itemBag.SetActive(false);
                 equipmentBag.SetActive(false);
+                statBag.SetActive(false);
             }
         }
     }

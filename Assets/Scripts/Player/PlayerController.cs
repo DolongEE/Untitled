@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.HID;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
     public float speed = 10.0f;
-
 
     public float sensitivity = 30.0f;
     public float WaterHeight = 15.5f;
@@ -18,13 +19,17 @@ public class PlayerController : MonoBehaviour
 
     public bool otherAction = false;
 
+    public Image playerHealthbar;
+    public Image playerStaminabar;
+
     void Start()
-    {        
+    {
         character = GetComponent<CharacterController>();
         if (Application.isEditor)
         {
             webGLRightClickRotation = false;
             sensitivity = sensitivity * 1.5f;
+            //LockCursor();
         }
         else
         {
@@ -70,10 +75,25 @@ public class PlayerController : MonoBehaviour
             CameraRotation(cam, rotX, rotY);
         }
 
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            playerStaminabar.fillAmount -= 0.3f;
+        }
+
         movement = transform.rotation * movement;
         character.Move(movement * Time.deltaTime);
+        playerHealthbar.fillAmount = PlayerStatus.Instance.health.GetPercentage() * 100;
+        PlayerDeath();
+        RechargingStamina();
     }
 
+    void RechargingStamina()
+    {
+        if (playerStaminabar.fillAmount <= 1.0f)
+        {
+            playerStaminabar.fillAmount = Mathf.Lerp(playerStaminabar.fillAmount, 1.0f, 0.1f * Time.deltaTime);
+        }
+    }
 
     void CameraRotation(GameObject cam, float rotX, float rotY)
     {
@@ -86,5 +106,24 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
+    void PlayerDeath()
+    {
+        if (playerHealthbar.fillAmount == 0)
+        {
+            if(PlayerStatus.Instance.health.IsDead())
+            {
+                Destroy(this.gameObject);
+            }
+        }
+    }
 
+    private void OnTriggerEnter(Collider col)
+    {
+        if (col.gameObject.CompareTag("Enemy"))
+        {
+            PlayerStatus.Instance.health.TakeDamage(this.gameObject, 5f);
+            playerHealthbar.fillAmount -= 0.5f;
+            Debug.Log("으악 아프다! 5의 데미지를 입었다.");
+        }
+    }
 }
