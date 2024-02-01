@@ -1,27 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 
-//public class UIManager : MonoBehaviour
-//{
-//    //public static UIManager instance { get; private set; }
-
-
-//    private void Awake()
-//    {
-//        if (instance != null)
-//        {
-//            Debug.LogError("Found more than one Game Events Manager in the scene.");
-//        }
-//        instance = this;
-
-//        // initialize all events
-//    }
-//}
 public class UIManager : MonoBehaviour
 {
     private static UIManager _instance;
+    #region Property
     public static UIManager Instance
     {
         get
@@ -38,11 +22,18 @@ public class UIManager : MonoBehaviour
             return _instance;
         }
     }
+    #endregion
+    public static bool inventoryActivated = false;
 
+    //public InventoryPanel inventory;
+    //public EquipmentSlot equipSlot;
     public InventoryManager inventoryManager;
-    public Inventory inventory;
+    public GameObject itemBag;
+    public GameObject equipmentBag;
     public GameObject tooltipPrefab;
-    public slotTooltip tooltip;
+    public ToolTip2D tooltip2D;
+    public ToolTip3D tooltip3D;
+
 
     private void Awake()
     {
@@ -53,25 +44,29 @@ public class UIManager : MonoBehaviour
         _instance = this;
 
         // initialize all events
-        inventoryManager = new InventoryManager();
     }
 
-    public GameObject MakeToolTip()
+    private void Update()
     {
-        GameObject tooltipInstance = Instantiate(tooltipPrefab, Vector3.zero, Quaternion.identity);
-
-        return tooltipInstance;
+        InventoryUIOnOff();
     }
 
-    public GameObject MakeItem(Item _item, GameObject arm)
+    private void InventoryUIOnOff()
     {
-        GameObject equipmentItem = Instantiate(_item.itemPrefab, arm.transform.position, Quaternion.Euler(-20f, 90f, 45f));
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            inventoryActivated = !inventoryActivated;
 
-        return equipmentItem;
-    }
-
-    public void DestroyObject(GameObject go)
-    {
-        Destroy(go);
+            if (inventoryActivated)
+            {
+                itemBag.SetActive(true);
+                equipmentBag.SetActive(true);
+            }
+            else
+            {
+                itemBag.SetActive(false);
+                equipmentBag.SetActive(false);
+            }
+        }
     }
 }

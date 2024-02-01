@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class DragSlot : MonoBehaviour
 {
     public static DragSlot instance;
-    public Slot dragSlot;
+    public ItemSlot dragSlot;
 
     [SerializeField]
     private Image itemImage;
