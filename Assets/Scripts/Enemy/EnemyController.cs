@@ -1,16 +1,15 @@
-using System;
-using Unity.VisualScripting;
-using UnityEngine;
-using static UnityEditor.PlayerSettings;
-using static UnityEngine.GraphicsBuffer;
 
-public class EnemyController : MonoBehaviour
+using System.Collections;
+using UnityEngine;
+
+public abstract class EnemyController : MonoBehaviour
 {
     [SerializeField] EnemyInfoSO monsterInfo;
     [SerializeField] PatrolPath patrolPath;
     [SerializeField] private bool DebugMode = false;
 
-    [SerializeField] private Animator animator;
+    protected Animator animator;
+    protected Rigidbody rigid;
 
     private float viewAngle { get { return monsterInfo.viewAngle; } }
     private float viewRadius { get { return monsterInfo.viewRadious; } }
@@ -19,14 +18,16 @@ public class EnemyController : MonoBehaviour
 
     private float waypointRange { get { return monsterInfo.waypointRange; } }
     private float waypointDelay { get { return monsterInfo.waypointDelay; } }
-    private float alertTime { get { return monsterInfo.alertTime; } }
+    private float alertDelay { get { return monsterInfo.alertDelay; } }
+    private float missTargetTime { get { return monsterInfo.missTargetTime; } }
+
     private float attackRange { get { return monsterInfo.attackRange; } }
-    private float timeSinceLastSawPlayer = Mathf.Infinity;
     private float timeSinceArrivedPath = Mathf.Infinity;
-    private int currentWaypointIndex = 0;     
+    private float timeSinceMissTarget = Mathf.Infinity;
+    private int currentWaypointIndex = 0;
     private bool isDetect;
-    private Vector3 target;
-    
+    protected Vector3 target;
+
     private float attackDamage;
     private float speed;
 
@@ -39,22 +40,32 @@ public class EnemyController : MonoBehaviour
                 return;
 
             lastEnemyState = value;
+            //Debug.Log(lastEnemyState);
             switch (value)
             {
                 case EnemyStates.IDLE:
-                    Managers.EVENT.EnemyEvents.EnemyIdle();
+                    IdleAnimation();
+                    IdleBehaviour();
                     break;
                 case EnemyStates.PATROL:
-                    Managers.EVENT.EnemyEvents.EnemyPatrol();
+                    PatrolAnimation();
+                    PatrolBehaviour();
                     break;
                 case EnemyStates.ATTACK:
-                    Managers.EVENT.EnemyEvents.EnemyAttack();
+                    AttackAnimation();
+                    AttackBehaviour();
                     break;
                 case EnemyStates.CHASE:
-                    Managers.EVENT.EnemyEvents.EnemyChase();
+                    ChaseAnimation();
+                    ChaseBehaviour();
                     break;
                 case EnemyStates.ALERT:
-                    Managers.EVENT.EnemyEvents.EnemyAlert();
+                    AlertAnimation();
+                    AlertBehaviour();
+                    break;
+                case EnemyStates.MISSTARGET:
+                    MissTargetAnimation();
+                    MissTargetBehaviour();
                     break;
             }
         }
@@ -65,105 +76,128 @@ public class EnemyController : MonoBehaviour
     private void Init()
     {
         animator = GetComponentInChildren<Animator>();
+        rigid = GetComponentInChildren<Rigidbody>();
         health = GetComponent<Health>();
         health.SetHealth(monsterInfo.health);
 
         attackDamage = monsterInfo.attackDamage;
         speed = monsterInfo.speed;
 
-        Managers.EVENT.EnemyEvents.onEnemyIdle += IdleAnimation;
-        Managers.EVENT.EnemyEvents.onEnemyPatrol += PatrolAnimation;
-        Managers.EVENT.EnemyEvents.onEnemyAttack += AttackAnimation;
-        Managers.EVENT.EnemyEvents.onEnemyChase += ChaseAnimation;
-        Managers.EVENT.EnemyEvents.onEnemyAlert += AlertAnimation;
-    }
-
-    private void OnDisable()
-    {
-        Managers.EVENT.EnemyEvents.onEnemyIdle -= IdleAnimation;
-        Managers.EVENT.EnemyEvents.onEnemyPatrol -= PatrolAnimation;
-        Managers.EVENT.EnemyEvents.onEnemyAttack -= AttackAnimation;
-        Managers.EVENT.EnemyEvents.onEnemyChase -= ChaseAnimation;
-        Managers.EVENT.EnemyEvents.onEnemyAlert -= AlertAnimation;
+        StartCoroutine(EnemyActState());
     }
 
     private void Awake()
     {
         Init();
     }
-
-    private void UpdateTimers()
+    private void OnDisable()
     {
-        timeSinceLastSawPlayer += Time.deltaTime;
-        timeSinceArrivedPath += Time.deltaTime;
+        StopAllCoroutines();
+    }
+
+    IEnumerator EnemyActState()
+    {
+        while (true)
+        {
+            if (isDetect && AtTarget())
+            {
+                currentEnemyState = EnemyStates.ALERT;
+                yield return Managers.COROUTINE.WaitForSeconds(0.1f);
+                yield return Managers.COROUTINE.WaitForSeconds(alertDelay);
+
+                currentEnemyState = EnemyStates.ATTACK;   
+                yield return Managers.COROUTINE.WaitForSeconds(0.1f);
+                yield return Managers.COROUTINE.WaitForSeconds(3f /*TODO - 공격 애니메이션 변경 */);                
+            }
+            else if (isDetect && AtTarget() == false)
+            {
+                currentEnemyState = EnemyStates.CHASE;
+            }
+            else if (timeSinceMissTarget < missTargetTime
+                && lastEnemyState != EnemyStates.IDLE
+                && lastEnemyState != EnemyStates.PATROL)
+            {
+                currentEnemyState = EnemyStates.MISSTARGET;
+            }
+            else
+            {
+                PatrolUpdateBehaviour();
+            }
+
+            yield return null;
+        }
     }
 
     private void FixedUpdate()
     {
         if (health.IsDead()) return;
 
-        Detecting();
+        PatrolDetect();
 
-        if (isDetect && AtTarget())
+        switch(lastEnemyState)
         {
-            currentEnemyState = EnemyStates.ATTACK;
-            Debug.Log("aattakc");
-            AttackBehaviour();
+            case EnemyStates.IDLE:
+                IdleUpdateBehaviour();
+                break;
+            case EnemyStates.PATROL:
+                PatrolUpdateBehaviour();
+                break;
+            case EnemyStates.ATTACK:
+                AttackUpdateBehaviour();
+                break;
+            case EnemyStates.CHASE:
+                ChaseUpdateBehaviour();
+                break;
+            case EnemyStates.ALERT:
+                AlertUpdateBehaviour();
+                break;
+            case EnemyStates.MISSTARGET:
+                MissTargetUpdateBehaviour();
+                break;
         }
-        else if (isDetect && AtTarget() == false)
-        {
-            currentEnemyState = EnemyStates.CHASE;
-            ChaseBehaviour();
-        }        
-        else if (timeSinceLastSawPlayer < alertTime)
-        {
-            //isDetect = false;
-            currentEnemyState = EnemyStates.ALERT;
-        }        
-        else
-        {            
-            PatrolBehaviour();
-        }
+
         UpdateTimers();
     }
 
-
-    private void Detecting()
+    private void PatrolDetect()
     {
         Vector3 myPos = transform.position;
         float lookingAngle = transform.eulerAngles.y;
         Vector3 lookDir = AngleToDir(lookingAngle);
-        
+
         Collider[] Targets = Physics.OverlapSphere(myPos, viewRadius, targetMask);
 
-        if (Targets.Length == 0)
-        {
-            isDetect = false;
-            target = Vector3.zero;
-            return;
-        }
+        if (Targets.Length == 0) return;
         foreach (Collider EnemyColli in Targets)
         {
             Vector3 targetPos = EnemyColli.transform.position;
             Vector3 targetDir = (targetPos - myPos).normalized;
-            float targetAngle = Mathf.Acos(Vector3.Dot(lookDir, targetDir)) * Mathf.Rad2Deg;            
+            float targetAngle = Mathf.Acos(Vector3.Dot(lookDir, targetDir)) * Mathf.Rad2Deg;
             if (targetAngle <= viewAngle * 0.5f && !Physics.Raycast(myPos, targetDir, viewRadius, obstacleMask))
             {
                 isDetect = true;
                 target = targetPos;
-                timeSinceLastSawPlayer = 0;                
             }
             else
             {
                 isDetect = false;
                 target = Vector3.zero;
+                timeSinceMissTarget = 0;
             }
         }
     }
 
 
     #region Behaviour Group
-    private void PatrolBehaviour()
+    private void IdleBehaviour() { }
+    private void PatrolBehaviour() { }
+    protected abstract void AttackBehaviour();
+    private void ChaseBehaviour() { }
+    private void AlertBehaviour() { }
+    private void MissTargetBehaviour() { }
+
+    private void IdleUpdateBehaviour() { }
+    private void PatrolUpdateBehaviour()
     {
         Vector3 nextPosition = transform.position;
         if (patrolPath != null)
@@ -186,17 +220,18 @@ public class EnemyController : MonoBehaviour
             currentEnemyState = EnemyStates.IDLE;
         }
     }
-
-    protected virtual void AttackBehaviour()
-    {
-
-    }
-
-    private void ChaseBehaviour()
+    protected abstract void AttackUpdateBehaviour();
+    private void ChaseUpdateBehaviour()
     {
         Vector3 targetDir = (target - transform.position).normalized;
         TargetToMove(target, targetDir);
     }
+    private void AlertUpdateBehaviour() 
+    { 
+        transform.RotateAround(target, Vector3.up, speed * Time.fixedDeltaTime); 
+    }
+    private void MissTargetUpdateBehaviour() { }
+
     #endregion
 
     #region Animations
@@ -222,17 +257,28 @@ public class EnemyController : MonoBehaviour
 
     private void AlertAnimation()
     {
+        animator.CrossFade("Strafe01Left", 0.1f);
+    }
+
+    private void MissTargetAnimation()
+    {
         animator.CrossFade("Idle01", 0.1f);
     }
     #endregion
 
     #region Sub Function
+    private void UpdateTimers()
+    {
+        timeSinceArrivedPath += Time.fixedDeltaTime;
+        timeSinceMissTarget += Time.fixedDeltaTime;
+    }
+
     private void TargetToMove(Vector3 target, Vector3 dir)
     {
         float lookSpeed = 0;
         if (isDetect) lookSpeed = 1.2f;
         else lookSpeed = 2f;
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * lookSpeed);
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.fixedDeltaTime * lookSpeed);
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
 
@@ -256,9 +302,9 @@ public class EnemyController : MonoBehaviour
     {
         float distanceToTarget = Vector3.Distance(transform.position, target);
         Vector3 dir = (target - transform.position).normalized;
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * 2f);
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.fixedDeltaTime * 2f);
         return distanceToTarget < attackRange;
-    } 
+    }
     #endregion
 
     // 몬스터 가시 거리
@@ -268,6 +314,7 @@ public class EnemyController : MonoBehaviour
         if (!DebugMode) return;
         Vector3 myPos = transform.position;
         Gizmos.DrawWireSphere(myPos, viewRadius);
+        Gizmos.DrawWireSphere(myPos, attackRange);
 
         float lookingAngle = transform.eulerAngles.y;  //캐릭터가 바라보는 방향의 각도
         Vector3 rightDir = AngleToDir(transform.eulerAngles.y + viewAngle * 0.5f);

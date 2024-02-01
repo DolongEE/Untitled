@@ -18,7 +18,9 @@ public class EnemyInfoSO : ScriptableObject
     public LayerMask obstacleMask;
     public float waypointRange;
     public float waypointDelay;
-    public float alertTime;
+    public float alertDelay;
+
+    public float missTargetTime;
 
     public float attackRange;
 

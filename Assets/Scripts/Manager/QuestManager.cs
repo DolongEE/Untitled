@@ -64,7 +64,7 @@ public class QuestManager
         Managers.EVENT.questEvents.onQuestLevelChange += QuestLevelChange;
     }
 
-    public void Disable()
+    public void Clear()
     {
         Managers.EVENT.questEvents.onStartQuest -= StartQuest;
         Managers.EVENT.questEvents.onAdvanceQuest -= AdvanceQuest;
@@ -170,5 +170,7 @@ public class QuestManager
         }
         return quest;
     }
+
+
 
 }

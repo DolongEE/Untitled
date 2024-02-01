@@ -7,4 +7,5 @@ public enum EnemyStates
     CHASE,
     ATTACK,
     ALERT,
+    MISSTARGET,
 }

@@ -82,7 +82,6 @@ public class QuestPoint : MonoBehaviour
                     break;
             }
         }
-
     }
 
     private void Talking(string[] logs)
