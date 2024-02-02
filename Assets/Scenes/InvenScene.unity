@@ -4516,8 +4516,6 @@ MonoBehaviour:
   cam: {fileID: 1198389691922840}
   webGLRightClickRotation: 0
   otherAction: 0
-  playerHealthbar: {fileID: 1946939837}
-  playerStaminabar: {fileID: 1046920714}
 --- !u!1 &869579350865127643
 GameObject:
   m_ObjectHideFlags: 0
@@ -6546,10 +6544,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f2cdd80f7c26fd49a778c0ae946df5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: {fileID: 4609179672122490170}
   playerHp: {fileID: 522135814}
   playerDamage: {fileID: 1690712764}
   playerDefense: {fileID: 1374807813}
+  playerHealthbar: {fileID: 1946939837}
+  playerStaminabar: {fileID: 1046920714}
   baseDamage: 10
   baseDefense: 5
 --- !u!1 &4637602946034297519

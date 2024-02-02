@@ -9,6 +9,11 @@ public class Health : MonoBehaviour
 
     private bool isDead = false;
 
+    public float GetHealth()
+    {
+        return _health;
+    }
+
     public void SetHealth(float health)
     {
         _health = health;
