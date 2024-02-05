@@ -10,8 +10,6 @@ public class TestEnemy : MonoBehaviour
     {
         health = GetComponent<Health>();
         health.SetHealth(80f);
-        Debug.Log("몬스터 현재 체력 : " + health.GetPercentage());
-
     }
 
     private void OnCollisionEnter(Collision col)

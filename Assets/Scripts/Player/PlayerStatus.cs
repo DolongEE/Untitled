@@ -16,6 +16,7 @@ public class PlayerStatus : MonoBehaviour
     public Image playerHealthbar;
     public Image playerStaminabar;
 
+    public float baseHp = 100;
     public int baseDamage = 10;
     public int baseDefense = 5;
 
@@ -27,12 +28,12 @@ public class PlayerStatus : MonoBehaviour
     {
         Instance = this;
         health = GetComponent<Health>();
-        
-        totalHp = 100.0f;
-        health.SetHealth(totalHp);
 
-        playerHealthbar.fillAmount = health.GetPercentage() / 100;
+        health.SetHealth(baseHp);
 
+        playerHealthbar.fillAmount = health.GetPercentage();
+
+        totalHp = baseHp;
         totalDamage = baseDamage;
         totalDefense = baseDefense;
 
@@ -71,8 +72,21 @@ public class PlayerStatus : MonoBehaviour
         UpdateUI();
     }
 
+    public void UseItem(UsableItem _item)
+    {
+        if(totalHp < 100)
+        {
+            totalHp += _item.heal;
+        }
+        else
+        {
+            Debug.Log("최대 체력이상입니다.");
+        }
+        UpdateUI();
+    }
+
     // UI 등을 업데이트하는 함수 (예: 체력바, 스탯 텍스트 등)
-    private void UpdateUI()
+    public void UpdateUI()
     {
         // 여기에 UI 업데이트 코드 추가
         LinkedStatus();
@@ -90,7 +104,7 @@ public class PlayerStatus : MonoBehaviour
         {
             health.TakeDamage(this.gameObject, 5f);
             totalHp = health.GetHealth();
-            playerHealthbar.fillAmount = health.GetPercentage() / 100;
+            playerHealthbar.fillAmount = health.GetPercentage();
             UpdateUI();
         }
     }

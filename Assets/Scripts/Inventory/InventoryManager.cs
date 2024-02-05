@@ -6,13 +6,16 @@ using UnityEngine.EventSystems;
 public class InventoryManager : MonoBehaviour
 {
     [SerializeField] Inventory inventory;
-    [SerializeField] EquipmentWindow equipment;
+    [SerializeField] EquipmentInventory equipment;
     public Camera cam;
-    public static bool isEquippedItem = false;
+    public static bool isEquippedItem;
+    private Rect baseRect;
 
     private void Start()
     {
         cam = Camera.main;
+        baseRect = transform.GetChild(0).GetComponent<RectTransform>().rect;
+        isEquippedItem = false;
     }
 
     void Update()
@@ -41,7 +44,6 @@ public class InventoryManager : MonoBehaviour
         {
             Item item = clickInterface.ClickItem();
 
-            inventory.items.Add(item);
             inventory.AcquireItem(item);
 
             Destroy(hit.transform.gameObject);
@@ -50,97 +52,90 @@ public class InventoryManager : MonoBehaviour
 
     public void EquipItemFromInventory(EquippableItem _item)
     {
+        inventory.ReturnItem(_item);
+        equipment.AcquireItem(_item);
+
         if (_item is EquippableItem)
         {
-            EquipItem(_item);
-            Debug.Log("아이템 장착");
+            GameObject weaponPrefab = _item.itemPrefab;
+
+            if(weaponPrefab != null)
+            {
+                GameObject arms = GameObject.Find("Left Weapon Arm");
+                GameObject weapon = Instantiate(weaponPrefab, arms.transform.position, Quaternion.Euler(new Vector3(-30f, 90f, 0f)));
+                
+                weapon.transform.SetParent(arms.transform);
+
+                UIManager.Instance.tooltip3D.HideTooltip2D();
+                PlayerStatus.Instance.EquipItem(_item);
+
+                isEquippedItem = true;
+                Debug.Log("아이템 장착 상태 : " + isEquippedItem);
+            }
+            else
+            {
+                Debug.Log("장비 아이템의 프리팹이 설정되어 있지 않습니다.");
+            }
+        }
+        else
+        {
+            Debug.Log("장비가 아니라 장착할 수 없습니다.");
         }
     }
 
     public void UnEquipItemFromEquip(EquippableItem _item)
     {
+        equipment.ReturnItem(_item);
+        inventory.AcquireItem(_item);
+        // 아이템 장착 해제시 모델 삭제 및 아이템 다시 슬롯으로
+        // 장비창에서 클릭했을 경우에도 아이템 슬롯으로 이동되게
         if (_item is EquippableItem)
         {
-            UnEquipItem(_item);
-            Debug.Log("아이템 해제");
-        }
-    }
-
-    //아이템 장착 해제, 툴팁 정보 표시
-    private void EquipItem(EquippableItem _item)
-    {
-        if (_item != null)
-        {
-            // 장비 아이템일 경우
-            GameObject arms = GameObject.Find("LeftArm");
-            GameObject weapon = Instantiate(_item.itemPrefab, arms.transform.position, Quaternion.Euler(new Vector3(-30f, 90f, 0f)));
-            weapon.transform.SetParent(arms.transform);
-
-            UIManager.Instance.tooltip2D.HideTooltip2D();
-
-            inventory.ReturnItem(_item);
-            inventory.items.Remove(_item);
-
-            equipment.equipItems.Add(_item);
-            equipment.AcquireItem(_item);
-
-            PlayerStatus.Instance.EquipItem(_item);
-
-            isEquippedItem = true;
-        }
-    }
-
-    private void UnEquipItem(EquippableItem _item)
-    {
-        if (_item != null)
-        {
-            // 아이템 장착 해제시 모델 삭제 및 아이템 다시 슬롯으로
-            // 장비창에서 클릭했을 경우에도 아이템 슬롯으로 이동되게
-            GameObject arms = GameObject.Find("LeftArm");
+            GameObject arms = GameObject.Find("Left Weapon Arm");
             if (arms.transform.childCount > 0)
             {
                 Destroy(arms.transform.GetChild(0).gameObject);
             }
 
-            equipment.ReturnItem(_item);
-            equipment.equipItems.Remove(_item);
-
-            inventory.items.Add(_item);
-            inventory.AcquireItem(_item);
-
             PlayerStatus.Instance.UnequipItem(_item);
 
             isEquippedItem = false;
+            Debug.Log("아이템 장착 상태 : " + isEquippedItem);
+        }
+        else
+        {
+            Debug.Log("어라.. 장비가 아닌데 장착 슬롯에 갔네..");
         }
     }
 
-    //private void EquipItem(Item _item)
-    //{
-    //    // 인벤토리에서 항목 제거 후 장비창에 추가
-    //    if(inventory.RemoveItem(_item))
-    //    {
-    //        Item oldItem;
-    //        if(equipment.AddItem(_item, out oldItem))
-    //        {
-    //            if (oldItem != null)
-    //            {
-    //                inventory.AddItem(oldItem);
-    //            }
-    //        }
-    //        else
-    //        {
-    //            inventory.AddItem(_item);
-    //        }
-    //    }
-    //}
+    public void UseItem(UsableItem _item)
+    {
+        if (_item != null)
+        {
+            PlayerStatus.Instance.UseItem(_item);
+            inventory.ReturnItem(_item);
+            UIManager.Instance.tooltip3D.HideTooltip2D();
+        }
+    }
 
-    //private void UnEquipItem(Item _item)
-    //{
-    //    // 인벤토리 IsFull 확인
-    //    // 장비창에서 제거 후 인벤토리에 추가
-    //    if(!inventory.IsFull() && equipment.RemoveItem(_item))
-    //    {
-    //        inventory.AddItem(_item);
-    //    }
-    //}
+    public void DropItem(Item _item)
+    {
+        // 아이템 버리기 기능 오류 문제로 보류
+        //if (DragSlot.instance.transform.localPosition.x < baseRect.xMin ||
+        //    DragSlot.instance.transform.localPosition.x > baseRect.xMax ||
+        //    DragSlot.instance.transform.localPosition.y < baseRect.yMin ||
+        //    DragSlot.instance.transform.localPosition.y > baseRect.yMax)
+        //{
+        //    Vector3 itemPos = GameObject.Find("Player").transform.position;
+
+        //    Instantiate(DragSlot.instance.dragSlot.item.itemPrefab,
+        //        itemPos + new Vector3(0f, 0f, 2f), Quaternion.Euler(90f, 0, 0));
+
+        //    inventory.ReturnItem(_item);
+        //}
+
+        DragSlot.instance.SetColor(0);
+        DragSlot.instance.dragSlot = null;
+        inventory.ReturnItem(_item);
+    }
 }
