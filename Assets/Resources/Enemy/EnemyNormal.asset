@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dace7a480589b464193f94653c3ea27a, type: 3}
   m_Name: EnemyNormal
   m_EditorClassIdentifier: 
-  type: 0
   health: 100
   attackDamage: 5
-  speed: 3
+  moveSpeed: 2
   viewAngle: 71
-  viewRadious: 15
+  viewRadius: 15
   targetMask:
     serializedVersion: 2
     m_Bits: 2147483648

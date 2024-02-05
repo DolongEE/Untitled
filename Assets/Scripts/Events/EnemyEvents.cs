@@ -2,12 +2,12 @@ using System;
 
 public class EnemyEvents
 {
-    public event Action onEnemyIdle;
-    public void EnemyIdle()
+    public event Action onEnemyAttackRush;
+    public void EnemyAttackRush()
     {
-        if (onEnemyIdle != null) 
+        if (onEnemyAttackRush != null) 
         {
-            onEnemyIdle();
+            onEnemyAttackRush();
         }
     }
 

@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dace7a480589b464193f94653c3ea27a, type: 3}
   m_Name: EnemyBoss
   m_EditorClassIdentifier: 
-  type: 1
   health: 500
   attackDamage: 20
-  speed: 5
-  viewAngle: 129
-  viewRadious: 20
+  moveSpeed: 0
+  viewAngle: 120
+  viewRadius: 70
   targetMask:
     serializedVersion: 2
     m_Bits: 2147483648
@@ -28,4 +27,4 @@ MonoBehaviour:
   waypointDelay: 2
   alertDelay: 5
   missTargetTime: 5
-  attackRange: 10
+  attackRange: 20

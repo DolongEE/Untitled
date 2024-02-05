@@ -9,13 +9,13 @@ public class Managers : MonoBehaviour
     #region Core    
     private static CoroutineManager s_coroutine = new CoroutineManager();
     private static GameEventsManager s_event = new GameEventsManager();
-    private static EnemyManager s_enemy = new EnemyManager();
+    private static CreatureManager s_creature = new CreatureManager();
     private static QuestManager s_quest = new QuestManager();
     private static ResourcesManager s_resource = new ResourcesManager();
 
     public static CoroutineManager COROUTINE { get { return s_coroutine; } }
     public static GameEventsManager EVENT { get { return s_event; } }
-    public static EnemyManager ENEMY { get { return s_enemy; } }
+    public static CreatureManager CREATURE { get { return s_creature; } }
     public static QuestManager QUEST { get { return s_quest; } }
     public static ResourcesManager RESOURCE { get { return s_resource; } }
     #endregion
@@ -51,7 +51,7 @@ public class Managers : MonoBehaviour
         }
         s_resource.Init();
         s_event.Init();
-        s_enemy.Init();
+        s_creature.Init();
         s_quest.Init();
     }
 

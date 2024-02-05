@@ -7,7 +7,7 @@ public class QuestPoint : MonoBehaviour
 {
     [Header("Quest")]
     [SerializeField] private QuestInfoSO questInfoQuest;
-    [SerializeField] private NPCInfoDiologSO npcInfoDiolog;
+    [SerializeField] private NPCInfoDialogSO npcInfoDialog;
 
     [Header("Object")]
     [SerializeField] private GameObject canvasLogBox;
@@ -64,21 +64,21 @@ public class QuestPoint : MonoBehaviour
         if (playerIsNear == false)
             return;
 
-        if (npcInfoDiolog != null)
+        if (npcInfoDialog != null)
         {
             switch (currentQuestState)
             {
                 case QuestStates.CAN_START:
-                    Talking(npcInfoDiolog.init);
+                    Talking(npcInfoDialog.init);
                     break;
                 case QuestStates.IN_PROGRESS:
-                    Talking(npcInfoDiolog.progress);
+                    Talking(npcInfoDialog.progress);
                     break;
                 case QuestStates.CAN_FINISH:
-                    Talking(npcInfoDiolog.reward);
+                    Talking(npcInfoDialog.reward);
                     break;
                 case QuestStates.FINISHED:
-                    Talking(npcInfoDiolog.end);
+                    Talking(npcInfoDialog.end);
                     break;
             }
         }

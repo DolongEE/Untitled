@@ -6,9 +6,9 @@ public enum EnemyType
     Boss,
 }
 
-public enum ObjectType
+public enum CreatureType
 {
     Player,
-    Monster,
-
+    Enemy,
+    NPC,
 }
