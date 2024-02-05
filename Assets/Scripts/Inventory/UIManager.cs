@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -46,6 +45,17 @@ public class UIManager : MonoBehaviour
         _instance = this;
 
         // initialize all events
+        inventoryManager = FindObjectOfType<InventoryManager>();
+        itemBag = GameObject.Find("itemBag");
+        equipmentBag = GameObject.Find("equipmentBag");
+        statBag = GameObject.Find("statBag");
+    }
+
+    private void Start()
+    {
+        itemBag.SetActive(false);
+        equipmentBag.SetActive(false);
+        statBag.SetActive(false);
     }
 
     private void Update()
