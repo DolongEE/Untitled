@@ -1,20 +1,17 @@
 
 using System.Collections;
 using UnityEngine;
-/*
--일반
-정찰 공격 
--보스
-공격1, 공격2, ....
- */
 
 public class EnemyController : Creature
 {
     [SerializeField] protected EnemyInfoSO monsterInfo;       
     [SerializeField] protected GameObject player;
 
+    protected Transform playerTransform;
+
     protected float attackDamage { get { return monsterInfo.attackDamage; } }
     protected float moveSpeed { get { return monsterInfo.moveSpeed; } }
+    protected float attackRange { get { return monsterInfo.attackRange; } }
 
     protected override bool Init()
     {
@@ -34,5 +31,22 @@ public class EnemyController : Creature
     protected override void OnFixedUpdate()
     {
         
+    }
+
+    protected Vector3 TargetDir(Vector3 target) { return (target - transform.position).normalized; }
+
+    protected bool AtTarget()
+    {
+        float distanceToTarget = Vector3.Distance(transform.position, playerTransform.position);
+        Quaternion targetRotation = Quaternion.LookRotation(TargetDir(playerTransform.position));
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 2f);
+        return distanceToTarget < attackRange;
+    }
+
+    protected void TargetToMove(Vector3 target)
+    {
+        Quaternion targetRotation = Quaternion.LookRotation(TargetDir(target));
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 2f);
+        transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
     }
 }
