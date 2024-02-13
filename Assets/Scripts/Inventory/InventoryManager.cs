@@ -9,12 +9,10 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] EquipmentInventory equipment;
     public Camera cam;
     public static bool isEquippedItem;
-    private Rect baseRect;
 
     private void Start()
     {
         cam = Camera.main;
-        baseRect = transform.GetChild(0).GetComponent<RectTransform>().rect;
         isEquippedItem = false;
     }
 
@@ -43,7 +41,6 @@ public class InventoryManager : MonoBehaviour
         if (clickInterface != null)
         {
             Item item = clickInterface.ClickItem();
-
             inventory.AcquireItem(item);
 
             Destroy(hit.transform.gameObject);
@@ -118,24 +115,29 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public void DropItem(Item _item)
+    public List<Item> GetItemInfo()
     {
-        // 아이템 버리기 기능 오류 문제로 보류
-        //if (DragSlot.instance.transform.localPosition.x < baseRect.xMin ||
-        //    DragSlot.instance.transform.localPosition.x > baseRect.xMax ||
-        //    DragSlot.instance.transform.localPosition.y < baseRect.yMin ||
-        //    DragSlot.instance.transform.localPosition.y > baseRect.yMax)
-        //{
-        //    Vector3 itemPos = GameObject.Find("Player").transform.position;
-
-        //    Instantiate(DragSlot.instance.dragSlot.item.itemPrefab,
-        //        itemPos + new Vector3(0f, 0f, 2f), Quaternion.Euler(90f, 0, 0));
-
-        //    inventory.ReturnItem(_item);
-        //}
-
-        DragSlot.instance.SetColor(0);
-        DragSlot.instance.dragSlot = null;
-        inventory.ReturnItem(_item);
+        return inventory.items;
     }
+
+    //public void DropItem(Item _item)
+    //{
+    //    // 아이템 버리기 기능 오류 문제로 보류
+    //    //if (DragSlot.instance.transform.localPosition.x < baseRect.xMin ||
+    //    //    DragSlot.instance.transform.localPosition.x > baseRect.xMax ||
+    //    //    DragSlot.instance.transform.localPosition.y < baseRect.yMin ||
+    //    //    DragSlot.instance.transform.localPosition.y > baseRect.yMax)
+    //    //{
+    //    //    Vector3 itemPos = GameObject.Find("Player").transform.position;
+
+    //    //    Instantiate(DragSlot.instance.dragSlot.item.itemPrefab,
+    //    //        itemPos + new Vector3(0f, 0f, 2f), Quaternion.Euler(90f, 0, 0));
+
+    //    //    inventory.ReturnItem(_item);
+    //    //}
+
+    //    DragSlot.instance.SetColor(0);
+    //    DragSlot.instance.dragSlot = null;
+    //    inventory.ReturnItem(_item);
+    //}
 }
