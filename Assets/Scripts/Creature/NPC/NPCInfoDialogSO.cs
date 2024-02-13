@@ -5,16 +5,16 @@ public class NPCInfoDialogSO : ScriptableObject
 {
     [field: SerializeField] public string id { get; private set; }
 
-    [Header("Quest Init")]
+    [Header("Dialogue Init")]
     public string[] init;
 
-    [Header("Quest Progress")]
+    [Header("Dialogue Progress")]
     public string[] progress;
 
-    [Header("Quest Rewards")]
+    [Header("Dialogue Rewards")]
     public string[] reward;
 
-    [Header("Quest End")]
+    [Header("Dialogue End")]
     public string[] end;
 
     private void OnValidate()

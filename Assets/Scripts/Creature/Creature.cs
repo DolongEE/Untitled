@@ -4,6 +4,7 @@ using UnityEngine;
 public class Creature : MonoBehaviour
 {
     private CreatureType _creatureType;
+    [Header("Creature ID")]
     [SerializeField] private int _creatureId;
 
     public CreatureType CreatureType { get { return _creatureType; } set { _creatureType = value; } }    

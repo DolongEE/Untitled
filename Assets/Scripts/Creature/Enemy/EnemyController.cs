@@ -5,8 +5,7 @@ using UnityEngine;
 public class EnemyController : Creature
 {
     [SerializeField] protected EnemyInfoSO monsterInfo;       
-    [SerializeField] protected GameObject player;
-
+    protected GameObject player;
     protected Transform playerTransform;
 
     protected float attackDamage { get { return monsterInfo.attackDamage; } }

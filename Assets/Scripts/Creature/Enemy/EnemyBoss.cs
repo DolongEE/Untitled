@@ -7,7 +7,7 @@ public class EnemyBoss : EnemyController
 {
     private Vector3 startPos;
     private Vector3 targetPos;
-    [SerializeField] float readyTime;
+    private float readyTime;
 
     private float attackDelay { get { return monsterInfo.attackDelay; } }
     private float timeSinceAttack = Mathf.Infinity;

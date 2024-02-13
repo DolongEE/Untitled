@@ -278,8 +278,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45eb9702285133247ae442e78ceff217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  questInfoForPoint: {fileID: 11400000, guid: 5781cd9885dc81044b9be37acff77702, type: 2}
-  npcInfoForPoint: {fileID: 11400000, guid: 7ba7ce5c4be134142ba723e0cfeaa1cf, type: 2}
+  questInfoQuest: {fileID: 0}
+  npcInfoDialog: {fileID: 0}
   canvasLogBox: {fileID: 3354715505405854656}
   txtLogBox: {fileID: 8800390559336850946}
   startPoint: 1
