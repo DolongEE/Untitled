@@ -1,22 +1,25 @@
-using System.Collections;
+
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class InventoryManager : MonoBehaviour
+public class InventoryManager
 {
     [SerializeField] Inventory inventory;
     [SerializeField] EquipmentInventory equipment;
     public Camera cam;
-    public static bool isEquippedItem;
+    public bool isEquippedItem;
 
-    private void Start()
+    public void Init()
     {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        inventory = player.GetComponentInChildren<Inventory>();
+        equipment = player.GetComponentInChildren<EquipmentInventory>();
         cam = Camera.main;
         isEquippedItem = false;
     }
 
-    void Update()
+    public void Update()
     {
         // UI 이벤트가 발생한 경우 처리하지 않음
         if (EventSystem.current.IsPointerOverGameObject() == true)
@@ -43,7 +46,7 @@ public class InventoryManager : MonoBehaviour
             Item item = clickInterface.ClickItem();
             inventory.AcquireItem(item);
 
-            Destroy(hit.transform.gameObject);
+            Object.Destroy(hit.transform.gameObject);
         }
     }
 
@@ -59,7 +62,7 @@ public class InventoryManager : MonoBehaviour
             if(weaponPrefab != null)
             {
                 GameObject arms = GameObject.Find("Left Weapon Arm");
-                GameObject weapon = Instantiate(weaponPrefab, arms.transform.position, Quaternion.Euler(new Vector3(-30f, 90f, 0f)));
+                GameObject weapon = Object.Instantiate(weaponPrefab, arms.transform.position, Quaternion.Euler(new Vector3(-30f, 90f, 0f)));
                 
                 weapon.transform.SetParent(arms.transform);
 
@@ -91,7 +94,7 @@ public class InventoryManager : MonoBehaviour
             GameObject arms = GameObject.Find("Left Weapon Arm");
             if (arms.transform.childCount > 0)
             {
-                Destroy(arms.transform.GetChild(0).gameObject);
+                Object.Destroy(arms.transform.GetChild(0).gameObject);
             }
 
             PlayerStatus.Instance.UnequipItem(_item);

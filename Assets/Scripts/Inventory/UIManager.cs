@@ -27,7 +27,7 @@ public class UIManager : MonoBehaviour
 
     //public InventoryPanel inventory;
     //public EquipmentSlot equipSlot;
-    public InventoryManager inventoryManager;
+    //public InventoryManager inventoryManager;
     public GameObject itemBag;
     public GameObject equipmentBag;
     public GameObject statBag;
@@ -45,7 +45,7 @@ public class UIManager : MonoBehaviour
         _instance = this;
 
         // initialize all events
-        inventoryManager = FindObjectOfType<InventoryManager>();
+        //inventoryManager = FindObjectOfType<InventoryManager>();
         itemBag = GameObject.Find("itemBag");
         equipmentBag = GameObject.Find("equipmentBag");
         statBag = GameObject.Find("statBag");

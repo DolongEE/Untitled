@@ -49,7 +49,7 @@ public class ItemSlot : MonoBehaviour,
     public void OnPointerEnter(PointerEventData eventData)
     {
         // 슬롯에 있는 아이템에 마우스를 올리면 툴팁이 나옴
-        if (_item != null && InventoryManager.isEquippedItem == false)
+        if (_item != null && Managers.INVENTORY.isEquippedItem == false)
         {
             UIManager.Instance.tooltip3D.ShowTooltip2D(_item, transform.GetComponent<RectTransform>().position);
         }
@@ -69,7 +69,7 @@ public class ItemSlot : MonoBehaviour,
         {
             if (_item != null && _item.itemType == Item.ItemType.Consumable)
             {
-                UIManager.Instance.inventoryManager.UseItem((UsableItem)_item);
+                Managers.INVENTORY.UseItem((UsableItem)_item);
             }
         }
         // 인벤토리에서 우클릭 시 아이템 장착
@@ -77,8 +77,8 @@ public class ItemSlot : MonoBehaviour,
         {
             if (_item != null && _item.itemType == Item.ItemType.Equipment)
             {
-                if (InventoryManager.isEquippedItem == false)
-                    UIManager.Instance.inventoryManager.EquipItemFromInventory((EquippableItem)_item);
+                if (Managers.INVENTORY.isEquippedItem == false)
+                    Managers.INVENTORY.EquipItemFromInventory((EquippableItem)_item);
             }
         }
     }
@@ -120,11 +120,11 @@ public class ItemSlot : MonoBehaviour,
             // 빈 슬롯에도 아이템을 놓을 수 있게 하기 위함.
             if (_item == null)
             {
-                if (InventoryManager.isEquippedItem == true)
+                if (Managers.INVENTORY.isEquippedItem == true)
                 {
                     if (DragSlot.instance.GetDraggedItem().itemType == Item.ItemType.Equipment)
                     {
-                        UIManager.Instance.inventoryManager.UnEquipItemFromEquip((EquippableItem)DragSlot.instance.GetDraggedItem());
+                        Managers.INVENTORY.UnEquipItemFromEquip((EquippableItem)DragSlot.instance.GetDraggedItem());
                         DragSlot.instance.ResetDraggedSlot();
                     }
                 }
@@ -132,12 +132,12 @@ public class ItemSlot : MonoBehaviour,
             }
             else
             {
-                if (InventoryManager.isEquippedItem == true)
+                if (Managers.INVENTORY.isEquippedItem == true)
                 {
                     if (DragSlot.instance.GetDraggedItem().itemType == Item.ItemType.Equipment)
                     {
                         Debug.Log(DragSlot.instance.GetDraggedItem());
-                        UIManager.Instance.inventoryManager.UnEquipItemFromEquip((EquippableItem)DragSlot.instance.GetDraggedItem());
+                        Managers.INVENTORY.UnEquipItemFromEquip((EquippableItem)DragSlot.instance.GetDraggedItem());
                         DragSlot.instance.ResetDraggedSlot();
                     }
                     else

@@ -9,8 +9,8 @@ public class EquipmentSlot : ItemSlot
     {
         if (eventData.button == PointerEventData.InputButton.Right)
         {
-            if (InventoryManager.isEquippedItem == true)
-                UIManager.Instance.inventoryManager.UnEquipItemFromEquip((EquippableItem)Item);
+            if (Managers.INVENTORY.isEquippedItem == true)
+                Managers.INVENTORY.UnEquipItemFromEquip((EquippableItem)Item);
         }
     }
     // ItemSlot이 EquipmentSlot에 Drop될 경우 EquipItem을 해야 한다.
@@ -21,9 +21,9 @@ public class EquipmentSlot : ItemSlot
         {
             if (DragSlot.instance.GetDraggedItem().itemType == Item.ItemType.Equipment)
             {
-                if (InventoryManager.isEquippedItem == false)
+                if (Managers.INVENTORY.isEquippedItem == false)
                 {
-                    UIManager.Instance.inventoryManager.EquipItemFromInventory((EquippableItem)DragSlot.instance.GetDraggedItem());
+                    Managers.INVENTORY.EquipItemFromInventory((EquippableItem)DragSlot.instance.GetDraggedItem());
                     DragSlot.instance.ResetDraggedSlot();
                 }
             }
