@@ -11,7 +11,7 @@ public class Health : MonoBehaviour
 
     public float GetHealth()
     {
-        return _health / 100;
+        return _health;
     }
 
     public void SetHealth(float health)

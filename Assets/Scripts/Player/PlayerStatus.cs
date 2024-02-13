@@ -77,6 +77,10 @@ public class PlayerStatus : MonoBehaviour
         if(totalHp < 100)
         {
             totalHp += _item.heal;
+            if(totalHp > 100)
+            {
+                totalHp = 100;
+            }
         }
         else
         {
@@ -89,6 +93,8 @@ public class PlayerStatus : MonoBehaviour
     public void UpdateUI()
     {
         // 여기에 UI 업데이트 코드 추가
+        totalHp = health.GetHealth();
+        playerHealthbar.fillAmount = health.GetPercentage() / 100;
         LinkedStatus();
     }
 
@@ -103,8 +109,6 @@ public class PlayerStatus : MonoBehaviour
         if (col.gameObject.CompareTag("Enemy"))
         {
             health.TakeDamage(this.gameObject, 5f);
-            totalHp = health.GetHealth();
-            playerHealthbar.fillAmount = health.GetPercentage();
             UpdateUI();
         }
     }

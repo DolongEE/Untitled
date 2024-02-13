@@ -16,13 +16,11 @@ public class ItemSlot : MonoBehaviour,
         set
         {
             _item = value;
-            image.sprite = (_item != null) ? _item.itemImage : null;
-            SetColor((_item != null) ? 1 : 0);
         }
     }
     public Image image;
 
-    void Start()
+    void Awake()
     {
         image = GetComponent<Image>();
     }
