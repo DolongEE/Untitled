@@ -71,12 +71,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af35b8925491f8741b2be8623d2df9eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _creatureId: 0
   monsterInfo: {fileID: 11400000, guid: 0ec7cb1c90cb5c147a133f968b7d8fa3, type: 2}
-  patrolPath: {fileID: 0}
-  DebugMode: 0
+  player: {fileID: 0}
+  readyTime: 0
   lastEnemyState: 0
-  jumpTime: 0
-  jumpStart: 0
 --- !u!114 &2161916692949875353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,7 +113,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!1001 &3060885606151071247
 PrefabInstance:
@@ -171,7 +170,7 @@ PrefabInstance:
     - target: {fileID: 5866666021909216657, guid: 81bb9eea30387e442899949a80011e55, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: b128f3dfd9b1d0a44ac4fa3013165909, type: 2}
+      objectReference: {fileID: 9100000, guid: b3345d8ec70106b40a8efdc407501ca5, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -4,8 +4,9 @@ using UnityEngine;
 public class Creature : MonoBehaviour
 {
     private CreatureType _creatureType;
-    public CreatureType CreatureType { get { return _creatureType; } set { _creatureType = value; } }
     [SerializeField] private int _creatureId;
+
+    public CreatureType CreatureType { get { return _creatureType; } set { _creatureType = value; } }    
     public int CreatureID { get { return _creatureId; } set { _creatureId = value; } }
 
     protected Health _health;
@@ -32,7 +33,7 @@ public class Creature : MonoBehaviour
     {
         if (_health.IsDead()) return;
 
-        OnFixedUpdate();        
+        OnFixedUpdate();
     }
 
     protected virtual void OnFixedUpdate()

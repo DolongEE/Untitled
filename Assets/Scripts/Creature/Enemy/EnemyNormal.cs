@@ -7,8 +7,8 @@ public class EnemyNormal : EnemyController
     [SerializeField] PatrolPath patrolPath;
     [SerializeField] private bool DebugMode = false;
 
-    [SerializeField] private EnemyStates lastEnemyState;
-    private EnemyStates currentEnemyState
+    [SerializeField] private EnemyNormalState lastEnemyState;
+    private EnemyNormalState currentEnemyState
     {
         set
         {
@@ -19,26 +19,29 @@ public class EnemyNormal : EnemyController
             Debug.Log(lastEnemyState);
             switch (value)
             {
-                case EnemyStates.IDLE:
+                case EnemyNormalState.NONE:
+                    NullAnimation();
+                    break;
+                case EnemyNormalState.IDLE:
                     IdleAnimation();
                     IdleBehaviour();
                     break;
-                case EnemyStates.PATROL:
+                case EnemyNormalState.PATROL:
                     PatrolAnimation();
                     PatrolBehaviour();
                     break;
-                case EnemyStates.ATTACK:
+                case EnemyNormalState.ATTACK:
                     AttackAnimation();
                     AttackBehaviour();
                     break;
-                case EnemyStates.HIT:
+                case EnemyNormalState.HIT:
                     HitAnimation();
                     break;
-                case EnemyStates.CHASE:
+                case EnemyNormalState.CHASE:
                     ChaseAnimation();
                     ChaseBehaviour();
                     break;
-                case EnemyStates.MISSTARGET:
+                case EnemyNormalState.MISSTARGET:
                     MissTargetAnimation();
                     MissTargetBehaviour();
                     break;
@@ -54,14 +57,14 @@ public class EnemyNormal : EnemyController
     private float waypointRange { get { return monsterInfo.waypointRange; } }
     private float waypointDelay { get { return monsterInfo.waypointDelay; } }    
     private float missTargetTime { get {  return monsterInfo.missTargetTime; } }
-    private float attackRange { get { return monsterInfo.attackRange; } }
-    
+    private float attackDelay { get { return monsterInfo.attackDelay; } }
+        
     private float timeSinceArrivedPath = Mathf.Infinity;    
     private float timeSinceMissTarget = Mathf.Infinity;    
+    private float timeSinceAttack = Mathf.Infinity;
 
     private int currentWaypointIndex = 0;
     private bool isDetect;
-    private Vector3 playerPos;
 
     protected override bool Init()
     {
@@ -75,27 +78,27 @@ public class EnemyNormal : EnemyController
 
     protected override void OnFixedUpdate()
     {
-        if (lastEnemyState != EnemyStates.MISSTARGET) timeSinceMissTarget = 0;
+        if (lastEnemyState != EnemyNormalState.MISSTARGET) timeSinceMissTarget = 0;
         PatrolDetect();
 
         switch (lastEnemyState)
         {
-            case EnemyStates.IDLE:
+            case EnemyNormalState.IDLE:
                 IdleUpdateBehaviour();
                 break;
-            case EnemyStates.PATROL:
+            case EnemyNormalState.PATROL:
                 PatrolUpdateBehaviour();
                 break;
-            case EnemyStates.ATTACK:
+            case EnemyNormalState.ATTACK:
                 AttackUpdateBehaviour();
                 break;
-            case EnemyStates.HIT:
+            case EnemyNormalState.HIT:
                 HitUpdateBehaviour();
                 break;
-            case EnemyStates.CHASE:
+            case EnemyNormalState.CHASE:
                 ChaseUpdateBehaviour();
                 break;
-            case EnemyStates.MISSTARGET:
+            case EnemyNormalState.MISSTARGET:
                 MissTargetUpdateBehaviour();
                 break;
         }
@@ -103,25 +106,31 @@ public class EnemyNormal : EnemyController
         UpdateTimers();
     }
 
-    protected IEnumerator EnemyActState()
+    private IEnumerator EnemyActState()
     {
         while (true)
         {
-            if (isDetect && AtTarget())
+
+            if (isDetect && AtTarget()) 
             {
-                currentEnemyState = EnemyStates.ATTACK;
-                yield return Managers.COROUTINE.WaitForSeconds(0.1f);
-                yield return Managers.COROUTINE.WaitForSeconds(_animator);                
+                if (timeSinceAttack > attackDelay)
+                {
+                    timeSinceAttack = 0;
+                    currentEnemyState = EnemyNormalState.ATTACK;
+                    yield return Managers.COROUTINE.WaitForSeconds(0.1f);
+                    yield return Managers.COROUTINE.WaitForSeconds(_animator);
+                }
+                currentEnemyState = EnemyNormalState.NONE;
             }
             else if (isDetect && AtTarget() == false)
             {
-                currentEnemyState = EnemyStates.CHASE;
+                currentEnemyState = EnemyNormalState.CHASE;
             }
             else if (timeSinceMissTarget < missTargetTime
-                && lastEnemyState != EnemyStates.IDLE
-                && lastEnemyState != EnemyStates.PATROL)
-            {
-                currentEnemyState = EnemyStates.MISSTARGET;
+             && lastEnemyState != EnemyNormalState.IDLE
+             && lastEnemyState != EnemyNormalState.PATROL)
+            {                
+                currentEnemyState = EnemyNormalState.MISSTARGET;
             }
             else
             {
@@ -132,7 +141,7 @@ public class EnemyNormal : EnemyController
         }
     }
 
-    protected void PatrolDetect()
+    private void PatrolDetect()
     {
         Vector3 myPos = transform.position;
         float lookingAngle = transform.eulerAngles.y;
@@ -146,32 +155,32 @@ public class EnemyNormal : EnemyController
             Vector3 targetPos = EnemyColli.transform.position;
             Vector3 targetDir = (targetPos - myPos).normalized;
             float targetAngle = Mathf.Acos(Vector3.Dot(lookDir, targetDir)) * Mathf.Rad2Deg;
-            if (targetAngle <= viewAngle * 0.5f && !Physics.Raycast(myPos, targetDir, viewRadius, obstacleMask))
+            if (targetAngle <= viewAngle * 0.5f && Physics.Raycast(myPos, targetDir, viewRadius, obstacleMask) == false)
             {
                 isDetect = true;
-                playerPos = targetPos;
+                playerTransform = EnemyColli.transform;                
             }
             else
             {
                 isDetect = false;
-                playerPos = Vector3.zero;                
+                playerTransform = null;
             }
         }
     }
 
     #region Behaviour Group
-    protected void IdleBehaviour() { }
-    protected void PatrolBehaviour() { }
-    protected void AttackBehaviour() { }
-    protected void HitBehaviour() 
+    private void IdleBehaviour() { }
+    private void PatrolBehaviour() { }
+    private void AttackBehaviour() { }
+    private void HitBehaviour() 
     {
         
     }
-    protected void ChaseBehaviour() { }
-    protected void MissTargetBehaviour() { }
-
-    protected void IdleUpdateBehaviour() { }
-    protected void PatrolUpdateBehaviour()
+    private void ChaseBehaviour() { }
+    private void MissTargetBehaviour() { }
+    
+    private void IdleUpdateBehaviour() { }
+    private void PatrolUpdateBehaviour()
     {
         Vector3 nextPosition = transform.position;
         if (patrolPath != null)
@@ -186,64 +195,55 @@ public class EnemyNormal : EnemyController
         if (timeSinceArrivedPath > waypointDelay)
         {
             TargetToMove(nextPosition);
-            currentEnemyState = EnemyStates.PATROL;
+            currentEnemyState = EnemyNormalState.PATROL;
         }
         else
         {
-            currentEnemyState = EnemyStates.IDLE;
+            currentEnemyState = EnemyNormalState.IDLE;
         }
     }
-    protected void AttackUpdateBehaviour()
+    private void AttackUpdateBehaviour()
     {
 
     }
-    protected void HitUpdateBehaviour()
+    private void HitUpdateBehaviour()
     {
 
     }
-    protected void ChaseUpdateBehaviour()
+    private void ChaseUpdateBehaviour()
     {
-        TargetToMove(playerPos);
+        if (playerTransform == null)
+            return;
+
+        TargetToMove(playerTransform.position);
     }
-    protected void MissTargetUpdateBehaviour() { }
+    private void MissTargetUpdateBehaviour() { }
 
     #endregion
 
     #region Animations
+    private void NullAnimation() { _animator.CrossFade("Idle", 0.1f); }
     private void IdleAnimation() { _animator.CrossFade("Idle", 0.1f); }
     private void PatrolAnimation() { _animator.CrossFade("RunForward", 0.1f); }
-    private void AttackAnimation() { _animator.CrossFade("Sword", 0.1f); }
+    private void AttackAnimation() { _animator.CrossFade("PunchLeft", 0.1f); }
     private void HitAnimation() { _animator.CrossFade("HitBack", 0.1f); }
     private void ChaseAnimation() { _animator.CrossFade("RunForward", 0.1f); }
     private void MissTargetAnimation() { _animator.CrossFade("Idle", 0.1f); }
     #endregion
 
-    protected Vector3 GetCurrentWaypoint() { return patrolPath.GetWaypoint(currentWaypointIndex); }
-    protected void CycleWaypoint() { currentWaypointIndex = patrolPath.GetNextIndex(currentWaypointIndex); }
-    protected bool AtWaypoint()
+    private Vector3 GetCurrentWaypoint() { return patrolPath.GetWaypoint(currentWaypointIndex); }
+    private void CycleWaypoint() { currentWaypointIndex = patrolPath.GetNextIndex(currentWaypointIndex); }
+    private bool AtWaypoint()
     {
         float distanceToWaypoint = Vector3.Distance(transform.position, GetCurrentWaypoint());
         return distanceToWaypoint < waypointRange;
     }
-    protected bool AtTarget()
-    {
-        float distanceToTarget = Vector3.Distance(transform.position, playerPos);
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(TargetDir(playerPos)), Time.fixedDeltaTime * 2f);
-        return distanceToTarget < attackRange;
-    }
 
-    protected void TargetToMove(Vector3 target)
-    {
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(TargetDir(target)), Time.fixedDeltaTime * 2f);
-        transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
-    }
-
-    private Vector3 TargetDir(Vector3 target) { return (target - transform.position).normalized; }
-
-    protected void UpdateTimers()
+    private void UpdateTimers()
     {
         timeSinceArrivedPath += Time.fixedDeltaTime;        
         timeSinceMissTarget += Time.fixedDeltaTime;
+        timeSinceAttack += Time.fixedDeltaTime;
     }
 
     // 몬스터 가시 거리
@@ -272,7 +272,7 @@ public class EnemyNormal : EnemyController
             Vector3 targetPos = EnemyColli.transform.position;
             Vector3 targetDir = (targetPos - myPos).normalized;
             float targetAngle = Mathf.Acos(Vector3.Dot(lookDir, targetDir)) * Mathf.Rad2Deg;
-            if (targetAngle <= viewAngle * 0.5f && !Physics.Raycast(myPos, targetDir, viewRadius, obstacleMask))
+            if (targetAngle <= viewAngle * 0.5f && Physics.Raycast(myPos, targetDir, viewRadius, obstacleMask) == false)
             {
                 if (DebugMode) Debug.DrawLine(myPos, targetPos, Color.red);
             }
@@ -285,7 +285,6 @@ public class EnemyNormal : EnemyController
         float radian = angle * Mathf.Deg2Rad;
         return new Vector3(Mathf.Sin(radian), 0f, Mathf.Cos(radian));
     }
-
 
     private void OnDisable()
     {

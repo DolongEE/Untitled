@@ -28,3 +28,4 @@ MonoBehaviour:
   alertDelay: 5
   missTargetTime: 5
   attackRange: 20
+  attackDelay: 5

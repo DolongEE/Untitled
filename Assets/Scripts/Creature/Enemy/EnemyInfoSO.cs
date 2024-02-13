@@ -20,6 +20,7 @@ public class EnemyInfoSO : ScriptableObject
     public float missTargetTime;
 
     public float attackRange;
+    public float attackDelay;
 
     private void OnValidate()
     {
