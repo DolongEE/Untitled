@@ -6,7 +6,7 @@ using UnityEngine;
 public class EquipmentInventory : MonoBehaviour
 {
     public List<EquippableItem> equipItems;
-    [SerializeField] private Transform equipmentSlotsParent;
+    [SerializeField] private Transform equipmentBag;
     [SerializeField] private EquipmentSlot[] equipSlots;
 
     private void Start()
@@ -14,10 +14,13 @@ public class EquipmentInventory : MonoBehaviour
         InitRefreshSlot();
     }
 
+#if UNITY_EDITOR
     private void OnValidate()
     {
-        equipSlots = equipmentSlotsParent.GetComponentsInChildren<EquipmentSlot>();
+        equipmentBag = transform.Find("equipmentBag");
+        equipSlots = equipmentBag.GetComponentsInChildren<EquipmentSlot>();
     }
+#endif
 
     private void InitRefreshSlot()
     {
@@ -39,7 +42,7 @@ public class EquipmentInventory : MonoBehaviour
         {
             if (equipSlots[i].Item == null)
             {
-                equipSlots[i].AddItem(_item);
+                equipSlots[i].SetItemImage(_item);
                 return;
             }
         }
@@ -52,7 +55,7 @@ public class EquipmentInventory : MonoBehaviour
         {
             if (equipSlots[i].Item == _item)
             {
-                equipSlots[i].RemoveItem();
+                equipSlots[i].RemoveItemImage();
                 return;
             }
         }

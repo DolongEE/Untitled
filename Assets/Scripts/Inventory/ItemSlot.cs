@@ -1,92 +1,14 @@
-using UnityEngine;
-using UnityEngine.UI;
+ï»¿using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.HID;
 
-public class ItemSlot : MonoBehaviour,
-    IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler,
-    IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+public class ItemSlot : ItemDrag, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
-    private Item _item;
-    public Item Item
-    {
-        get
-        {
-            return _item;
-        }
-        set
-        {
-            _item = value;
-        }
-    }
-    public Image image;
-
-    void Awake()
-    {
-        image = GetComponent<Image>();
-    }
-
-    public void SetColor(float _alpha)
-    {
-        Color color = image.color;
-        color.a = _alpha;
-        image.color = color;
-    }
-
-    public void AddItem(Item newItem)
-    {
-        _item = newItem;
-        image.sprite = newItem.itemImage;
-        SetColor(1);
-    }
-
-    public void RemoveItem()
-    {
-        _item = null;
-        image.sprite = null;
-        SetColor(0);
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        // ½½·Ô¿¡ ÀÖ´Â ¾ÆÀÌÅÛ¿¡ ¸¶¿ì½º¸¦ ¿Ã¸®¸é ÅøÆÁÀÌ ³ª¿È
-        if (_item != null && Managers.INVENTORY.isEquippedItem == false)
-        {
-            UIManager.Instance.tooltip2D.ShowTooltip2D(_item, transform.GetComponent<RectTransform>().position);
-        }
-    }
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        // ½½·Ô¿¡ ÀÖ´Â ¾ÆÀÌÅÛ¿¡¼­ ¸¶¿ì½º¸¦ ¶¼¸é ÅøÆÁ »ç¶óÁü
-        if (_item != null)
-        {
-            UIManager.Instance.tooltip2D.HideTooltip2D();
-        }
-    }
-    public virtual void OnPointerClick(PointerEventData eventData)
-    {
-        // ÀÎº¥Åä¸®¿¡¼­ ÁÂÅ¬¸¯ ½Ã ¼Òºñ ¾ÆÀÌÅÛ »ç¿ë
-        if (eventData.button == PointerEventData.InputButton.Left)
-        {
-            if (_item != null && _item.itemType == Item.ItemType.Consumable)
-            {
-                Managers.INVENTORY.UseItem((UsableItem)_item);
-            }
-        }
-        // ÀÎº¥Åä¸®¿¡¼­ ¿ìÅ¬¸¯ ½Ã ¾ÆÀÌÅÛ ÀåÂø
-        if (eventData.button == PointerEventData.InputButton.Right)
-        {
-            if (_item != null && _item.itemType == Item.ItemType.Equipment)
-            {
-                if (Managers.INVENTORY.isEquippedItem == false)
-                    Managers.INVENTORY.EquipItemFromInventory((EquippableItem)_item);
-            }
-        }
-    }
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (_item != null)
+        if (Item != null)
         {
-            // ¾ÆÀÌÅÛ ¹İÅõ¸í ÇØÁ®¼­ µé¾î¿Ã·ÁÁü
+            // ì•„ì´í…œ ë°˜íˆ¬ëª… í•´ì ¸ì„œ ë“¤ì–´ì˜¬ë ¤ì§
             DragSlot.instance.SetDraggedItem(this);
             DragSlot.instance.SetColor(0.5f);
             DragSlot.instance.transform.position = eventData.position;
@@ -94,31 +16,31 @@ public class ItemSlot : MonoBehaviour,
     }
     public void OnDrag(PointerEventData eventData)
     {
-        if (_item != null)
+        if (Item != null)
         {
-            // ¾ÆÀÌÅÛ ¿Å°ÜÁö´Â Áß
+            // ì•„ì´í…œ ì˜®ê²¨ì§€ëŠ” ì¤‘
             DragSlot.instance.transform.position = eventData.position;
-            // µå·¡±× Áß¿¡´Â ´Ù¸¥ ÅøÆÁÀÌ ¶ßÁö ¾Êµµ·Ï
-            UIManager.Instance.tooltip2D.HideTooltip2D();
+            // ë“œë˜ê·¸ ì¤‘ì—ëŠ” ë‹¤ë¥¸ íˆ´íŒì´ ëœ¨ì§€ ì•Šë„ë¡
+            Managers.INVENTORY.toolTip.HideTooltip2D();
         }
     }
     public void OnEndDrag(PointerEventData eventData)
     {
-        // µå·¡±× ³¡
-        // ¾ÆÀÌÅÛÀÌ ÀÎº¥Åä¸® ¹Ù±ùÀ¸·Î ³Ñ¾î°¡°Ô µÉ °æ¿ì ¹Ù´Ú¿¡ ¹ö·ÁÁü.
+        // ë“œë˜ê·¸ ë
+        // ì•„ì´í…œì´ ì¸ë²¤í† ë¦¬ ë°”ê¹¥ìœ¼ë¡œ ë„˜ì–´ê°€ê²Œ ë  ê²½ìš° ë°”ë‹¥ì— ë²„ë ¤ì§.
         //UIManager.Instance.inventoryManager.DropItem(_item);
         DragSlot.instance.SetColor(0);
         DragSlot.instance.dragSlot = null;
     }
-    // EquipmentSlotÀÌ ItemSlot¿¡ DropµÉ °æ¿ì UnequipItemÀ» ÇØ¾ß ÇÏ°í,
-    // ItemSlot¿¡ DropµÉ °æ¿ì Item SwapÀ» ÇØ¾ß ÇÑ´Ù.
+    // EquipmentSlotì´ ItemSlotì— Dropë  ê²½ìš° UnequipItemì„ í•´ì•¼ í•˜ê³ ,
+    // ItemSlotì— Dropë  ê²½ìš° Item Swapì„ í•´ì•¼ í•œë‹¤.
     public virtual void OnDrop(PointerEventData eventData)
-    {
-        // ¾ÆÀÌÅÛ ´Ù¸¥ ½½·ÔÀ¸·Î ¿Å°ÜÁü
+    {        
+        // ì•„ì´í…œ ë‹¤ë¥¸ ìŠ¬ë¡¯ìœ¼ë¡œ ì˜®ê²¨ì§
         if (DragSlot.instance.GetDraggedItem() != null)
         {
-            // ºó ½½·Ô¿¡µµ ¾ÆÀÌÅÛÀ» ³õÀ» ¼ö ÀÖ°Ô ÇÏ±â À§ÇÔ.
-            if (_item == null)
+            // ë¹ˆ ìŠ¬ë¡¯ì—ë„ ì•„ì´í…œì„ ë†“ì„ ìˆ˜ ìˆê²Œ í•˜ê¸° ìœ„í•¨.
+            if (Item == null)
             {
                 if (Managers.INVENTORY.isEquippedItem == true)
                 {
@@ -128,7 +50,10 @@ public class ItemSlot : MonoBehaviour,
                         DragSlot.instance.ResetDraggedSlot();
                     }
                 }
-                ChangeDraggedSlot();
+                else
+                {
+                    ChangeDraggedSlot();
+                }
             }
             else
             {
@@ -156,17 +81,17 @@ public class ItemSlot : MonoBehaviour,
     }
     public void ChangeDraggedSlot()
     {
-        Item tempItem = _item;
+        Item tempItem = Item;
 
-        AddItem(DragSlot.instance.dragSlot._item);
+        SetItemImage(DragSlot.instance.dragSlot.Item);
 
         if (tempItem != null)
         {
-            DragSlot.instance.dragSlot.AddItem(tempItem);
+            DragSlot.instance.dragSlot.SetItemImage(tempItem);
         }
         else
         {
-            DragSlot.instance.dragSlot.RemoveItem();
+            DragSlot.instance.dragSlot.RemoveItemImage();
         }
 
     }

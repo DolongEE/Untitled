@@ -4,7 +4,7 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     public List<Item> items;
-    [SerializeField] private Transform slotParent;
+    [SerializeField] private Transform itemBag;
     [SerializeField] private ItemSlot[] itemSlots;
 
     private void Start()
@@ -15,7 +15,8 @@ public class Inventory : MonoBehaviour
 #if UNITY_EDITOR
     private void OnValidate()
     {
-        itemSlots = slotParent.GetComponentsInChildren<ItemSlot>();
+        itemBag = transform.Find("itemBag");
+        itemSlots = itemBag.GetComponentsInChildren<ItemSlot>();
         //UnityEditor.EditorUtility.SetDirty(this);
     }
 #endif
@@ -34,13 +35,13 @@ public class Inventory : MonoBehaviour
     }
 
     public void AcquireItem(Item _item)
-    {
+    {        
         items.Add(_item);
         for (int i = 0; i < itemSlots.Length; i++)
         {
             if (itemSlots[i].Item == null)
             {
-                itemSlots[i].AddItem(_item);
+                itemSlots[i].SetItemImage(_item);
                 return;
             }
         }
@@ -53,9 +54,10 @@ public class Inventory : MonoBehaviour
         {
             if (itemSlots[i].Item == _item)
             {
-                itemSlots[i].RemoveItem();
+                itemSlots[i].RemoveItemImage();
                 return;
             }
         }
     }
+    
 }

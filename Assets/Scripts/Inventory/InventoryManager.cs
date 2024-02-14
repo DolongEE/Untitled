@@ -6,6 +6,7 @@ public class InventoryManager
 {
     [SerializeField] Inventory inventory;
     [SerializeField] EquipmentInventory equipment;
+    public InventoryToolTip toolTip;
     public Camera cam;
     public bool isEquippedItem;
 
@@ -14,6 +15,7 @@ public class InventoryManager
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         inventory = player.GetComponentInChildren<Inventory>();
         equipment = player.GetComponentInChildren<EquipmentInventory>();
+        toolTip = player.GetComponentInChildren<InventoryToolTip>();
         cam = Camera.main;
         isEquippedItem = false;
     }
@@ -64,7 +66,7 @@ public class InventoryManager
                 
                 weapon.transform.SetParent(arms.transform);
 
-                UIManager.Instance.tooltip2D.HideTooltip2D();
+                Managers.INVENTORY.toolTip.HideTooltip2D();
                 PlayerStatus.Instance.EquipItem(_item);
 
                 isEquippedItem = true;
@@ -112,7 +114,7 @@ public class InventoryManager
         {
             PlayerStatus.Instance.UseItem(_item);
             inventory.ReturnItem(_item);
-            UIManager.Instance.tooltip2D.HideTooltip2D();
+            Managers.INVENTORY.toolTip.HideTooltip2D();
         }
     }
 

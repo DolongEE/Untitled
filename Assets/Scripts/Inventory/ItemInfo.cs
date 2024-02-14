@@ -5,7 +5,7 @@ public interface IObjectItem
     Item ClickItem();
 }
 
-public class PickupItem : MonoBehaviour, IObjectItem
+public class ItemInfo : MonoBehaviour, IObjectItem
 {
     public Item item;
     public Sprite itemImage;
@@ -20,16 +20,16 @@ public class PickupItem : MonoBehaviour, IObjectItem
     }
     public Item ClickItem()
     {
-        UIManager.Instance.tooltip2D.HideTooltip2D();
+        Managers.INVENTORY.toolTip.HideTooltip2D();
         return this.item;
     }
     private void OnMouseEnter()
     {
-        UIManager.Instance.tooltip2D.ShowTooltip2D(item, Input.mousePosition);
+        Managers.INVENTORY.toolTip.ShowTooltip2D(item, Input.mousePosition);
     }
 
     private void OnMouseExit()
     {
-        UIManager.Instance.tooltip2D.HideTooltip2D();
+        Managers.INVENTORY.toolTip.HideTooltip2D();
     }
 }

@@ -15,26 +15,27 @@ public class DragSlot : MonoBehaviour
     {
         instance = this;
     }
-    public void SetDraggedItem(ItemSlot sourceSlot)
+    public Item SetDraggedItem(ItemSlot sourceSlot)
     {
-        if(sourceSlot != null)
+        if (sourceSlot.Item != null)
         {
             dragSlot = sourceSlot;
             draggedItem = sourceSlot.Item;
 
-            if(draggedItem != null)
+            if (draggedItem != null)
             {
                 itemImage.sprite = draggedItem.itemImage;
                 SetColor(1);
             }
         }
+        return draggedItem;
     }
     public Item GetDraggedItem()
     {
         return draggedItem;
     }
     public void ResetDraggedSlot()
-    {
+    {        
         dragSlot = null;
         draggedItem = null;
         itemImage.sprite = null;
