@@ -20,16 +20,16 @@ public class PickupItem : MonoBehaviour, IObjectItem
     }
     public Item ClickItem()
     {
-        UIManager.Instance.tooltip3D.HideTooltip3D();
+        UIManager.Instance.tooltip2D.HideTooltip2D();
         return this.item;
     }
     private void OnMouseEnter()
     {
-        UIManager.Instance.tooltip3D.ShowTooltip3D(itemName, itemTooltip, itemImage, transform.position + new Vector3(0f, 3f, 0f));
+        UIManager.Instance.tooltip2D.ShowTooltip2D(item, Input.mousePosition);
     }
 
     private void OnMouseExit()
     {
-        UIManager.Instance.tooltip3D.HideTooltip3D();
+        UIManager.Instance.tooltip2D.HideTooltip2D();
     }
 }

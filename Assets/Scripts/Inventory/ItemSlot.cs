@@ -51,7 +51,7 @@ public class ItemSlot : MonoBehaviour,
         // 슬롯에 있는 아이템에 마우스를 올리면 툴팁이 나옴
         if (_item != null && Managers.INVENTORY.isEquippedItem == false)
         {
-            UIManager.Instance.tooltip3D.ShowTooltip2D(_item, transform.GetComponent<RectTransform>().position);
+            UIManager.Instance.tooltip2D.ShowTooltip2D(_item, transform.GetComponent<RectTransform>().position);
         }
     }
     public void OnPointerExit(PointerEventData eventData)
@@ -59,7 +59,7 @@ public class ItemSlot : MonoBehaviour,
         // 슬롯에 있는 아이템에서 마우스를 떼면 툴팁 사라짐
         if (_item != null)
         {
-            UIManager.Instance.tooltip3D.HideTooltip2D();
+            UIManager.Instance.tooltip2D.HideTooltip2D();
         }
     }
     public virtual void OnPointerClick(PointerEventData eventData)
@@ -99,7 +99,7 @@ public class ItemSlot : MonoBehaviour,
             // 아이템 옮겨지는 중
             DragSlot.instance.transform.position = eventData.position;
             // 드래그 중에는 다른 툴팁이 뜨지 않도록
-            UIManager.Instance.tooltip3D.HideTooltip2D();
+            UIManager.Instance.tooltip2D.HideTooltip2D();
         }
     }
     public void OnEndDrag(PointerEventData eventData)

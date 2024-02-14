@@ -34,7 +34,6 @@ public class UIManager : MonoBehaviour
 
     public GameObject tooltipPrefab;
     public ToolTip2D tooltip2D;
-    public ToolTip3D tooltip3D;
 
     private void Awake()
     {

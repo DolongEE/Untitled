@@ -14,7 +14,6 @@ public class TestEnemy : MonoBehaviour
 
     private void OnCollisionEnter(Collision col)
     {
-        Debug.Log(col.gameObject.tag + "가 몬스터에게 충돌");
         if (col.gameObject.CompareTag("Player"))
         {
             health.TakeDamage(this.gameObject, 5f);

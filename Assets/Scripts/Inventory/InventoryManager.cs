@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -45,7 +44,6 @@ public class InventoryManager
         {
             Item item = clickInterface.ClickItem();
             inventory.AcquireItem(item);
-
             Object.Destroy(hit.transform.gameObject);
         }
     }
@@ -66,7 +64,7 @@ public class InventoryManager
                 
                 weapon.transform.SetParent(arms.transform);
 
-                UIManager.Instance.tooltip3D.HideTooltip2D();
+                UIManager.Instance.tooltip2D.HideTooltip2D();
                 PlayerStatus.Instance.EquipItem(_item);
 
                 isEquippedItem = true;
@@ -114,7 +112,7 @@ public class InventoryManager
         {
             PlayerStatus.Instance.UseItem(_item);
             inventory.ReturnItem(_item);
-            UIManager.Instance.tooltip3D.HideTooltip2D();
+            UIManager.Instance.tooltip2D.HideTooltip2D();
         }
     }
 

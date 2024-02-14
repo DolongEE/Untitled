@@ -16,39 +16,46 @@ public class ToolTip2D : MonoBehaviour
     {
         tooltip.SetActive(true);
 
-        float width = tooltip.GetComponent<RectTransform>().rect.width;
-        float height = tooltip.GetComponent<RectTransform>().rect.height;
-
-        Canvas canvas = FindObjectOfType<Canvas>();
-
-        // 캔버스의 정중앙을 월드 좌표로 변환
-        Vector3 canvasCenter = canvas.transform.position;
-
-        // 상대적인 위치 계산
-        Vector3 relativePos = _pos - canvasCenter;
-
-        // 캔버스를 4등분하여 위치 조절
-        if (relativePos.x > 0 && relativePos.y > 0)
+        if(UIManager.inventoryActivated)
         {
-            _pos -= new Vector3(width * 0.5f, height * 0.5f, 0); // 1사분면
-        }            
+            float width = tooltip.GetComponent<RectTransform>().rect.width;
+            float height = tooltip.GetComponent<RectTransform>().rect.height;
 
-        else if (relativePos.x < 0 && relativePos.y > 0)
-        {
-            _pos += new Vector3(width * 0.5f, height * 0.5f, 0); // 2사분면
+            Canvas canvas = FindObjectOfType<Canvas>();
+
+            // 캔버스의 정중앙을 월드 좌표로 변환
+            Vector3 canvasCenter = canvas.transform.position;
+
+            // 상대적인 위치 계산
+            Vector3 relativePos = _pos - canvasCenter;
+
+            // 캔버스를 4등분하여 위치 조절
+            if (relativePos.x > 0 && relativePos.y > 0)
+            {
+                _pos -= new Vector3(width * 0.5f, height * 0.5f, 0); // 1사분면
+            }
+
+            else if (relativePos.x < 0 && relativePos.y > 0)
+            {
+                _pos += new Vector3(width * 0.5f, height * 0.5f, 0); // 2사분면
+            }
+
+            else if (relativePos.x < 0 && relativePos.y < 0)
+            {
+                _pos += new Vector3(width * 0.5f, -height * 0.5f, 0); // 3사분면
+            }
+
+            else
+            {
+                _pos -= new Vector3(width * 0.5f, -height * 0.5f, 0); // 4사분면
+            }
+
+            tooltip.transform.position = _pos;
         }
-
-        else if (relativePos.x < 0 && relativePos.y < 0)
-        {
-            _pos += new Vector3(width * 0.5f, -height * 0.5f, 0); // 3사분면
-        }
-
         else
         {
-            _pos -= new Vector3(width * 0.5f, -height * 0.5f, 0); // 4사분면
+            tooltip.transform.position = Input.mousePosition;
         }
-
-        tooltip.transform.position = _pos;
 
         itemImage.sprite = _item.itemImage;
         itemName.text = _item.itemName;
