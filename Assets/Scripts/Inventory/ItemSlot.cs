@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem.HID;
 
 public class ItemSlot : ItemDrag, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {

@@ -17,5 +17,6 @@ MonoBehaviour:
   itemDescription: "\uC88C\uD074\uB9AD\uC73C\uB85C \uC0AC\uC6A9\uC2DC \uCCB4\uB825
     20 \uD68C\uBCF5"
   itemType: 1
-  itemPrefab: {fileID: 0}
+  itemPrefab: {fileID: 1568841799848568699, guid: c35326324cf58f24fa72baee8ed88895, type: 3}
+  maxItemStacks: 0
   heal: 20

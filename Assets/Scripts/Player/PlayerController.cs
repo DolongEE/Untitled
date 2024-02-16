@@ -85,7 +85,9 @@ public class PlayerController : MonoBehaviour
     void CameraRotation(GameObject cam, float rotX, float rotY)
     {
         transform.Rotate(0, rotX * Time.deltaTime, 0);
-        cam.transform.Rotate(-rotY * Time.deltaTime, 0, 0);
+
+        float clampRotY = Mathf.Clamp(cam.transform.rotation.eulerAngles.x - rotY * Time.deltaTime, 0f, 30f);
+        cam.transform.rotation = Quaternion.Euler(clampRotY, cam.transform.rotation.eulerAngles.y, cam.transform.rotation.eulerAngles.z);
     }
 
     void LockCursor()

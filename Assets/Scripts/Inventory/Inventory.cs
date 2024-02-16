@@ -35,14 +35,17 @@ public class Inventory : MonoBehaviour
     }
 
     public void AcquireItem(Item _item)
-    {        
-        items.Add(_item);
-        for (int i = 0; i < itemSlots.Length; i++)
+    {
+        if (items.Count < itemSlots.Length)
         {
-            if (itemSlots[i].Item == null)
+            items.Add(_item);
+            for (int i = 0; i < itemSlots.Length; i++)
             {
-                itemSlots[i].SetItemImage(_item);
-                return;
+                if (itemSlots[i].Item == null)
+                {
+                    itemSlots[i].SetItemImage(_item);
+                    return;
+                }
             }
         }
     }
@@ -59,5 +62,12 @@ public class Inventory : MonoBehaviour
             }
         }
     }
-    
+
+    public bool IsInventoryFull()
+    {
+        if (items.Count < itemSlots.Length)
+            return false;
+        else
+            return true;
+    }
 }

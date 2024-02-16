@@ -12,6 +12,7 @@ public class InventoryToolTip : MonoBehaviour
 
     [Header("툴팁 오브젝트")]
     [SerializeField] private GameObject slotTooltip;
+    public GameObject tooltip;
 
     [SerializeField] private Image itemImage;
     [SerializeField] private Text itemName;
@@ -22,15 +23,17 @@ public class InventoryToolTip : MonoBehaviour
         itemBag = GameObject.Find("itemBag");
         equipmentBag = GameObject.Find("equipmentBag");
         statBag = GameObject.Find("statBag");
+        tooltip = GameObject.Find("tooltip");
 
         slotTooltip = GameObject.Find("SlotTooltip");
         itemImage = slotTooltip.transform.Find("image").GetComponent<Image>();
         itemName = slotTooltip.transform.Find("name").GetComponent<Text>();
-        itemDescription = slotTooltip.transform.Find("description").GetComponent<Text>();        
+        itemDescription = slotTooltip.transform.Find("description").GetComponent<Text>();
     }
 
     private void Start()
     {
+        tooltip.SetActive(false);
         slotTooltip.SetActive(false);
         itemBag.SetActive(false);
         equipmentBag.SetActive(false);
