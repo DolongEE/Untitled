@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,12 +6,14 @@ public class DragSlot : MonoBehaviour
     public static DragSlot instance;
     public ItemSlot dragSlot;
     public Item draggedItem;
+    public int draggedItemAmount;
 
-    [SerializeField] private Image itemImage;
+    private Image itemImage;
 
     private void Start()
     {
         instance = this;
+        itemImage = GetComponent<Image>();
     }
     public Item SetDraggedItem(ItemSlot sourceSlot)
     {
@@ -21,6 +21,7 @@ public class DragSlot : MonoBehaviour
         {
             dragSlot = sourceSlot;
             draggedItem = sourceSlot.Item;
+            draggedItemAmount = sourceSlot.Amount;
 
             if (draggedItem != null)
             {
@@ -39,6 +40,7 @@ public class DragSlot : MonoBehaviour
         dragSlot = null;
         draggedItem = null;
         itemImage.sprite = null;
+        draggedItemAmount = 0;
         SetColor(0);
     }
 

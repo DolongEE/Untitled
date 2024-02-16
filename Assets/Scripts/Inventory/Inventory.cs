@@ -34,20 +34,39 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void AcquireItem(Item _item)
+    public bool AcquireItem(Item _item)
     {
         if (items.Count < itemSlots.Length)
         {
-            items.Add(_item);
-            for (int i = 0; i < itemSlots.Length; i++)
+            if (CheckItemInInventory(_item))
             {
-                if (itemSlots[i].Item == null)
+                for (int i = 0; i < itemSlots.Length; i++)
                 {
-                    itemSlots[i].SetItemImage(_item);
-                    return;
+                    if (_item.ID == itemSlots[i].Item.ID)
+                    {
+                        items.Add(_item);
+                        itemSlots[i].Amount++;
+                        itemSlots[i].RefreshAmount();
+                        return true;
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < itemSlots.Length; i++)
+                {
+                    if (itemSlots[i].Item == null)
+                    {
+                        items.Add(_item);
+                        itemSlots[i].Amount++;
+                        itemSlots[i].SetItemImage(_item);
+                        return true;
+                    }
                 }
             }
         }
+
+        return false;
     }
 
     public void ReturnItem(Item _item)
@@ -57,8 +76,18 @@ public class Inventory : MonoBehaviour
         {
             if (itemSlots[i].Item == _item)
             {
-                itemSlots[i].RemoveItemImage();
-                return;
+                if (CheckItemInInventory(_item))
+                {
+                    itemSlots[i].Amount--;
+                    itemSlots[i].RefreshAmount();
+                    break;
+                }
+                else
+                {
+                    itemSlots[i].Amount--;
+                    itemSlots[i].RemoveItemImage();
+                    break;
+                }
             }
         }
     }
@@ -69,5 +98,15 @@ public class Inventory : MonoBehaviour
             return false;
         else
             return true;
+    }
+    public bool CheckItemInInventory(Item item)
+    {
+        for (int i = 0; i < items.Count; i++)
+        {
+            if (item.ID == items[i].ID)
+                return true;
+        }
+
+        return false;
     }
 }
