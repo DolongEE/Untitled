@@ -1,16 +1,18 @@
 using UnityEngine;
 
-public interface IObjectItem
-{
-    Item ClickItem();
-}
+//public interface IObjectItem
+//{
+//    Item ClickItem();
+//}
 
-public class ItemInfo : MonoBehaviour, IObjectItem
+public class ItemInfo : MonoBehaviour//, IObjectItem
 {
     public Item item;
     public Sprite itemImage;
     public string itemName;
     public string itemTooltip;
+
+    private bool isPlayerNear = false;
 
     void Start()
     {
@@ -18,18 +20,51 @@ public class ItemInfo : MonoBehaviour, IObjectItem
         itemTooltip = item.itemDescription;
         itemImage = item.itemImage;
     }
-    public Item ClickItem()
+
+    private void OnEnable()
     {
-        Managers.INVENTORY.toolTip.HideTooltip2D();
-        return this.item;
+        Managers.EVENT.inputEvents.onQuestLogTogglePressed += TogglePressed;
     }
-    private void OnMouseEnter()
+    private void OnDisable()
     {
-        Managers.INVENTORY.toolTip.ShowTooltip2D(item, Input.mousePosition);
+        Managers.EVENT.inputEvents.onQuestLogTogglePressed -= TogglePressed;
     }
 
-    private void OnMouseExit()
+    public void TogglePressed()
     {
-        Managers.INVENTORY.toolTip.HideTooltip2D();
+        if (isPlayerNear == false)
+            return;
+        if (Managers.INVENTORY.inventory.IsInventoryFull() == true)
+            return;
+        
+        Managers.INVENTORY.inventory.AcquireItem(item);
+        Managers.INVENTORY.toolTip.tooltip.SetActive(false);
+        Destroy(this.gameObject);
+    }
+    //private void OnMouseEnter()
+    //{
+    //    Managers.INVENTORY.toolTip.ShowTooltip2D(item, Input.mousePosition);
+    //}
+
+    //private void OnMouseExit()
+    //{
+    //    Managers.INVENTORY.toolTip.HideTooltip2D();
+    //}
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            isPlayerNear = true;
+            Managers.INVENTORY.toolTip.tooltip.SetActive(true);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            isPlayerNear = false;
+            Managers.INVENTORY.toolTip.tooltip.SetActive(false);
+        }
     }
 }

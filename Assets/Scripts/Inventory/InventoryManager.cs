@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class InventoryManager
 {
-    [SerializeField] Inventory inventory;
+    public Inventory inventory;
     [SerializeField] EquipmentInventory equipment;
     public InventoryToolTip toolTip;
     public Camera cam;
@@ -22,33 +21,33 @@ public class InventoryManager
 
     public void Update()
     {
-        // UI 이벤트가 발생한 경우 처리하지 않음
-        if (EventSystem.current.IsPointerOverGameObject() == true)
-            return;
+        //// UI 이벤트가 발생한 경우 처리하지 않음
+        //if (EventSystem.current.IsPointerOverGameObject() == true)
+        //    return;
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hitInfo;
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        //    RaycastHit hitInfo;
 
-            if (Physics.Raycast(ray, out hitInfo) && hitInfo.transform.CompareTag("Item"))
-            {
-                HitCheckObject(hitInfo);
-            }
-        }
+        //    if (Physics.Raycast(ray, out hitInfo) && hitInfo.transform.CompareTag("Item"))
+        //    {
+        //        HitCheckObject(hitInfo);
+        //    }
+        //}
     }
 
-    void HitCheckObject(RaycastHit hit)
-    {
-        IObjectItem clickInterface = hit.transform.gameObject.GetComponent<IObjectItem>();
+    //void HitCheckObject(RaycastHit hit)
+    //{
+    //    IObjectItem clickInterface = hit.transform.gameObject.GetComponent<IObjectItem>();
 
-        if (clickInterface != null)
-        {
-            Item item = clickInterface.ClickItem();
-            inventory.AcquireItem(item);
-            Object.Destroy(hit.transform.gameObject);
-        }
-    }
+    //    if (clickInterface != null)
+    //    {
+    //        Item item = clickInterface.ClickItem();
+    //        inventory.AcquireItem(item);
+    //        Object.Destroy(hit.transform.gameObject);
+    //    }
+    //}
 
     public void EquipItemFromInventory(EquippableItem _item)
     {

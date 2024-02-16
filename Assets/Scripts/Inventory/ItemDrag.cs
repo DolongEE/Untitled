@@ -1,7 +1,7 @@
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEditorInternal.Profiling.Memory.Experimental;
+using TMPro;
 
 public class ItemDrag : MonoBehaviour,
     IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
@@ -9,10 +9,16 @@ public class ItemDrag : MonoBehaviour,
     private Item _item;
     public Item Item { get { return _item; } set { _item = value; } }
     public Image image;
+    public TextMeshProUGUI tmPro;
 
     private void Awake()
     {
         image = transform.Find("Image").GetComponent<Image>();
+        tmPro = transform.Find("Amount").GetComponent<TextMeshProUGUI>();
+    }
+    private void Start()
+    {
+        tmPro.gameObject.SetActive(false);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -32,22 +38,22 @@ public class ItemDrag : MonoBehaviour,
         }
     }
     public virtual void OnPointerClick(PointerEventData eventData)
-    {        
-        // 인벤토리에서 좌클릭 시 소비 아이템 사용
-        if (eventData.button == PointerEventData.InputButton.Left)
-        {
-            if (_item != null && _item.itemType == Item.ItemType.Consumable)
-            {
-                Managers.INVENTORY.UseItem((UsableItem)_item);
-            }
-        }
+    {
         // 인벤토리에서 우클릭 시 아이템 장착
         if (eventData.button == PointerEventData.InputButton.Right)
         {
-            if (_item != null && _item.itemType == Item.ItemType.Equipment)
+            if (_item == null)
+                return;
+
+            if (_item.itemType == Item.ItemType.Equipment)
             {
                 if (Managers.INVENTORY.isEquippedItem == false)
                     Managers.INVENTORY.EquipItemFromInventory((EquippableItem)_item);
+            }
+
+            else if (_item.itemType == Item.ItemType.Consumable)
+            {
+                Managers.INVENTORY.UseItem((UsableItem)_item);
             }
         }
     }
@@ -64,6 +70,15 @@ public class ItemDrag : MonoBehaviour,
     {
         _item = newItem;
         image.sprite = newItem.itemImage;
+        if(_item.itemType == Item.ItemType.Equipment)
+        {
+            tmPro.gameObject.SetActive(false);
+        }
+        else
+        {
+            tmPro.gameObject.SetActive(true);
+            tmPro.text = _item.maxItemStacks.ToString();
+        }
         SetColor(1);
     }
 
@@ -71,6 +86,7 @@ public class ItemDrag : MonoBehaviour,
     {
         _item = null;
         image.sprite = null;
+        tmPro.text = null;
         SetColor(0);
     }
     #endregion
