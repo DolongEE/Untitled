@@ -17,13 +17,9 @@ public class CraftPoint : MonoBehaviour
 
     [SerializeField] private List<Item> items = new List<Item>();
 
+    private PlayerController playerController;
     private bool isCrafting;
     private int logCount;
-
-    private void OnValidate()
-    {
-
-    }
 
     private void Awake()
     {
@@ -57,8 +53,7 @@ public class CraftPoint : MonoBehaviour
     }
 
     private void TogglePressed()
-    {
-        Crafting();
+    {        
         if (isCrafting) return;
 
         if (playerIsNear == false)
@@ -68,17 +63,11 @@ public class CraftPoint : MonoBehaviour
         {
             switch (currentCraftState)
             {
-                case CraftStates.NONE:
+                case CraftStates.NONE:                    
                     currentCraftState = CraftStates.TALK;
-                    Talking(npcInfoDialog.init);
-                    break;
-                case CraftStates.CRAFTING:
-                    Crafting();
                     break;
                 case CraftStates.TALK:
-                    break;
-                case CraftStates.EXIT:
-                    Talking(npcInfoDialog.end);
+                    Talking(npcInfoDialog.init);
                     break;
             }
         }
@@ -95,19 +84,14 @@ public class CraftPoint : MonoBehaviour
         {
             if (currentCraftState.Equals(CraftStates.TALK))
             {
-                currentCraftState = CraftStates.EXIT;
-            }
-            else if (currentCraftState.Equals(CraftStates.EXIT))
-            {
-                currentCraftState = CraftStates.NONE;
+                OpenCraftWindow();
             }
             logCount = 0;
             canvasLogBox.SetActive(false);
         }
     }
 
-
-    private void Crafting()
+    private void OpenCraftWindow()
     {
         isCrafting = true;
         canvasCraft.SetActive(true);
@@ -117,6 +101,7 @@ public class CraftPoint : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            playerController = other.GetComponent<PlayerController>();
             playerIsNear = true;
             items = other.GetComponentInChildren<Inventory>().items;
         }
@@ -126,6 +111,7 @@ public class CraftPoint : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            playerController = null;
             playerIsNear = false;
             items.Clear();
         }

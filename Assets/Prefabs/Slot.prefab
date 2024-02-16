@@ -225,6 +225,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 1254262089206607534}
+  tmPro: {fileID: 0}
 --- !u!1 &7275498756232504553
 GameObject:
   m_ObjectHideFlags: 0
