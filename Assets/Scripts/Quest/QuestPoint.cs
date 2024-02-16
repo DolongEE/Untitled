@@ -26,6 +26,8 @@ public class QuestPoint : MonoBehaviour
 
     private void Awake()
     {
+        canvasLogBox = transform.Find("DialogCanvas").gameObject;
+        txtLogBox = canvasLogBox.GetComponentInChildren<TextMeshProUGUI>();
         questId = questInfoQuest.id;
         questIcon = GetComponentInChildren<QuestIcon>();
         canvasLogBox.SetActive(false);

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5943030350516595554}
   - component: {fileID: 7196165232370649552}
   m_Layer: 0
-  m_Name: DiologCanvas
+  m_Name: DialogCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -280,8 +280,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   questInfoQuest: {fileID: 0}
   npcInfoDialog: {fileID: 0}
-  canvasLogBox: {fileID: 3354715505405854656}
-  txtLogBox: {fileID: 8800390559336850946}
+  canvasLogBox: {fileID: 0}
+  txtLogBox: {fileID: 0}
   startPoint: 1
   finishPoint: 1
 --- !u!1 &8757375682964223392

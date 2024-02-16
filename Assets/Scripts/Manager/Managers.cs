@@ -13,7 +13,7 @@ public class Managers : MonoBehaviour
     private static InventoryManager s_inventory = new InventoryManager();
     private static QuestManager s_quest = new QuestManager();
     private static ResourcesManager s_resource = new ResourcesManager();
-    private static SyntheticManager s_synthetic = new SyntheticManager();
+    private static CraftManager s_synthetic = new CraftManager();
 
     public static CoroutineManager COROUTINE { get { return s_coroutine; } }
     public static GameEventsManager EVENT { get { return s_event; } }
@@ -21,7 +21,7 @@ public class Managers : MonoBehaviour
     public static InventoryManager INVENTORY { get { return s_inventory; } }
     public static QuestManager QUEST { get { return s_quest; } }
     public static ResourcesManager RESOURCE { get { return s_resource; } }
-    public static SyntheticManager SYNTHETIC { get { return s_synthetic; } }
+    public static CraftManager SYNTHETIC { get { return s_synthetic; } }
     #endregion
 
     private void Awake()

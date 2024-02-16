@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SyntheticManager
+public class CraftManager
 {
     public List<Item> items;
 

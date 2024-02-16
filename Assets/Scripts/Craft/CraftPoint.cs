@@ -1,26 +1,42 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class SyntheticPoint : MonoBehaviour
+public class CraftPoint : MonoBehaviour
 {
     [Header("Dialogue")]
     [SerializeField] private NPCInfoDialogSO npcInfoDialog;
 
     [Header("Object")]
     [SerializeField] private GameObject canvasLogBox;
-    [SerializeField] private GameObject canvasSynthetic;
+    [SerializeField] private GameObject canvasCraft;
     [SerializeField] private TextMeshProUGUI txtLogBox;
 
     [SerializeField] private bool playerIsNear = false;
-    [SerializeField] private SyntheticStates currentSyntheticState;
+    [SerializeField] private CraftStates currentCraftState;
 
+    [SerializeField] private List<Item> items = new List<Item>();
+
+    private bool isCrafting;
     private int logCount;
+
+    private void OnValidate()
+    {
+
+    }
 
     private void Awake()
     {
-        currentSyntheticState = SyntheticStates.NONE;
+        canvasLogBox = transform.Find("DialogCanvas").gameObject;
+        canvasCraft = transform.Find("CraftCanvas").gameObject;
+        txtLogBox = canvasLogBox.GetComponentInChildren<TextMeshProUGUI>();
+    }
+
+    private void Start()
+    {        
+        currentCraftState = CraftStates.NONE;
         canvasLogBox.SetActive(false);
-        canvasSynthetic.SetActive(false);
+        canvasCraft.SetActive(false);
     }
 
     private void OnEnable()
@@ -42,23 +58,26 @@ public class SyntheticPoint : MonoBehaviour
 
     private void TogglePressed()
     {
+        Crafting();
+        if (isCrafting) return;
+
         if (playerIsNear == false)
             return;
 
         if (npcInfoDialog != null)
         {
-            switch (currentSyntheticState)
+            switch (currentCraftState)
             {
-                case SyntheticStates.NONE:
-                    currentSyntheticState = SyntheticStates.TALK;
+                case CraftStates.NONE:
+                    currentCraftState = CraftStates.TALK;
                     Talking(npcInfoDialog.init);
                     break;
-                case SyntheticStates.SYNTHETIC:
-                    SyntheticProgress();
+                case CraftStates.CRAFTING:
+                    Crafting();
                     break;
-                case SyntheticStates.TALK:
+                case CraftStates.TALK:
                     break;
-                case SyntheticStates.EXIT:
+                case CraftStates.EXIT:
                     Talking(npcInfoDialog.end);
                     break;
             }
@@ -66,7 +85,7 @@ public class SyntheticPoint : MonoBehaviour
     }
 
     private void Talking(string[] logs)
-    {
+    {        
         if (logCount < logs.Length)
         {
             canvasLogBox.SetActive(true);
@@ -74,13 +93,13 @@ public class SyntheticPoint : MonoBehaviour
         }
         else
         {
-            if (currentSyntheticState.Equals(SyntheticStates.TALK))
+            if (currentCraftState.Equals(CraftStates.TALK))
             {
-                currentSyntheticState = SyntheticStates.EXIT;
+                currentCraftState = CraftStates.EXIT;
             }
-            else if (currentSyntheticState.Equals(SyntheticStates.EXIT))
+            else if (currentCraftState.Equals(CraftStates.EXIT))
             {
-                currentSyntheticState = SyntheticStates.NONE;
+                currentCraftState = CraftStates.NONE;
             }
             logCount = 0;
             canvasLogBox.SetActive(false);
@@ -88,9 +107,10 @@ public class SyntheticPoint : MonoBehaviour
     }
 
 
-    private void SyntheticProgress()
+    private void Crafting()
     {
-        canvasSynthetic.SetActive(true);
+        isCrafting = true;
+        canvasCraft.SetActive(true);
     }
     
     private void OnTriggerEnter(Collider other)
@@ -98,6 +118,7 @@ public class SyntheticPoint : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerIsNear = true;
+            items = other.GetComponentInChildren<Inventory>().items;
         }
     }
 
@@ -106,6 +127,7 @@ public class SyntheticPoint : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerIsNear = false;
+            items.Clear();
         }
     }
 }
