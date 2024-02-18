@@ -105,7 +105,7 @@ public class Inventory : MonoBehaviour
     {
         for (int i = 0; i < items.Count; i++)
         {
-            if (item.ID == items[i].ID)
+            if (item.ID == items[i].ID && item.itemType != Item.ItemType.Equipment)
                 return true;
         }
 

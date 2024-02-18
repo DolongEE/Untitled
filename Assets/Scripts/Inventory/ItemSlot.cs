@@ -52,6 +52,10 @@ public class ItemSlot : ItemDrag, IBeginDragHandler, IDragHandler, IEndDragHandl
                     {
                         Managers.INVENTORY.UnEquipItemFromEquip((EquippableItem)DragSlot.instance.GetDraggedItem());
                     }
+                    else
+                    {
+                        ChangeDraggedSlot();
+                    }
                 }
                 else
                 {
