@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90c892c860bacef45af48fda1faf745b, type: 3}
   m_Name: Frost Sword
   m_EditorClassIdentifier: 
+  id: 4d7633478aec19f4b98e0c7b24ff9ee1
   itemName: "\uCC28\uAC00\uC640! \uC5BC\uC74C\uAC80"
   itemImage: {fileID: 21300000, guid: aaaa9b63c91301b489d52afe884bebd8, type: 3}
   itemDescription: "\uC11C\uB9AC\uAC00 \uAE43\uB4E0 \uAC80... \uBB34\uC9C0 \uCC28\uAC11\uB2E4."
   itemType: 0
-  itemPrefab: {fileID: 4463543880736965250, guid: 79c6d5e659cb9894a9ef0bfdb6744895, type: 3}
-  maxItemStacks: 0
+  itemPrefab: {fileID: 55871878134746685, guid: 79c6d5e659cb9894a9ef0bfdb6744895, type: 3}
+  isItemStackable: 0
   damage: 10
   defense: 5

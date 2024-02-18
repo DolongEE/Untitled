@@ -36,10 +36,13 @@ public class ItemInfo : MonoBehaviour//, IObjectItem
             return;
         if (Managers.INVENTORY.inventory.IsInventoryFull() == true)
             return;
-        
-        Managers.INVENTORY.inventory.AcquireItem(item);
-        Managers.INVENTORY.toolTip.tooltip.SetActive(false);
-        Destroy(this.gameObject);
+
+        if (Managers.INVENTORY.inventory.AcquireItem(item))
+        {
+            Managers.INVENTORY.toolTip.tooltip.SetActive(false);
+            Destroy(this.gameObject);
+        }
+
     }
     //private void OnMouseEnter()
     //{
@@ -52,7 +55,7 @@ public class ItemInfo : MonoBehaviour//, IObjectItem
     //}
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && Managers.INVENTORY.isEquippedItem == false)
         {
             isPlayerNear = true;
             Managers.INVENTORY.toolTip.tooltip.SetActive(true);
@@ -61,7 +64,7 @@ public class ItemInfo : MonoBehaviour//, IObjectItem
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && Managers.INVENTORY.isEquippedItem == false)
         {
             isPlayerNear = false;
             Managers.INVENTORY.toolTip.tooltip.SetActive(false);

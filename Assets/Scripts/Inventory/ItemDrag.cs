@@ -6,19 +6,22 @@ using TMPro;
 public class ItemDrag : MonoBehaviour,
     IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    private Item _item;
+    private Image image;
+    public TextMeshProUGUI amountText;
+
+    [SerializeField] private Item _item;
     public Item Item { get { return _item; } set { _item = value; } }
-    public Image image;
-    public TextMeshProUGUI tmPro;
+    [SerializeField] private int _amount;
+    public int Amount { get { return _amount; } set { _amount = value; } }
 
     private void Awake()
     {
         image = transform.Find("Image").GetComponent<Image>();
-        tmPro = transform.Find("Amount").GetComponent<TextMeshProUGUI>();
+        amountText = transform.Find("Amount").GetComponent<TextMeshProUGUI>();
     }
     private void Start()
     {
-        tmPro.gameObject.SetActive(false);
+        amountText.enabled = false;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -57,7 +60,6 @@ public class ItemDrag : MonoBehaviour,
             }
         }
     }
-
     #region ÀÌ¹ÌÁö
     public void SetColor(float _alpha)
     {
@@ -70,15 +72,7 @@ public class ItemDrag : MonoBehaviour,
     {
         _item = newItem;
         image.sprite = newItem.itemImage;
-        if(_item.itemType == Item.ItemType.Equipment)
-        {
-            tmPro.gameObject.SetActive(false);
-        }
-        else
-        {
-            tmPro.gameObject.SetActive(true);
-            tmPro.text = _item.maxItemStacks.ToString();
-        }
+        RefreshAmount();
         SetColor(1);
     }
 
@@ -86,8 +80,18 @@ public class ItemDrag : MonoBehaviour,
     {
         _item = null;
         image.sprite = null;
-        tmPro.text = null;
+        _amount = 0;
+        amountText.text = " ";
         SetColor(0);
+    }
+    public void RefreshAmount()
+    {
+        amountText.text = _amount.ToString();
+        bool textActive = _amount > 0;
+        amountText.enabled = textActive;
+
+        if (_item != null && _item.itemType == Item.ItemType.Equipment)
+            amountText.enabled = false;
     }
     #endregion
 }

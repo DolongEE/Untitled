@@ -29,12 +29,12 @@ public class ItemSlot : ItemDrag, IBeginDragHandler, IDragHandler, IEndDragHandl
         // 아이템이 인벤토리 바깥으로 넘어가게 될 경우 바닥에 버려짐.
         //UIManager.Instance.inventoryManager.DropItem(_item);
         DragSlot.instance.SetColor(0);
-        DragSlot.instance.dragSlot = null;
+        DragSlot.instance.ResetDraggedSlot();
     }
     // EquipmentSlot이 ItemSlot에 Drop될 경우 UnequipItem을 해야 하고,
     // ItemSlot에 Drop될 경우 Item Swap을 해야 한다.
     public virtual void OnDrop(PointerEventData eventData)
-    {        
+    {
         // 아이템 다른 슬롯으로 옮겨짐
         if (DragSlot.instance.GetDraggedItem() != null)
         {
@@ -46,7 +46,6 @@ public class ItemSlot : ItemDrag, IBeginDragHandler, IDragHandler, IEndDragHandl
                     if (DragSlot.instance.GetDraggedItem().itemType == Item.ItemType.Equipment)
                     {
                         Managers.INVENTORY.UnEquipItemFromEquip((EquippableItem)DragSlot.instance.GetDraggedItem());
-                        DragSlot.instance.ResetDraggedSlot();
                     }
                 }
                 else
@@ -60,9 +59,7 @@ public class ItemSlot : ItemDrag, IBeginDragHandler, IDragHandler, IEndDragHandl
                 {
                     if (DragSlot.instance.GetDraggedItem().itemType == Item.ItemType.Equipment)
                     {
-                        Debug.Log(DragSlot.instance.GetDraggedItem());
                         Managers.INVENTORY.UnEquipItemFromEquip((EquippableItem)DragSlot.instance.GetDraggedItem());
-                        DragSlot.instance.ResetDraggedSlot();
                     }
                     else
                     {
@@ -81,17 +78,21 @@ public class ItemSlot : ItemDrag, IBeginDragHandler, IDragHandler, IEndDragHandl
     public void ChangeDraggedSlot()
     {
         Item tempItem = Item;
+        int tempAmount = Amount;
 
         SetItemImage(DragSlot.instance.dragSlot.Item);
+        Amount = DragSlot.instance.dragSlot.Amount;
 
         if (tempItem != null)
         {
             DragSlot.instance.dragSlot.SetItemImage(tempItem);
+            DragSlot.instance.dragSlot.Amount = tempAmount;
         }
         else
         {
             DragSlot.instance.dragSlot.RemoveItemImage();
         }
 
+        RefreshAmount();
     }
 }

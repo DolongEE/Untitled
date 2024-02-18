@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class EquipmentInventory : MonoBehaviour
 {
@@ -37,13 +38,16 @@ public class EquipmentInventory : MonoBehaviour
 
     public void AcquireItem(EquippableItem _item)
     {
-        equipItems.Add(_item);
-        for (int i = 0; i < equipSlots.Length; i++)
+        if (equipItems.Count < equipSlots.Length)
         {
-            if (equipSlots[i].Item == null)
+            equipItems.Add(_item);
+            for (int i = 0; i < equipSlots.Length; i++)
             {
-                equipSlots[i].SetItemImage(_item);
-                return;
+                if (equipSlots[i].Item == null)
+                {
+                    equipSlots[i].SetItemImage(_item);
+                    return;
+                }
             }
         }
     }
