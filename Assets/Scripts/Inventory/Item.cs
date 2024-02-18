@@ -21,6 +21,11 @@ public class Item : ScriptableObject
     [Header("Item Prefab")]     public GameObject itemPrefab;
     [Header("Item Stackble")]   public bool isItemStackable;
 
+    public virtual Item GetCopy()
+    {
+        return this;
+    }
+
 #if UNITY_EDITOR
     protected virtual void OnValidate()
     {

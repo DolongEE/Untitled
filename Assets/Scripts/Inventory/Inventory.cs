@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class Inventory : MonoBehaviour
 {
@@ -107,6 +109,62 @@ public class Inventory : MonoBehaviour
                 return true;
         }
 
+        return false;
+    }
+
+    public int ItemCount(string itemId)
+    {
+        return items.FindIndex(x => x.ID == itemId);
+    }
+
+    public bool CanAddItem(Item item, int amount)
+    {
+        int freeSpaces = 0;
+
+        foreach (ItemSlot itemSlot in itemSlots)
+        {
+            if (itemSlot.Item == null || itemSlot.Item.ID == item.ID)
+            {
+                //freeSpaces += item.MaximumStacks - itemSlot.Amount;
+            }
+        }
+        return freeSpaces >= amount;
+    }
+
+    public virtual Item RemoveItem(string itemID)
+    {
+        for (int i = 0; i < itemSlots.Length; i++)
+        {
+            Item item = itemSlots[i].Item;
+            if (item != null && item.ID == itemID)
+            {
+                itemSlots[i].Amount--;
+                return item;
+            }
+        }
+        return null;
+    }
+    public virtual bool AddItem(Item item)
+    {
+        for (int i = 0; i < itemSlots.Length; i++)
+        {
+            if (itemSlots[i].CanAddStack(item))
+            {
+                itemSlots[i].Item = item;
+                itemSlots[i].Amount++;
+                return true;
+            }
+        }
+
+        for (int i = 0; i < itemSlots.Length; i++)
+        {
+            if (itemSlots[i].Item == null)
+            {
+                itemSlots[i].Item = item;
+                itemSlots[i].Amount++;
+                return true;
+            }
+        }
         return false;
     }
 }

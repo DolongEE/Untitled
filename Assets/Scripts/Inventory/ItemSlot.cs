@@ -3,6 +3,11 @@ using UnityEngine.EventSystems;
 
 public class ItemSlot : ItemDrag, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
+    public bool CanAddStack(Item item)
+    {
+        return Item != null && Item.ID == item.ID;
+    }
+
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (Item != null)

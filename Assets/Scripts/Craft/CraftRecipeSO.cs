@@ -26,11 +26,11 @@ public class CraftRecipeSO : ScriptableObject
     {
         foreach (ItemAmount itemAmount in Materials)
         {
-            //if (itemContainer.ItemCount(itemAmount.Item.ID) < itemAmount.Amount)
-            //{
-            //    Debug.LogWarning("You don't have the required materials.");
-            //    return false;
-            //}
+            if (itemContainer.ItemCount(itemAmount.Item.ID) < itemAmount.Amount)
+            {
+                Debug.LogWarning("You don't have the required materials.");
+                return false;
+            }
         }
         return true;
     }
@@ -39,11 +39,11 @@ public class CraftRecipeSO : ScriptableObject
     {
         foreach (ItemAmount itemAmount in Results)
         {
-            //if (!itemContainer.CanAddItem(itemAmount.Item, itemAmount.Amount))
-            //{
-            //    Debug.LogWarning("Your inventory is full.");
-            //    return false;
-            //}
+            if (!itemContainer.CanAddItem(itemAmount.Item, itemAmount.Amount))
+            {
+                Debug.LogWarning("Your inventory is full.");
+                return false;
+            }
         }
         return true;
     }
@@ -61,11 +61,11 @@ public class CraftRecipeSO : ScriptableObject
     {
         foreach (ItemAmount itemAmount in Materials)
         {
-            //for (int i = 0; i < itemAmount.Amount; i++)
-            //{
-            //    Item oldItem = itemContainer.RemoveItem(itemAmount.Item.ID);
-            //    oldItem.Destroy();
-            //}
+            for (int i = 0; i < itemAmount.Amount; i++)
+            {
+                Item oldItem = itemContainer.RemoveItem(itemAmount.Item.ID);
+                //oldItem.Destroy();
+            }
         }
     }
 
@@ -73,10 +73,10 @@ public class CraftRecipeSO : ScriptableObject
     {
         foreach (ItemAmount itemAmount in Results)
         {
-            //for (int i = 0; i < itemAmount.Amount; i++)
-            //{
-            //    itemContainer.AddItem(itemAmount.Item.GetCopy());
-            //}
+            for (int i = 0; i < itemAmount.Amount; i++)
+            {
+                itemContainer.AddItem(itemAmount.Item.GetCopy());
+            }
         }
     }
 }
