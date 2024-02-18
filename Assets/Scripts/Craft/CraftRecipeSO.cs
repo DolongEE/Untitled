@@ -7,8 +7,7 @@ using UnityEngine;
 public struct ItemAmount
 {
     public Item Item;
-    [Range(1, 999)]
-    public int Amount;
+    [Range(1, 10)] public int Amount;
 }
 
 [CreateAssetMenu(fileName = "CraftRecipeSO", menuName = "ScriptableObjects/CraftRecipeSO", order = 5)]
@@ -51,7 +50,7 @@ public class CraftRecipeSO : ScriptableObject
     public void Craft(Inventory itemContainer)
     {
         if (CanCraft(itemContainer))
-        {
+        {            
             RemoveMaterials(itemContainer);
             AddResults(itemContainer);
         }
@@ -63,8 +62,7 @@ public class CraftRecipeSO : ScriptableObject
         {
             for (int i = 0; i < itemAmount.Amount; i++)
             {
-                Item oldItem = itemContainer.RemoveItem(itemAmount.Item.ID);
-                //oldItem.Destroy();
+                itemContainer.ReturnItem(itemAmount.Item);                
             }
         }
     }
@@ -74,8 +72,8 @@ public class CraftRecipeSO : ScriptableObject
         foreach (ItemAmount itemAmount in Results)
         {
             for (int i = 0; i < itemAmount.Amount; i++)
-            {
-                itemContainer.AddItem(itemAmount.Item.GetCopy());
+            {                
+                itemContainer.AcquireItem(itemAmount.Item.GetCopy());                
             }
         }
     }

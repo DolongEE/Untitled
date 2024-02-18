@@ -22,6 +22,8 @@ public class ItemDrag : MonoBehaviour,
     private void Start()
     {
         amountText.enabled = false;
+        if (Item != null)
+            SetItemImage(Item);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -71,7 +73,7 @@ public class ItemDrag : MonoBehaviour,
     public void SetItemImage(Item newItem)
     {
         _item = newItem;
-        image.sprite = newItem.itemImage;
+        image.sprite = newItem.itemImage;        
         RefreshAmount();
         SetColor(1);
     }

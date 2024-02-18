@@ -725,6 +725,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cd3a75aa74f86740926413965ca6f2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  arrowParent: {fileID: 8505315964995842535}
+  itemSlots:
+  - {fileID: 7341665702142494980}
+  - {fileID: 9107737597662004329}
+  - {fileID: 6358998164214194655}
+  inventory: {fileID: 0}
 --- !u!1 &6705710442671155517
 GameObject:
   m_ObjectHideFlags: 0
@@ -949,8 +955,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc5c51913e62a674ca7dd6eb94ed3a20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  image: {fileID: 8113657212842242899}
-  tmPro: {fileID: 0}
+  amountText: {fileID: 0}
+  _item: {fileID: 0}
+  _amount: 0
 --- !u!1 &7377552486715279730
 GameObject:
   m_ObjectHideFlags: 0
@@ -1175,8 +1182,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc5c51913e62a674ca7dd6eb94ed3a20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  image: {fileID: 7034838621571805425}
-  tmPro: {fileID: 0}
+  amountText: {fileID: 0}
+  _item: {fileID: 0}
+  _amount: 0
 --- !u!1 &7828578301285008775
 GameObject:
   m_ObjectHideFlags: 0
@@ -1484,7 +1492,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2811835204730122408}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8044810545432316591}
+        m_TargetAssemblyTypeName: CraftRecipeUI, Assembly-CSharp
+        m_MethodName: OnCraftButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8927515629078317839
 GameObject:
   m_ObjectHideFlags: 0
@@ -1575,5 +1595,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc5c51913e62a674ca7dd6eb94ed3a20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  image: {fileID: 4867560246637373909}
-  tmPro: {fileID: 0}
+  amountText: {fileID: 0}
+  _item: {fileID: 0}
+  _amount: 0
