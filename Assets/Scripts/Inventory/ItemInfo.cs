@@ -42,7 +42,6 @@ public class ItemInfo : MonoBehaviour//, IObjectItem
             Managers.INVENTORY.toolTip.tooltip.SetActive(false);
             Destroy(this.gameObject);
         }
-
     }
     //private void OnMouseEnter()
     //{

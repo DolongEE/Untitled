@@ -62,6 +62,7 @@ public class InventoryToolTip : MonoBehaviour
                 itemBag.SetActive(false);
                 equipmentBag.SetActive(false);
                 statBag.SetActive(false);
+                HideTooltip2D();
             }
         }
     }

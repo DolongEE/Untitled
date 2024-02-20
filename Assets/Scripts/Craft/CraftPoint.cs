@@ -113,7 +113,7 @@ public class CraftPoint : MonoBehaviour
         {
             playerController = null;
             playerIsNear = false;
-            items.Clear();
+            //items.Clear();
         }
     }
 }
