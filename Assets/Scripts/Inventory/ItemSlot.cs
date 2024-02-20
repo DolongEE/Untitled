@@ -55,11 +55,13 @@ public class ItemSlot : ItemDrag, IBeginDragHandler, IDragHandler, IEndDragHandl
                     else
                     {
                         ChangeDraggedSlot();
+                        return;
                     }
                 }
                 else
                 {
                     ChangeDraggedSlot();
+                    return;
                 }
             }
             else
@@ -86,20 +88,29 @@ public class ItemSlot : ItemDrag, IBeginDragHandler, IDragHandler, IEndDragHandl
     }
     public void ChangeDraggedSlot()
     {
+        ItemSlot draggedSlot = DragSlot.instance.dragSlot;
         Item tempItem = Item;
         int tempAmount = Amount;
 
-        SetItemImage(DragSlot.instance.dragSlot.Item);
-        Amount = DragSlot.instance.dragSlot.Amount;
+        SetItemImage(draggedSlot.Item);
+        Amount = draggedSlot.Amount;
 
         if (tempItem != null)
         {
-            DragSlot.instance.dragSlot.SetItemImage(tempItem);
-            DragSlot.instance.dragSlot.Amount = tempAmount;
+            if (tempItem.itemType == Item.ItemType.Equipment)
+            {
+                draggedSlot.SetItemImage(tempItem);
+            }
+            else
+            {
+                draggedSlot.SetItemImage(tempItem);
+                draggedSlot.Amount = tempAmount;
+                draggedSlot.RefreshAmount();
+            }
         }
         else
         {
-            DragSlot.instance.dragSlot.RemoveItemImage();
+            draggedSlot.RemoveItemImage();
         }
 
         RefreshAmount();

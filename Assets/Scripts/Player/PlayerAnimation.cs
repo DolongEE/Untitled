@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerAnimation : MonoBehaviour
 {
     private Animator animator;
+    private bool isNPCNear = false;
+    private bool isItemNear = false;
 
     void Start()
     {
@@ -45,21 +47,54 @@ public class PlayerAnimation : MonoBehaviour
         animator.SetFloat("Vertical", inputVertical);
         animator.SetFloat("Horizontal", inputHorizontal);
     }
-    private void OnTriggerEnter(Collider col)
+    private void OnEnable()
     {
-        if (col.gameObject.CompareTag("Enemy"))
+        Managers.EVENT.inputEvents.onQuestLogTogglePressed += TogglePressed;
+    }
+    private void OnDisable()
+    {
+        Managers.EVENT.inputEvents.onQuestLogTogglePressed -= TogglePressed;
+    }
+    private void TogglePressed()
+    {
+        if(isNPCNear == true)
         {
             animator.SetBool("isNPC", true);
+            return;
+        }
+        else if (isNPCNear == false)
+        {
+            animator.SetBool("isNPC", false);
+            return;
+        }
+        if(isItemNear == true)
+        {
+            animator.SetTrigger("isPickUp");
+        }
+    }
+    private void OnTriggerEnter(Collider col)
+    {
+        if (col.gameObject.CompareTag("NPC"))
+        {
+            isNPCNear = true;
             Debug.Log("반갑습니다 NPC입니다.");
+        }
+        if(col.gameObject.CompareTag("Item"))
+        {
+            isItemNear = true;
         }
     }
 
     private void OnTriggerExit(Collider col)
     {
-        if (col.gameObject.CompareTag("Enemy"))
+        if (col.gameObject.CompareTag("NPC"))
         {
-            animator.SetBool("isNPC", false);
+            isNPCNear = false;
             Debug.Log("감사합니다 NPC였습니다.");
+        }
+        if(col.gameObject.CompareTag("Item"))
+        {
+            isItemNear = false;
         }
     }
 }

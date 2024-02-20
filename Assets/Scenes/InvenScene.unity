@@ -1485,6 +1485,14 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6784008579837257810, guid: c28b723aa5ba3dc4a93056e3942161bf, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 6784008579837257810, guid: c28b723aa5ba3dc4a93056e3942161bf, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
+      objectReference: {fileID: 0}
     - target: {fileID: 6793587542143576694, guid: c28b723aa5ba3dc4a93056e3942161bf, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

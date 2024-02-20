@@ -62,7 +62,7 @@ public class CraftRecipeSO : ScriptableObject
         {
             for (int i = 0; i < itemAmount.Amount; i++)
             {
-                itemContainer.ReturnItem(itemAmount.Item);                
+                itemContainer.ReturnItem(itemAmount.Item);
             }
         }
     }
@@ -72,8 +72,8 @@ public class CraftRecipeSO : ScriptableObject
         foreach (ItemAmount itemAmount in Results)
         {
             for (int i = 0; i < itemAmount.Amount; i++)
-            {                
-                itemContainer.AcquireItem(itemAmount.Item.GetCopy());                
+            {
+                itemContainer.AcquireItem(itemAmount.Item.GetCopy());
             }
         }
     }
