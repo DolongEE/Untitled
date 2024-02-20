@@ -11,8 +11,7 @@ public class CraftWindow : MonoBehaviour
     [SerializeField] RectTransform recipeUIParent;
     [SerializeField] List<CraftRecipeUI> craftingRecipeUIs;
 
-    [Header("Public Variables")]
-    public Inventory inventory;
+    [Header("Public Variables")]    
     public List<CraftRecipeSO> CraftingRecipes;
 
     private void OnValidate()

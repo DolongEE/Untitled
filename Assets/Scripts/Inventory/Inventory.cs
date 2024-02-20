@@ -36,32 +36,28 @@ public class Inventory : MonoBehaviour
 
     public bool AcquireItem(Item _item)
     {
-        items.Add(_item);
-        if (items.Count < itemSlots.Length)
+        if (IsInventoryFull())
+            return false;
+
+        for (int i = 0; i < itemSlots.Length; i++)
         {
-            if (CheckItemInInventory(_item))
+            if (itemSlots[i].CanAddStack(_item))
             {
-                for (int i = 0; i < itemSlots.Length; i++)
-                {
-                    if (_item.ID == itemSlots[i].Item.ID)
-                    {
-                        itemSlots[i].Amount++;
-                        itemSlots[i].RefreshAmount();
-                        return true;
-                    }
-                }
+                items.Add(_item);
+                itemSlots[i].Amount++;
+                itemSlots[i].RefreshAmount();
+                return true;
             }
-            else
+        }
+
+        for (int i = 0; i < itemSlots.Length; i++)
+        {
+            if (itemSlots[i].Item == null)
             {
-                for (int i = 0; i < itemSlots.Length; i++)
-                {
-                    if (itemSlots[i].Item == null)
-                    {
-                        itemSlots[i].Amount++;
-                        itemSlots[i].SetItemImage(_item);
-                        return true;
-                    }
-                }
+                items.Add(_item);
+                itemSlots[i].Amount++;
+                itemSlots[i].SetItemImage(_item);
+                return true;
             }
         }
 
@@ -114,10 +110,10 @@ public class Inventory : MonoBehaviour
         int count = 0;
         for (int i = 0; i < itemSlots.Length; i++)
         {
-            if (count != 0) break;
-            if (itemId == itemSlots[i].Item.ID)
+            Item item = itemSlots[i].Item;
+            if (item != null && itemId == item.ID)
             {
-                count = itemSlots[i].Amount;                
+                count += itemSlots[i].Amount;
             }                
         }
         return count;

@@ -5,7 +5,7 @@ public class ItemSlot : ItemDrag, IBeginDragHandler, IDragHandler, IEndDragHandl
 {
     public bool CanAddStack(Item item)
     {
-        return Item != null && Item.ID == item.ID;
+        return Item != null && Item.ID == item.ID && item.itemType != Item.ItemType.Equipment; 
     }
 
     public void OnBeginDrag(PointerEventData eventData)

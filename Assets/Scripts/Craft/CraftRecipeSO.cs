@@ -25,9 +25,15 @@ public class CraftRecipeSO : ScriptableObject
     {
         foreach (ItemAmount itemAmount in Materials)
         {
-            if (itemContainer.ItemCount(itemAmount.Item.ID) < itemAmount.Amount)
+            if (itemContainer.items.Contains(itemAmount.Item) == false)
             {
                 Debug.LogWarning("You don't have the required materials.");
+                return false;
+            }
+
+            if (itemContainer.ItemCount(itemAmount.Item.ID) < itemAmount.Amount)
+            {
+                Debug.LogWarning("You don't have the required amount.");
                 return false;
             }
         }
