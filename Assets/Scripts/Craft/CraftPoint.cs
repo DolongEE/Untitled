@@ -8,31 +8,28 @@ public class CraftPoint : MonoBehaviour
     [SerializeField] private NPCInfoDialogSO npcInfoDialog;
 
     [Header("Object")]
-    [SerializeField] private GameObject canvasLogBox;
-    [SerializeField] private GameObject canvasCraft;
+    [SerializeField] private GameObject panelLogBox;
+    [SerializeField] private GameObject panelCraft;
     [SerializeField] private TextMeshProUGUI txtLogBox;
 
     [SerializeField] private bool playerIsNear = false;
     [SerializeField] private CraftStates currentCraftState;
 
-    [SerializeField] private List<Item> items = new List<Item>();
-
-    private PlayerController playerController;
     private bool isCrafting;
     private int logCount;
 
     private void Awake()
     {
-        canvasLogBox = transform.Find("DialogCanvas").gameObject;
-        canvasCraft = transform.Find("CraftCanvas").gameObject;
-        txtLogBox = canvasLogBox.GetComponentInChildren<TextMeshProUGUI>();
+        panelLogBox = GameObject.Find("LogBoxPanel");
+        panelCraft = GameObject.Find("CraftPanel");
+        txtLogBox = panelLogBox.GetComponentInChildren<TextMeshProUGUI>();
     }
 
     private void Start()
     {        
         currentCraftState = CraftStates.NONE;
-        canvasLogBox.SetActive(false);
-        canvasCraft.SetActive(false);
+        panelLogBox.SetActive(false);
+        panelCraft.SetActive(false);
     }
 
     private void OnEnable()
@@ -77,7 +74,7 @@ public class CraftPoint : MonoBehaviour
     {        
         if (logCount < logs.Length)
         {
-            canvasLogBox.SetActive(true);
+            panelLogBox.SetActive(true);
             txtLogBox.text = logs[logCount++];
         }
         else
@@ -87,23 +84,21 @@ public class CraftPoint : MonoBehaviour
                 OpenCraftWindow();
             }
             logCount = 0;
-            canvasLogBox.SetActive(false);
+            panelLogBox.SetActive(false);
         }
     }
 
     private void OpenCraftWindow()
     {
         isCrafting = true;
-        canvasCraft.SetActive(true);
+        panelCraft.SetActive(true);
     }
     
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            playerController = other.GetComponent<PlayerController>();
             playerIsNear = true;
-            items = other.GetComponentInChildren<Inventory>().items;
         }
     }
 
@@ -111,9 +106,10 @@ public class CraftPoint : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            playerController = null;
             playerIsNear = false;
-            items.Clear();
+            isCrafting = false;
+            panelCraft.SetActive(playerIsNear);
+            currentCraftState = CraftStates.NONE;
         }
     }
 }

@@ -11,10 +11,10 @@ public class InventoryManager
 
     public void Init()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        inventory = player.GetComponentInChildren<Inventory>();
-        equipment = player.GetComponentInChildren<EquipmentInventory>();
-        toolTip = player.GetComponentInChildren<InventoryToolTip>();
+        GameObject canvas = GameObject.Find("Canvas");
+        inventory = canvas.GetComponentInChildren<Inventory>();
+        equipment = canvas.GetComponentInChildren<EquipmentInventory>();
+        toolTip = canvas.GetComponentInChildren<InventoryToolTip>();
         cam = Camera.main;
         isEquippedItem = false;
     }

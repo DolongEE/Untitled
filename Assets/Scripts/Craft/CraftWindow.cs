@@ -15,13 +15,6 @@ public class CraftWindow : MonoBehaviour
     public Inventory inventory;
     public List<CraftRecipeSO> CraftingRecipes;
 
-
-    private void Awake()
-    {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        inventory = player.GetComponentInChildren<Inventory>();        
-    }
-
     private void OnValidate()
     {
         Init();
@@ -52,7 +45,7 @@ public class CraftWindow : MonoBehaviour
                 craftingRecipeUIs[i] = Instantiate(recipeUIPrefab, recipeUIParent, false);
             }
 
-            craftingRecipeUIs[i].inventory = inventory;
+            //craftingRecipeUIs[i].inventory = Managers.INVENTORY.inventory;
             craftingRecipeUIs[i].CraftingRecipe = CraftingRecipes[i];
         } 
 

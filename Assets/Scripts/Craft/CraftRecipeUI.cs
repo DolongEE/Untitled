@@ -7,8 +7,6 @@ public class CraftRecipeUI : MonoBehaviour
     [SerializeField] RectTransform arrowParent;
     [SerializeField] private ItemSlot[] itemSlots;
 
-    public Inventory inventory;
-
     private CraftRecipeSO craftingRecipe;
     public CraftRecipeSO CraftingRecipe
     {
@@ -25,9 +23,9 @@ public class CraftRecipeUI : MonoBehaviour
 
     public void OnCraftButtonClick()
     {
-        if (craftingRecipe != null && inventory != null)
+        if (craftingRecipe != null && Managers.INVENTORY.inventory != null)
         {
-            craftingRecipe.Craft(inventory);
+            craftingRecipe.Craft(Managers.INVENTORY.inventory);
         }
     }
 
