@@ -67,9 +67,10 @@ public class PlayerAnimation : MonoBehaviour
             animator.SetBool("isNPC", false);
             return;
         }
-        if(isItemNear == true)
+        else if(isItemNear == true)
         {
             animator.SetTrigger("isPickUp");
+            return;
         }
     }
     private void OnTriggerEnter(Collider col)
