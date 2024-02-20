@@ -10,7 +10,7 @@ public class QuestPoint : MonoBehaviour
     [SerializeField] private NPCInfoDialogSO npcInfoDialog;
 
     [Header("Object")]
-    [SerializeField] private GameObject canvasLogBox;
+    [SerializeField] private GameObject panelLogBox;
     [SerializeField] private TextMeshProUGUI txtLogBox;
 
     [Header("Config")]
@@ -26,11 +26,11 @@ public class QuestPoint : MonoBehaviour
 
     private void Awake()
     {
-        canvasLogBox = transform.Find("DialogCanvas").gameObject;
-        txtLogBox = canvasLogBox.GetComponentInChildren<TextMeshProUGUI>();
+        panelLogBox = GameObject.Find("LogBoxPanel");
+        txtLogBox = panelLogBox.GetComponentInChildren<TextMeshProUGUI>();
         questId = questInfoQuest.id;
         questIcon = GetComponentInChildren<QuestIcon>();
-        canvasLogBox.SetActive(false);
+        panelLogBox.SetActive(false);
     }
 
     private void OnEnable()
@@ -90,7 +90,7 @@ public class QuestPoint : MonoBehaviour
     {
         if (logCount < logs.Length)
         {
-            canvasLogBox.SetActive(true);
+            panelLogBox.SetActive(true);
             txtLogBox.text = logs[logCount++];
         }
         else
@@ -104,7 +104,7 @@ public class QuestPoint : MonoBehaviour
                 Managers.EVENT.questEvents.FinishQuest(questId);
             }
             logCount = 0;
-            canvasLogBox.SetActive(false);
+            panelLogBox.SetActive(false);
         }        
     }
 
