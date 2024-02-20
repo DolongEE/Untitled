@@ -36,6 +36,7 @@ public class Inventory : MonoBehaviour
 
     public bool AcquireItem(Item _item)
     {
+        items.Add(_item);
         if (items.Count < itemSlots.Length)
         {
             if (CheckItemInInventory(_item))
@@ -44,7 +45,6 @@ public class Inventory : MonoBehaviour
                 {
                     if (_item.ID == itemSlots[i].Item.ID)
                     {
-                        items.Add(_item);
                         itemSlots[i].Amount++;
                         itemSlots[i].RefreshAmount();
                         return true;
@@ -57,7 +57,6 @@ public class Inventory : MonoBehaviour
                 {
                     if (itemSlots[i].Item == null)
                     {
-                        items.Add(_item);
                         itemSlots[i].Amount++;
                         itemSlots[i].SetItemImage(_item);
                         return true;

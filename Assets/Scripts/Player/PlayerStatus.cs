@@ -27,8 +27,20 @@ public class PlayerStatus : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        
         health = GetComponent<Health>();
+        GameObject statBag = GameObject.Find("statBag");
 
+        playerHp = statBag.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        playerDamage = statBag.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        playerDefense = statBag.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+        playerHealthbar = GameObject.Find("playerHealthBar").GetComponent<Image>();
+        playerStaminabar = GameObject.Find("playerStaminaBar").GetComponent<Image>();
+
+    }
+
+    private void Start()
+    {
         health.SetHealth(baseHp);
 
         playerHealthbar.fillAmount = health.GetPercentage();
