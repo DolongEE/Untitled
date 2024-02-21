@@ -7,7 +7,6 @@ public class InventoryManager
     [SerializeField] EquipmentInventory equipment;
     public InventoryToolTip toolTip;
     public Camera cam;
-    public bool isEquippedItem;
 
     public void Init()
     {
@@ -16,7 +15,6 @@ public class InventoryManager
         equipment = canvas.GetComponentInChildren<EquipmentInventory>();
         toolTip = canvas.GetComponentInChildren<InventoryToolTip>();
         cam = Camera.main;
-        isEquippedItem = false;
     }
 
     public void Update()
@@ -51,25 +49,23 @@ public class InventoryManager
 
     public void EquipItemFromInventory(EquippableItem _item)
     {
-        inventory.ReturnItem(_item);
-        equipment.AcquireItem(_item);
-
-        if (_item is EquippableItem)
+        EquippableItem copy = _item.GetCopy() as EquippableItem;
+        if (inventory.ReturnItem(_item) && equipment.AcquireItem(copy))
         {
             GameObject weaponPrefab = _item.itemPrefab;
 
-            if(weaponPrefab != null)
+            if (weaponPrefab != null)
             {
                 GameObject arms = GameObject.Find("Left Weapon Arm");
                 GameObject weapon = Object.Instantiate(weaponPrefab, arms.transform.position, Quaternion.Euler(new Vector3(-30f, 90f, 0f)));
-                
+
                 weapon.transform.SetParent(arms.transform);
 
                 Managers.INVENTORY.toolTip.HideTooltip2D();
                 PlayerStatus.Instance.EquipItem(_item);
 
-                isEquippedItem = true;
-                Debug.Log("아이템 장착 상태 : " + isEquippedItem);
+                copy.Equip();
+                Debug.Log("아이템 장착 상태 : " + copy.IsEquipped);
             }
             else
             {
@@ -78,32 +74,33 @@ public class InventoryManager
         }
         else
         {
-            Debug.Log("장비가 아니라 장착할 수 없습니다.");
+            inventory.AcquireItem(_item);
+            Debug.Log("인벤토리에서 아이템이 삭제되지 않았거나, 장비창에 추가되지 않음.");
         }
     }
 
     public void UnEquipItemFromEquip(EquippableItem _item)
     {
-        equipment.ReturnItem(_item);
-        inventory.AcquireItem(_item);
         // 아이템 장착 해제시 모델 삭제 및 아이템 다시 슬롯으로
         // 장비창에서 클릭했을 경우에도 아이템 슬롯으로 이동되게
-        if (_item is EquippableItem)
+        if (equipment.ReturnItem(_item) && inventory.AcquireItem(_item))
         {
             GameObject arms = GameObject.Find("Left Weapon Arm");
+           
             if (arms.transform.childCount > 0)
             {
                 Object.Destroy(arms.transform.GetChild(0).gameObject);
             }
 
             PlayerStatus.Instance.UnequipItem(_item);
+            _item.UnEquip();
 
-            isEquippedItem = false;
-            Debug.Log("아이템 장착 상태 : " + isEquippedItem);
+            Debug.Log("아이템 장착 상태 : " + _item.IsEquipped);
         }
         else
         {
-            Debug.Log("어라.. 장비가 아닌데 장착 슬롯에 갔네..");
+            equipment.AcquireItem(_item);
+            Debug.Log("장비창에서 아이템이 삭제되지 않았거나, 인벤토리에 추가되지 않음.");
         }
     }
 
@@ -121,25 +118,4 @@ public class InventoryManager
     {
         return inventory.items;
     }
-
-    //public void DropItem(Item _item)
-    //{
-    //    // 아이템 버리기 기능 오류 문제로 보류
-    //    //if (DragSlot.instance.transform.localPosition.x < baseRect.xMin ||
-    //    //    DragSlot.instance.transform.localPosition.x > baseRect.xMax ||
-    //    //    DragSlot.instance.transform.localPosition.y < baseRect.yMin ||
-    //    //    DragSlot.instance.transform.localPosition.y > baseRect.yMax)
-    //    //{
-    //    //    Vector3 itemPos = GameObject.Find("Player").transform.position;
-
-    //    //    Instantiate(DragSlot.instance.dragSlot.item.itemPrefab,
-    //    //        itemPos + new Vector3(0f, 0f, 2f), Quaternion.Euler(90f, 0, 0));
-
-    //    //    inventory.ReturnItem(_item);
-    //    //}
-
-    //    DragSlot.instance.SetColor(0);
-    //    DragSlot.instance.dragSlot = null;
-    //    inventory.ReturnItem(_item);
-    //}
 }

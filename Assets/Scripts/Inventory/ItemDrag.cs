@@ -25,11 +25,11 @@ public class ItemDrag : MonoBehaviour,
         if (Item != null)
             SetItemImage(Item);
     }
-
+    
     public void OnPointerEnter(PointerEventData eventData)
     {
         // 슬롯에 있는 아이템에 마우스를 올리면 툴팁이 나옴
-        if (_item != null && Managers.INVENTORY.isEquippedItem == false)
+        if (_item != null && _item.IsEquipped == false)
         {
             Managers.INVENTORY.toolTip.ShowTooltip2D(_item, transform.GetComponent<RectTransform>().position);
         }
@@ -52,7 +52,7 @@ public class ItemDrag : MonoBehaviour,
 
             if (_item.itemType == Item.ItemType.Equipment)
             {
-                if (Managers.INVENTORY.isEquippedItem == false)
+                if (_item.IsEquipped == false)
                     Managers.INVENTORY.EquipItemFromInventory((EquippableItem)_item);
             }
 

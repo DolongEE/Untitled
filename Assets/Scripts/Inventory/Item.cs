@@ -12,14 +12,16 @@ public class Item : ScriptableObject
     }
 
     [Header("Item ID")]
-    [SerializeField] string id;
-    public string ID { get { return id; } }
+    [SerializeField]            private string id;
+                                public string ID { get { return id; } }
     [Header("Item Name")]       public string itemName;
     [Header("Item Image")]      public Sprite itemImage;
     [Header("Item Descript")]   public string itemDescription;
     [Header("Item Type")]       public ItemType itemType;
     [Header("Item Prefab")]     public GameObject itemPrefab;
     [Header("Item Stackble")]   public bool isItemStackable;
+    [SerializeField]            private bool isEquipped;
+    public bool IsEquipped { get { return isEquipped; } set { isEquipped = value; } }
 
     public virtual Item GetCopy()
     {
@@ -35,6 +37,11 @@ public class Item : ScriptableObject
         id = AssetDatabase.AssetPathToGUID(path);
         //정보 유지
         EditorUtility.SetDirty(this);
+    }
+
+    private void OnEnable()
+    {
+        isEquipped = false;
     }
 #endif
 }

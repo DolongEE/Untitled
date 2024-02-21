@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class EquipmentSlot : ItemSlot
@@ -9,7 +6,7 @@ public class EquipmentSlot : ItemSlot
     {
         if (eventData.button == PointerEventData.InputButton.Right)
         {
-            if (Managers.INVENTORY.isEquippedItem == true)
+            if (Item.IsEquipped == true)
                 Managers.INVENTORY.UnEquipItemFromEquip((EquippableItem)Item);
         }
     }
@@ -21,7 +18,7 @@ public class EquipmentSlot : ItemSlot
         {
             if (DragSlot.instance.GetDraggedItem().itemType == Item.ItemType.Equipment)
             {
-                if (Managers.INVENTORY.isEquippedItem == false)
+                if (DragSlot.instance.GetDraggedItem().IsEquipped == false)
                 {
                     Managers.INVENTORY.EquipItemFromInventory((EquippableItem)DragSlot.instance.GetDraggedItem());
                     DragSlot.instance.ResetDraggedSlot();

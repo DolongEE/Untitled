@@ -5,7 +5,7 @@ public class ItemSlot : ItemDrag, IBeginDragHandler, IDragHandler, IEndDragHandl
 {
     public bool CanAddStack(Item item)
     {
-        return Item != null && Item.ID == item.ID && item.itemType != Item.ItemType.Equipment; 
+        return Item != null && Item.ID == item.ID && item.itemType != Item.ItemType.Equipment;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -46,17 +46,9 @@ public class ItemSlot : ItemDrag, IBeginDragHandler, IDragHandler, IEndDragHandl
             // 빈 슬롯에도 아이템을 놓을 수 있게 하기 위함.
             if (Item == null)
             {
-                if (Managers.INVENTORY.isEquippedItem == true)
+                if (DragSlot.instance.GetDraggedItem().IsEquipped == true)
                 {
-                    if (DragSlot.instance.GetDraggedItem().itemType == Item.ItemType.Equipment)
-                    {
-                        Managers.INVENTORY.UnEquipItemFromEquip((EquippableItem)DragSlot.instance.GetDraggedItem());
-                    }
-                    else
-                    {
-                        ChangeDraggedSlot();
-                        return;
-                    }
+                    Managers.INVENTORY.UnEquipItemFromEquip((EquippableItem)DragSlot.instance.GetDraggedItem());
                 }
                 else
                 {
@@ -66,17 +58,9 @@ public class ItemSlot : ItemDrag, IBeginDragHandler, IDragHandler, IEndDragHandl
             }
             else
             {
-                if (Managers.INVENTORY.isEquippedItem == true)
+                if (DragSlot.instance.GetDraggedItem().IsEquipped == true)
                 {
-                    if (DragSlot.instance.GetDraggedItem().itemType == Item.ItemType.Equipment)
-                    {
-                        Managers.INVENTORY.UnEquipItemFromEquip((EquippableItem)DragSlot.instance.GetDraggedItem());
-                    }
-                    else
-                    {
-                        ChangeDraggedSlot();
-                        return;
-                    }
+                    Managers.INVENTORY.UnEquipItemFromEquip((EquippableItem)DragSlot.instance.GetDraggedItem());
                 }
                 else
                 {

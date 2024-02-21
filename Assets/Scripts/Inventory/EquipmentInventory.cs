@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class EquipmentInventory : MonoBehaviour
 {
@@ -36,7 +35,7 @@ public class EquipmentInventory : MonoBehaviour
         }
     }
 
-    public void AcquireItem(EquippableItem _item)
+    public bool AcquireItem(EquippableItem _item)
     {
         if (equipItems.Count < equipSlots.Length)
         {
@@ -46,13 +45,14 @@ public class EquipmentInventory : MonoBehaviour
                 if (equipSlots[i].Item == null)
                 {
                     equipSlots[i].SetItemImage(_item);
-                    return;
+                    return true;
                 }
             }
         }
+        return false;
     }
 
-    public void ReturnItem(EquippableItem _item)
+    public bool ReturnItem(EquippableItem _item)
     {
         equipItems.Remove(_item);
         for (int i = 0; i < equipSlots.Length; i++)
@@ -60,8 +60,10 @@ public class EquipmentInventory : MonoBehaviour
             if (equipSlots[i].Item == _item)
             {
                 equipSlots[i].RemoveItemImage();
-                return;
+                return true;
             }
         }
+
+        return false;
     }
 }

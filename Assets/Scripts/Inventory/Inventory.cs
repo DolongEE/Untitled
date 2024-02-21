@@ -64,7 +64,7 @@ public class Inventory : MonoBehaviour
         return false;
     }
 
-    public void ReturnItem(Item _item)
+    public bool ReturnItem(Item _item)
     {
         items.Remove(_item);
         for (int i = 0; i < itemSlots.Length; i++)
@@ -75,16 +75,18 @@ public class Inventory : MonoBehaviour
                 {
                     itemSlots[i].Amount--;
                     itemSlots[i].RefreshAmount();
-                    break;
+                    return true;
                 }
                 else
                 {
                     itemSlots[i].Amount--;
                     itemSlots[i].RemoveItemImage();
-                    break;
+                    return true;
                 }
             }
         }
+
+        return false;
     }
 
     public bool IsInventoryFull()

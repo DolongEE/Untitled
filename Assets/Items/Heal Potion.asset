@@ -20,4 +20,5 @@ MonoBehaviour:
   itemType: 1
   itemPrefab: {fileID: 1638590398848959007, guid: c35326324cf58f24fa72baee8ed88895, type: 3}
   isItemStackable: 1
+  isEquipped: 0
   heal: 20

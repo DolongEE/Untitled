@@ -19,7 +19,7 @@ public class ItemInfo : MonoBehaviour//, IObjectItem
         itemName = item.itemName;
         itemTooltip = item.itemDescription;
         itemImage = item.itemImage;
-    }
+}
 
     private void OnEnable()
     {
@@ -54,7 +54,7 @@ public class ItemInfo : MonoBehaviour//, IObjectItem
     //}
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && Managers.INVENTORY.isEquippedItem == false)
+        if (other.CompareTag("Player") && item.IsEquipped == false)
         {
             isPlayerNear = true;
             Managers.INVENTORY.toolTip.tooltip.SetActive(true);
@@ -63,7 +63,7 @@ public class ItemInfo : MonoBehaviour//, IObjectItem
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player") && Managers.INVENTORY.isEquippedItem == false)
+        if (other.CompareTag("Player") && item.IsEquipped == false)
         {
             isPlayerNear = false;
             Managers.INVENTORY.toolTip.tooltip.SetActive(false);
