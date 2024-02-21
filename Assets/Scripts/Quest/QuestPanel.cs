@@ -26,6 +26,7 @@ public class QuestPanel : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
             OnClickQuestWindow();
+
         QuestWindowMove();
     }
 

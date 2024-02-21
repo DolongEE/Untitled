@@ -19,7 +19,7 @@ public class QuestInfoSO : ScriptableObject
 
     [Header("Rewards")]
     public int goldReward = 0;
-    public string itemReward = string.Empty;
+    public string[] itemReward;
 
     private void OnValidate()
     {

@@ -16,6 +16,7 @@ MonoBehaviour:
   displayName: 
   questLevelRequirement: 0
   questPrerequisites: []
-  questStepPrefabs: []
+  questStepPrefabs:
+  - {fileID: 7974775759013371453, guid: cf9fcc37843e82d49ae3c08252eb1cbe, type: 3}
   goldReward: 0
-  itemReward: 
+  itemReward: []
