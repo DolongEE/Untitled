@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class QuestManager
 {
@@ -9,7 +10,7 @@ public class QuestManager
     {
         get
         {
-            GameObject root = GameObject.Find("@Managers");
+            GameObject root = GameObject.Find("QuestPanel").GetComponentInChildren<VerticalLayoutGroup>().gameObject;
             Transform[] objects = root.GetComponentsInChildren<Transform>();
             GameObject newGameObject = null;
             bool isExist = false;

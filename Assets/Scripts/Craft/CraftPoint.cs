@@ -2,54 +2,33 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class CraftPoint : MonoBehaviour
+public class CraftPoint : NPC
 {
     [Header("Dialogue")]
     [SerializeField] private NPCInfoDialogSO npcInfoDialog;
-
-    [Header("Object")]
-    [SerializeField] private GameObject panelLogBox;
     [SerializeField] private GameObject panelCraft;
-    [SerializeField] private TextMeshProUGUI txtLogBox;
-
-    [SerializeField] private bool playerIsNear = false;
     [SerializeField] private CraftStates currentCraftState;
 
     private bool isCrafting;
     private int logCount;
 
-    private void Awake()
+    protected override bool Init()
     {
-        panelLogBox = GameObject.Find("LogBoxPanel");
+        if (base.Init() == false)
+            return false;
+
         panelCraft = GameObject.Find("CraftPanel");
-        txtLogBox = panelLogBox.GetComponentInChildren<TextMeshProUGUI>();
+
+        return true;
     }
 
     private void Start()
     {        
         currentCraftState = CraftStates.NONE;
-        panelLogBox.SetActive(false);
         panelCraft.SetActive(false);
     }
 
-    private void OnEnable()
-    {
-        Managers.EVENT.inputEvents.onSubmitPressed += SubmitPressed;
-        Managers.EVENT.inputEvents.onQuestLogTogglePressed += TogglePressed;
-    }
-
-    private void OnDisable()
-    {
-        Managers.EVENT.inputEvents.onSubmitPressed -= SubmitPressed;
-        Managers.EVENT.inputEvents.onQuestLogTogglePressed -= TogglePressed;
-    }
-
-    private void SubmitPressed()
-    {
-
-    }
-
-    private void TogglePressed()
+    protected override void TogglePressed()
     {        
         if (isCrafting) return;
 
@@ -70,7 +49,7 @@ public class CraftPoint : MonoBehaviour
         }
     }
 
-    private void Talking(string[] logs)
+    protected override void Talking(string[] logs)
     {        
         if (logCount < logs.Length)
         {
@@ -93,16 +72,8 @@ public class CraftPoint : MonoBehaviour
         isCrafting = true;
         panelCraft.SetActive(true);
     }
-    
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            playerIsNear = true;
-        }
-    }
 
-    private void OnTriggerExit(Collider other)
+    protected override void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {

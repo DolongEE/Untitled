@@ -2,49 +2,41 @@
 using TMPro;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider))]
-public class QuestPoint : MonoBehaviour
+public class QuestPoint : NPC
 {
     [Header("Quest")]
     [SerializeField] private QuestInfoSO questInfoQuest;
     [SerializeField] private NPCInfoDialogSO npcInfoDialog;
 
-    [Header("Object")]
-    [SerializeField] private GameObject panelLogBox;
-    [SerializeField] private TextMeshProUGUI txtLogBox;
-
     [Header("Config")]
     [SerializeField] private bool startPoint = true;
     [SerializeField] private bool finishPoint = true;
 
-    private bool playerIsNear = false;
     private string questId;
     private QuestStates currentQuestState;
 
     private QuestIcon questIcon;
     private int logCount;
 
-    private void Awake()
+    protected override bool Init()
     {
-        panelLogBox = GameObject.Find("LogBoxPanel");
-        txtLogBox = panelLogBox.GetComponentInChildren<TextMeshProUGUI>();
+        if (base.Init() == false)
+            return false;
+
         questId = questInfoQuest.id;
         questIcon = GetComponentInChildren<QuestIcon>();
-        panelLogBox.SetActive(false);
+
+        return true;
     }
 
     private void OnEnable()
     {
         Managers.EVENT.questEvents.onQuestStateChange += QuestStateChange;
-        Managers.EVENT.inputEvents.onSubmitPressed += SubmitPressed;
-        Managers.EVENT.inputEvents.onQuestLogTogglePressed += TogglePressed;
     }
 
     private void OnDisable()
     {
         Managers.EVENT.questEvents.onQuestStateChange -= QuestStateChange;
-        Managers.EVENT.inputEvents.onSubmitPressed -= SubmitPressed;
-        Managers.EVENT.inputEvents.onQuestLogTogglePressed -= TogglePressed;
     }
 
     private void QuestStateChange(Quest quest)
@@ -56,12 +48,7 @@ public class QuestPoint : MonoBehaviour
         }
     }
 
-    private void SubmitPressed()
-    {
-
-    }
-
-    private void TogglePressed()
+    protected override void TogglePressed()
     {
         if (playerIsNear == false)
             return;
@@ -86,7 +73,7 @@ public class QuestPoint : MonoBehaviour
         }
     }
 
-    private void Talking(string[] logs)
+    protected override void Talking(string[] logs)
     {
         if (logCount < logs.Length)
         {
@@ -107,16 +94,7 @@ public class QuestPoint : MonoBehaviour
             panelLogBox.SetActive(false);
         }        
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            playerIsNear = true;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
+    protected override void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {
