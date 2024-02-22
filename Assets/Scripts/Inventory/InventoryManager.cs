@@ -7,6 +7,7 @@ public class InventoryManager
     [SerializeField] EquipmentInventory equipment;
     public InventoryToolTip toolTip;
     public Camera cam;
+    public bool isEquippedWeapon;
 
     public void Init()
     {
@@ -15,6 +16,7 @@ public class InventoryManager
         equipment = canvas.GetComponentInChildren<EquipmentInventory>();
         toolTip = canvas.GetComponentInChildren<InventoryToolTip>();
         cam = Camera.main;
+        isEquippedWeapon = false;
     }
 
     public void Update()
@@ -57,14 +59,18 @@ public class InventoryManager
             if (weaponPrefab != null)
             {
                 GameObject arms = GameObject.Find("Left Weapon Arm");
-                GameObject weapon = Object.Instantiate(weaponPrefab, arms.transform.position, Quaternion.Euler(new Vector3(-30f, 90f, 0f)));
+                GameObject weapon = Object.Instantiate(weaponPrefab, arms.transform.position, Quaternion.identity, arms.transform);
 
-                weapon.transform.SetParent(arms.transform);
+                weapon.name = _item.name;
+                weapon.GetComponent<BoxCollider>().center = new Vector3(0f, 0.85f, 0f);
+                weapon.GetComponent<BoxCollider>().size = new Vector3(0.2f, 2.3f, 0.2f);
+                weapon.GetComponent<ItemInfo>().enabled = false;
 
                 Managers.INVENTORY.toolTip.HideTooltip2D();
                 PlayerStatus.Instance.EquipItem(_item);
-
                 copy.Equip();
+                
+                isEquippedWeapon = true;
                 Debug.Log("아이템 장착 상태 : " + copy.IsEquipped);
             }
             else
@@ -94,7 +100,8 @@ public class InventoryManager
 
             PlayerStatus.Instance.UnequipItem(_item);
             _item.UnEquip();
-
+           
+            isEquippedWeapon = false;
             Debug.Log("아이템 장착 상태 : " + _item.IsEquipped);
         }
         else

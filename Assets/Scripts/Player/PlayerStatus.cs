@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,9 +21,11 @@ public class PlayerStatus : MonoBehaviour
     public int baseDamage = 10;
     public int baseDefense = 5;
 
-    private float totalHp;
-    private int totalDamage;
-    private int totalDefense;
+    public float totalHp;
+    public int totalDamage;
+    public int totalDefense;
+
+    public bool playerEquipItem;
 
     private void Awake()
     {
@@ -37,6 +40,7 @@ public class PlayerStatus : MonoBehaviour
         playerHealthbar = GameObject.Find("playerHealthBar").GetComponent<Image>();
         playerStaminabar = GameObject.Find("playerStaminaBar").GetComponent<Image>();
 
+        playerEquipItem = false;
     }
 
     private void Start()
@@ -73,6 +77,7 @@ public class PlayerStatus : MonoBehaviour
     {
         totalDamage += eItem.damage;
         totalDefense += eItem.defense;
+        playerEquipItem = true;
         UpdateUI();
     }
 
@@ -81,6 +86,7 @@ public class PlayerStatus : MonoBehaviour
     {
         totalDamage -= eItem.damage;
         totalDefense -= eItem.defense;
+        playerEquipItem = false;
         UpdateUI();
     }
 
