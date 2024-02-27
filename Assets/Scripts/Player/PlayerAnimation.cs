@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UIElements;
 
 public class PlayerAnimation : MonoBehaviour
 {
@@ -55,15 +54,6 @@ public class PlayerAnimation : MonoBehaviour
         animator.SetFloat("Vertical", inputVertical);
         animator.SetFloat("Horizontal", inputHorizontal);
 
-        if (PlayerStatus.Instance.playerEquipItem == false)
-        {
-            ActivateHandCollider();
-        }
-        else
-        {
-            DeactivateHandCollider();
-        }
-
         if (inputHorizontal != 0.0f || inputVertical != 0.0f)
         {
             if (PlayerStatus.Instance.playerEquipItem == false)
@@ -105,7 +95,7 @@ public class PlayerAnimation : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             animator.SetTrigger("isMining");
-            DeactivateHandCollider();
+            ActivateHandCollider();
         }
     }
 
@@ -114,7 +104,7 @@ public class PlayerAnimation : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             animator.SetTrigger("isAttack");
-            DeactivateHandCollider();
+            ActivateHandCollider();
         }
     }
 
