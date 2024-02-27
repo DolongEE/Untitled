@@ -32,6 +32,7 @@ public class Branch : CollectableObject
         StartCoroutine(HitSwayCoroutine(playerTransform));
         //플레이어의 데미지에 따라 달라짐.
         health.TakeDamage(this.gameObject, PlayerStatus.Instance.totalDamage);
+        hp = (int)health.GetHealth();
 
         if (hp <= 0)
             Destruction();
@@ -49,7 +50,6 @@ public class Branch : CollectableObject
         Vector3 rotationDir = Quaternion.LookRotation(direction).eulerAngles;
 
         CheckDirection(rotationDir);
-        hp = (int)health.GetHealth();
 
         while (!CheckThreadhold())
         {

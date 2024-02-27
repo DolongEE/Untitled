@@ -31,6 +31,7 @@ public class Rock : CollectableObject
 
         StartCoroutine(HitSwayCoroutine(playerTransform));
         health.TakeDamage(this.gameObject, PlayerStatus.Instance.totalDamage);
+        hp = (int)health.GetHealth();
 
         if (hp <= 0)
             Destruction();
