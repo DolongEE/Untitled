@@ -121,7 +121,7 @@ GameObject:
   - component: {fileID: 6346512967680316314}
   m_Layer: 0
   m_Name: NPC
-  m_TagString: Untagged
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -180,8 +180,8 @@ MonoBehaviour:
   panelLogBox: {fileID: 0}
   txtLogBox: {fileID: 0}
   playerIsNear: 0
-  questInfoQuest: {fileID: 0}
-  npcInfoDialog: {fileID: 0}
+  questInfoQuest: {fileID: 11400000, guid: ad094ad5051a4bd499652980f53dd127, type: 2}
+  npcInfoDialog: {fileID: 11400000, guid: 7ba7ce5c4be134142ba723e0cfeaa1cf, type: 2}
   startPoint: 1
   finishPoint: 1
   currentQuestState: 0

@@ -121,7 +121,7 @@ GameObject:
   - component: {fileID: 6346512967680316314}
   m_Layer: 0
   m_Name: NPC_Craft
-  m_TagString: Untagged
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -176,10 +176,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _creatureId: 0
+  panelLogBox: {fileID: 0}
+  txtLogBox: {fileID: 0}
   playerIsNear: 0
-  npcInfoDialog: {fileID: 0}
-  panelCraft: {fileID: 0}
-  currentCraftState: 0
+  npcInfoDialog: {fileID: 11400000, guid: 38ff21cb1c0aa7948824c07952ea5291, type: 2}
 --- !u!114 &6346512967680316314
 MonoBehaviour:
   m_ObjectHideFlags: 0

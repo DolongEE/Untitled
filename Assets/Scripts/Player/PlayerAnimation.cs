@@ -120,11 +120,6 @@ public class PlayerAnimation : MonoBehaviour
             animator.SetBool("isNPC", true);
             return;
         }
-        if (isNPCNear == false)
-        {
-            animator.SetBool("isNPC", false);
-            return;
-        }
     }
 
     // 플레이어의 손에 있는 콜라이더를 활성 / 비활성화 해주는 함수
@@ -177,6 +172,7 @@ public class PlayerAnimation : MonoBehaviour
         if (other.gameObject.CompareTag("NPC"))
         {
             isNPCNear = false;
+            animator.SetBool("isNPC", false);
             Debug.Log("감사합니다 NPC였습니다.");
         }
         if (other.gameObject.CompareTag("Item") || other.gameObject.CompareTag("Collectable"))

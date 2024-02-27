@@ -2793,10 +2793,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2868629306503039840, guid: 7f6c79c8f38d41a43a7241655a686e3e, type: 3}
-      propertyPath: npcInfoDialog
-      value: 
-      objectReference: {fileID: 11400000, guid: 38ff21cb1c0aa7948824c07952ea5291, type: 2}
     - target: {fileID: 7451988066396249393, guid: 7f6c79c8f38d41a43a7241655a686e3e, type: 3}
       propertyPath: m_Name
       value: NPC_Craft
@@ -3342,14 +3338,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3735918375600509957, guid: 984a42c1f0bb3ba42be6ee1daca98bf3, type: 3}
-      propertyPath: npcInfoDialog
-      value: 
-      objectReference: {fileID: 11400000, guid: 7ba7ce5c4be134142ba723e0cfeaa1cf, type: 2}
-    - target: {fileID: 3735918375600509957, guid: 984a42c1f0bb3ba42be6ee1daca98bf3, type: 3}
-      propertyPath: questInfoQuest
-      value: 
-      objectReference: {fileID: 11400000, guid: ad094ad5051a4bd499652980f53dd127, type: 2}
     - target: {fileID: 7451988066396249393, guid: 984a42c1f0bb3ba42be6ee1daca98bf3, type: 3}
       propertyPath: m_Name
       value: NPC_Tutorial_1
