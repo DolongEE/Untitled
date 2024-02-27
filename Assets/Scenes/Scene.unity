@@ -648,32 +648,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4981643709491155282, guid: 79c6d5e659cb9894a9ef0bfdb6744895, type: 3}
   m_PrefabInstance: {fileID: 1479022939}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &92938908 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8618708609733168530, guid: c28b723aa5ba3dc4a93056e3942161bf, type: 3}
-  m_PrefabInstance: {fileID: 1887541921}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &92938910
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 92938908}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.45, y: 0.45, z: 0.45}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &106441061
 GameObject:
   m_ObjectHideFlags: 0
@@ -9756,34 +9730,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6445150088555376685, guid: c28b723aa5ba3dc4a93056e3942161bf, type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7895284905603490731, guid: c28b723aa5ba3dc4a93056e3942161bf, type: 3}
-      propertyPath: playerHp
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7895284905603490731, guid: c28b723aa5ba3dc4a93056e3942161bf, type: 3}
-      propertyPath: playerDamage
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7895284905603490731, guid: c28b723aa5ba3dc4a93056e3942161bf, type: 3}
-      propertyPath: playerDefense
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7895284905603490731, guid: c28b723aa5ba3dc4a93056e3942161bf, type: 3}
-      propertyPath: playerHealthbar
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7895284905603490731, guid: c28b723aa5ba3dc4a93056e3942161bf, type: 3}
-      propertyPath: playerStaminabar
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8618708609733168530, guid: c28b723aa5ba3dc4a93056e3942161bf, type: 3}
-      propertyPath: m_TagString
-      value: Hand
-      objectReference: {fileID: 0}
     - target: {fileID: 8894245497673876853, guid: c28b723aa5ba3dc4a93056e3942161bf, type: 3}
       propertyPath: m_Name
       value: Player
@@ -9791,10 +9737,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8618708609733168530, guid: c28b723aa5ba3dc4a93056e3942161bf, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 92938910}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c28b723aa5ba3dc4a93056e3942161bf, type: 3}
 --- !u!1 &1899255595
 GameObject:
