@@ -19,11 +19,6 @@ public class CraftPoint : MonoBehaviour
         Managers.EVENT.inputEvents.onEscPressed -= OnCloseCraftWindow;
     }
 
-    private void Start()
-    {
-        panelCraft.SetActive(false);
-    }
-
     public void OpenCraftWindow()
     {
         isCrafting = true;

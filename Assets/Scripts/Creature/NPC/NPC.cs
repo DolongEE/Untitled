@@ -33,11 +33,11 @@ public class NPC : Creature
         }
     }
     private void OnValidate()
-    {
+    {        
+        quest = GetComponent<QuestPoint>();
         craft = GetComponent<CraftPoint>();
-        quest = GetComponent<QuestPoint>();        
-        craft.enabled = useCrafting;
         quest.enabled = useQuest;
+        craft.enabled = useCrafting;
     }
 
     protected override bool Init()
@@ -59,7 +59,7 @@ public class NPC : Creature
         btnCraftOpen.gameObject.SetActive(useCrafting);
         btnQuestTalk.gameObject.SetActive(useQuest);
         questIcon.SetActive(useQuest);
-        panelCraft.SetActive(useCrafting);
+        panelCraft.SetActive(false);
 
         _health.SetHealth(100);
 
