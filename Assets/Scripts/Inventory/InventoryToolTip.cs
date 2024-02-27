@@ -26,7 +26,7 @@ public class InventoryToolTip : MonoBehaviour
         tooltip = GameObject.Find("tooltip");
 
         slotTooltip = GameObject.Find("SlotTooltip");
-        itemImage = slotTooltip.transform.Find("imageBG").GetComponentInChildren<Image>();
+        itemImage = slotTooltip.transform.Find("imageBG").GetChild(0).GetComponentInChildren<Image>();
         itemName = slotTooltip.transform.Find("nameBG").GetComponentInChildren<Text>();
         itemDescription = slotTooltip.transform.Find("descBG").GetComponentInChildren<Text>();
     }

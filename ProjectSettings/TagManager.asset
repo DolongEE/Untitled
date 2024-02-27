@@ -7,6 +7,8 @@ TagManager:
   - Item
   - Enemy
   - NPC
+  - Hand
+  - Collectable
   layers:
   - Default
   - TransparentFX
