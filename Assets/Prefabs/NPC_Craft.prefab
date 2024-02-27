@@ -118,6 +118,7 @@ GameObject:
   - component: {fileID: 2106803596729896456}
   - component: {fileID: 5476123697790718758}
   - component: {fileID: 2868629306503039840}
+  - component: {fileID: 6346512967680316314}
   m_Layer: 0
   m_Name: NPC_Craft
   m_TagString: Untagged
@@ -174,9 +175,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c8673e81571f23489c4b526a26d4556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npcInfoDialog: {fileID: 11400000, guid: 38ff21cb1c0aa7948824c07952ea5291, type: 2}
-  panelLogBox: {fileID: 0}
-  panelCraft: {fileID: 0}
-  txtLogBox: {fileID: 0}
+  _creatureId: 0
   playerIsNear: 0
+  npcInfoDialog: {fileID: 0}
+  panelCraft: {fileID: 0}
   currentCraftState: 0
+--- !u!114 &6346512967680316314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7451988066396249393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c5b861a76cea05448401fdd95b8e57d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -5,6 +5,11 @@ public class NPCInfoDialogSO : ScriptableObject
 {
     [field: SerializeField] public string id { get; private set; }
 
+    public NPCInfoDialogSO(string id)
+    {
+        this.id = id;
+    }
+
     [Header("Dialogue Init")]
     public string[] init;
 
@@ -19,8 +24,7 @@ public class NPCInfoDialogSO : ScriptableObject
 
     private void OnValidate()
     {
-#if UNITY_EDITOR
-        id = this.name;
+#if UNITY_EDITOR        
         UnityEditor.EditorUtility.SetDirty(this);
 #endif
     }

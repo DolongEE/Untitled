@@ -13,7 +13,7 @@ public class QuestPoint : NPC
     [SerializeField] private bool finishPoint = true;
 
     private string questId;
-    private QuestStates currentQuestState;
+    [SerializeField] private QuestStates currentQuestState;
 
     private QuestIcon questIcon;
     private int logCount;
@@ -32,11 +32,13 @@ public class QuestPoint : NPC
     private void OnEnable()
     {
         Managers.EVENT.questEvents.onQuestStateChange += QuestStateChange;
+        Managers.EVENT.inputEvents.onToggleGPressed += TogglePressed;
     }
 
     private void OnDisable()
     {
         Managers.EVENT.questEvents.onQuestStateChange -= QuestStateChange;
+        Managers.EVENT.inputEvents.onToggleGPressed -= TogglePressed;
     }
 
     private void QuestStateChange(Quest quest)
@@ -48,7 +50,7 @@ public class QuestPoint : NPC
         }
     }
 
-    protected override void TogglePressed()
+    protected void TogglePressed()
     {
         if (playerIsNear == false)
             return;
@@ -75,6 +77,7 @@ public class QuestPoint : NPC
 
     protected override void Talking(string[] logs)
     {
+        PlayerOtherAction = true;
         if (logCount < logs.Length)
         {
             panelLogBox.SetActive(true);
@@ -91,14 +94,12 @@ public class QuestPoint : NPC
                 Managers.EVENT.questEvents.FinishQuest(questId);
             }
             logCount = 0;
+            PlayerOtherAction = false;
             panelLogBox.SetActive(false);
         }        
     }
     protected override void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            playerIsNear = false;
-        }
+        base.OnTriggerExit(other);
     }
 }

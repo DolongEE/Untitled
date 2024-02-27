@@ -2,17 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TutorialQuestStep : QuestStep
+public class TutorialQuestStep_2 : QuestStep
 {
-    private void OnEnable()
-    {
-        
-    }
-
-    private void OnDisable()
-    {
-        
-    }
 
     void Start()
     {
@@ -21,6 +12,9 @@ public class TutorialQuestStep : QuestStep
 
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            FinishedQuestStep();
+        }
     }
 }

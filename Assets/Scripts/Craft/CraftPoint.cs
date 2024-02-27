@@ -6,8 +6,9 @@ public class CraftPoint : NPC
 {
     [Header("Dialogue")]
     [SerializeField] private NPCInfoDialogSO npcInfoDialog;
-    [SerializeField] private GameObject panelCraft;
-    [SerializeField] private CraftStates currentCraftState;
+
+    private GameObject panelCraft;
+    private CraftStates currentCraftState;
 
     private bool isCrafting;
     private int logCount;
@@ -18,17 +19,23 @@ public class CraftPoint : NPC
             return false;
 
         panelCraft = GameObject.Find("CraftPanel");
+        Managers.EVENT.inputEvents.onEscPressed += OnCloseCraftWindow;
 
         return true;
     }
 
+    private void OnDisable()
+    {
+        Managers.EVENT.inputEvents.onEscPressed -= OnCloseCraftWindow;
+    }
+
     private void Start()
-    {        
+    {
         currentCraftState = CraftStates.NONE;
         panelCraft.SetActive(false);
     }
 
-    protected override void TogglePressed()
+    protected override void ToggleGPressed()
     {        
         if (isCrafting) return;
 
@@ -39,10 +46,11 @@ public class CraftPoint : NPC
         {
             switch (currentCraftState)
             {
-                case CraftStates.NONE:                    
+                case CraftStates.NONE:
                     currentCraftState = CraftStates.TALK;
                     break;
                 case CraftStates.TALK:
+                    PlayerOtherAction = true;
                     Talking(npcInfoDialog.init);
                     break;
             }
@@ -50,7 +58,7 @@ public class CraftPoint : NPC
     }
 
     protected override void Talking(string[] logs)
-    {        
+    {
         if (logCount < logs.Length)
         {
             panelLogBox.SetActive(true);
@@ -73,14 +81,20 @@ public class CraftPoint : NPC
         panelCraft.SetActive(true);
     }
 
+    private void OnCloseCraftWindow()
+    {
+        if (isCrafting == false)
+            return;
+
+        PlayerOtherAction = false;
+        isCrafting = false;
+        panelCraft.SetActive(false);
+        currentCraftState = CraftStates.NONE;
+    }
+
     protected override void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            playerIsNear = false;
-            isCrafting = false;
-            panelCraft.SetActive(playerIsNear);
-            currentCraftState = CraftStates.NONE;
-        }
+        base.OnTriggerExit(other);
+
     }
 }

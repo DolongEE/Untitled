@@ -1,7 +1,7 @@
 
 using UnityEngine.InputSystem;
 
-public class StartQuestStep : QuestStep
+public class TestQuestStep : QuestStep
 {
     public int pressed = 0;
     public int end = 5;

@@ -3,15 +3,6 @@ using System;
 
 public class InputEvents
 {
-    public event Action<Vector3> onMovePressed;
-    public void MovePressed(Vector3 moveDir)
-    {
-        if (onMovePressed != null)
-        {
-            onMovePressed(moveDir);
-        }
-    }
-
     public event Action onSubmitPressed;
     public void SubmitPressed()
     {
@@ -20,12 +11,21 @@ public class InputEvents
             onSubmitPressed();
         }
     }
-    public event Action onQuestLogTogglePressed;
-    public void QuestLogTogglePressed()
+    public event Action onToggleGPressed;
+    public void ToggleGPressed()
     {
-        if (onQuestLogTogglePressed != null) 
+        if (onToggleGPressed != null) 
         {
-            onQuestLogTogglePressed();
+            onToggleGPressed();            
+        }
+    }
+
+    public event Action onEscPressed;
+    public void EscPressed()
+    {
+        if (onEscPressed != null)
+        {
+            onEscPressed();
         }
     }
 }

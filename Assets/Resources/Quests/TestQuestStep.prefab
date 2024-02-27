@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7974775759013371453
+--- !u!1 &946765200413255547
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 463251424394238435}
-  - component: {fileID: -2359869358530687753}
+  - component: {fileID: 4982165221122779950}
+  - component: {fileID: -102584154665825038}
   m_Layer: 0
-  m_Name: TutorialQuestStep
+  m_Name: TestQuestStep
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &463251424394238435
+--- !u!4 &4982165221122779950
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7974775759013371453}
+  m_GameObject: {fileID: 946765200413255547}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -32,15 +32,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-2359869358530687753
+--- !u!114 &-102584154665825038
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7974775759013371453}
+  m_GameObject: {fileID: 946765200413255547}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6fb6b8d37da7b04db7fbb3525370922, type: 3}
+  m_Script: {fileID: 11500000, guid: b9ba29f4e4aa98d4f9f4ea0681fd6c79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pressed: 0
+  end: 5

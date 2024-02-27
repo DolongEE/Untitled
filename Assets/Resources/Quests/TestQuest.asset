@@ -10,11 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1559ebc5bdccb4408b070298f4b4b52, type: 3}
-  m_Name: StartQuest
+  m_Name: TestQuest
   m_EditorClassIdentifier: 
-  <id>k__BackingField: StartQuest
+  <id>k__BackingField: TestQuest
   displayName: Start Quest!
-  questLevelRequirement: 0
   questPrerequisites: []
   questStepPrefabs:
   - {fileID: 946765200413255547, guid: c5c6c21c9ba6636469e45f0aeca81c7a, type: 3}

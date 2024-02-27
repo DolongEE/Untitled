@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "QuestInfoSO", menuName = "ScriptableObjects/QuestInfoSO", order = 0)]
@@ -11,7 +9,6 @@ public class QuestInfoSO : ScriptableObject
     public string displayName;
 
     [Header("Requirements")]
-    public int questLevelRequirement;
     public QuestInfoSO[] questPrerequisites;
 
     [Header("Steps")]
@@ -19,7 +16,7 @@ public class QuestInfoSO : ScriptableObject
 
     [Header("Rewards")]
     public int goldReward = 0;
-    public string[] itemReward;
+    public ItemAmount[] itemReward;
 
     private void OnValidate()
     {

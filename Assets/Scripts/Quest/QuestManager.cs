@@ -10,7 +10,7 @@ public class QuestManager
     {
         get
         {
-            GameObject root = GameObject.Find("QuestPanel").GetComponentInChildren<VerticalLayoutGroup>().gameObject;
+            GameObject root = GameObject.Find("QuestList");
             Transform[] objects = root.GetComponentsInChildren<Transform>();
             GameObject newGameObject = null;
             bool isExist = false;
@@ -31,9 +31,6 @@ public class QuestManager
             return newGameObject;
         }
     }
-
-    [SerializeField]
-    private int currentQuestLevel;
 
     public void Init()
     {
@@ -61,8 +58,6 @@ public class QuestManager
         Managers.EVENT.questEvents.onStartQuest += StartQuest;
         Managers.EVENT.questEvents.onAdvanceQuest += AdvanceQuest;
         Managers.EVENT.questEvents.onFinishQuest += FinishQuest;
-
-        Managers.EVENT.questEvents.onQuestLevelChange += QuestLevelChange;
     }
 
     public void Clear()
@@ -70,8 +65,6 @@ public class QuestManager
         Managers.EVENT.questEvents.onStartQuest -= StartQuest;
         Managers.EVENT.questEvents.onAdvanceQuest -= AdvanceQuest;
         Managers.EVENT.questEvents.onFinishQuest -= FinishQuest;
-
-        Managers.EVENT.questEvents.onQuestLevelChange -= QuestLevelChange;
     }
 
     private void ChangeQuestState(string id, QuestStates state)
@@ -81,19 +74,9 @@ public class QuestManager
         Managers.EVENT.questEvents.QuestStateChange(quest);
     }
 
-    private void QuestLevelChange()
-    {
-        currentQuestLevel++;
-    }
-
     private bool CheckRequirementsMet(Quest quest)
     {
         bool meetsRequirements = true;
-
-        if (currentQuestLevel < quest.info.questLevelRequirement)
-        {
-            meetsRequirements = false;
-        }
 
         foreach (QuestInfoSO prerequisiteQuestInfo in quest.info.questPrerequisites)
         {
@@ -135,13 +118,12 @@ public class QuestManager
         Quest quest = GetQuestById(id);
         ClaimRewards(quest);
         ChangeQuestState(quest.info.id, QuestStates.FINISHED);
-        Managers.EVENT.questEvents.QuestLevelChange();
         Debug.Log($"Quest Finish : {quest.info.id}");
     }
 
     private void ClaimRewards(Quest quest)
     {
-        // TODO - 보상 추가        
+        // TODO - 보상 추가
         Debug.Log($"골드보상    : {quest.info.goldReward}");
     }
 

@@ -1,23 +1,43 @@
 
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 [RequireComponent(typeof(PlayerInput))]
 public class InputManager : MonoBehaviour
 {
-    public void SubmitPressed(InputAction.CallbackContext context)
+    [SerializeField] private PlayerInput playerInput;
+
+    private void OnValidate()
     {
+        playerInput = GetComponent<PlayerInput>();
+        playerInput.actionEvents[0].AddListener(SubmitPressed);
+        playerInput.actionEvents[1].AddListener(ToggleGPressed);
+        playerInput.actionEvents[2].AddListener(EscPressed);
+    } 
+
+    public void SubmitPressed(InputAction.CallbackContext context)
+    {        
         if (context.started)
         {
             Managers.EVENT.inputEvents.SubmitPressed();
         }
     }
 
-    public void QuestLogTogglePressed(InputAction.CallbackContext context)
+    public void ToggleGPressed(InputAction.CallbackContext context)
     {
         if (context.started)
         {
-            Managers.EVENT.inputEvents.QuestLogTogglePressed();
+            Managers.EVENT.inputEvents.ToggleGPressed();
+        }
+    }
+
+    public void EscPressed(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            Managers.EVENT.inputEvents.EscPressed();
         }
     }
 }

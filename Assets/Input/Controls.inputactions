@@ -15,9 +15,18 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "QuestLogToggle",
+                    "name": "ToggleG",
                     "type": "Button",
                     "id": "1ceac611-cc9c-48b5-a62b-633d5963c00d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Esc",
+                    "type": "Button",
+                    "id": "363b04aa-5c3f-4de8-96d3-5580944fcbe9",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -54,7 +63,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "QuestLogToggle",
+                    "action": "ToggleG",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c5be8040-0ade-4115-a5fd-364deb02195f",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Esc",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

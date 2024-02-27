@@ -49,11 +49,11 @@ public class PlayerAnimation : MonoBehaviour
     }
     private void OnEnable()
     {
-        Managers.EVENT.inputEvents.onQuestLogTogglePressed += TogglePressed;
+        Managers.EVENT.inputEvents.onToggleGPressed += TogglePressed;
     }
     private void OnDisable()
     {
-        Managers.EVENT.inputEvents.onQuestLogTogglePressed -= TogglePressed;
+        Managers.EVENT.inputEvents.onToggleGPressed -= TogglePressed;
     }
     private void TogglePressed()
     {

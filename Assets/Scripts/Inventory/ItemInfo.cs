@@ -23,11 +23,11 @@ public class ItemInfo : MonoBehaviour//, IObjectItem
 
     private void OnEnable()
     {
-        Managers.EVENT.inputEvents.onQuestLogTogglePressed += TogglePressed;
+        Managers.EVENT.inputEvents.onToggleGPressed += TogglePressed;
     }
     private void OnDisable()
     {
-        Managers.EVENT.inputEvents.onQuestLogTogglePressed -= TogglePressed;
+        Managers.EVENT.inputEvents.onToggleGPressed -= TogglePressed;
     }
 
     public void TogglePressed()

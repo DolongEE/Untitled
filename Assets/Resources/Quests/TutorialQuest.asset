@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: TutorialQuest
   m_EditorClassIdentifier: 
   <id>k__BackingField: TutorialQuest
-  displayName: 
-  questLevelRequirement: 0
+  displayName: "\uB4C0\uD1A0\uB9AC\uC5BC \uD018\uC2A4\uD2B8 - 1"
   questPrerequisites: []
   questStepPrefabs:
   - {fileID: 7974775759013371453, guid: cf9fcc37843e82d49ae3c08252eb1cbe, type: 3}
+  - {fileID: 7974775759013371453, guid: 40fdb74105e940a43acc91a1e8966e44, type: 3}
   goldReward: 0
   itemReward: []
