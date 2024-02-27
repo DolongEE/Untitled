@@ -85,7 +85,6 @@ public class PlayerAnimation : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.G) && isItemNear == true)
         {
             animator.SetTrigger("isPickUp");
-            ActivateHandCollider();
         }
     }
 
@@ -95,7 +94,10 @@ public class PlayerAnimation : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             animator.SetTrigger("isMining");
-            ActivateHandCollider();
+            if (PlayerStatus.Instance.playerEquipItem == false)
+                ActivateHandCollider();
+            else
+                DeactivateHandCollider();
         }
     }
 
@@ -104,7 +106,10 @@ public class PlayerAnimation : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             animator.SetTrigger("isAttack");
-            ActivateHandCollider();
+            if (PlayerStatus.Instance.playerEquipItem == false)
+                ActivateHandCollider();
+            else
+                DeactivateHandCollider();
         }
     }
 
