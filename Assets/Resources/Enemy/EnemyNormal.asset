@@ -15,8 +15,8 @@ MonoBehaviour:
   health: 100
   attackDamage: 5
   moveSpeed: 2
-  viewAngle: 71
-  viewRadius: 15
+  viewAngle: 60
+  viewRadius: 5
   targetMask:
     serializedVersion: 2
     m_Bits: 2147483648
@@ -27,5 +27,5 @@ MonoBehaviour:
   waypointDelay: 4
   alertDelay: 5
   missTargetTime: 3
-  attackRange: 5
+  attackRange: 1
   attackDelay: 5

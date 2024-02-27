@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d4e371d88de017744afe6966f4d0d668, type: 3}
-  m_Name: Craft
+  m_Name: InitNPC
   m_EditorClassIdentifier: 
-  <id>k__BackingField: Craft
+  <id>k__BackingField: 
   init:
-  - "\uC5B4\uC11C\uC624\uAC8C\uB098"
+  - "\uBB34\uC2A8 \uC77C\uC774\uC2E0\uAC00\uC694?"
   progress: []
   reward: []
   end: []

@@ -1,8 +1,5 @@
-
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Windows;
 
 [RequireComponent(typeof(PlayerInput))]
 public class InputManager : MonoBehaviour

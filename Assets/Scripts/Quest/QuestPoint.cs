@@ -1,8 +1,6 @@
-
-using TMPro;
 using UnityEngine;
 
-public class QuestPoint : NPC
+public class QuestPoint : MonoBehaviour
 {
     [Header("Quest")]
     [SerializeField] private QuestInfoSO questInfoQuest;
@@ -12,33 +10,31 @@ public class QuestPoint : NPC
     [SerializeField] private bool startPoint = true;
     [SerializeField] private bool finishPoint = true;
 
-    private string questId;
-    [SerializeField] private QuestStates currentQuestState;
-
+    private NPC npc;
     private QuestIcon questIcon;
+    private string questId;
+    [HideInInspector] public QuestStates currentQuestState;
+    [HideInInspector] public bool isQuestTalk;
+
     private int logCount;
-
-    protected override bool Init()
+    
+    private void Awake()
     {
-        if (base.Init() == false)
-            return false;
-
+        npc = GetComponent<NPC>();
         questId = questInfoQuest.id;
-        questIcon = GetComponentInChildren<QuestIcon>();
-
-        return true;
+        questIcon = npc.questIcon.GetComponent<QuestIcon>();
     }
 
     private void OnEnable()
     {
         Managers.EVENT.questEvents.onQuestStateChange += QuestStateChange;
-        Managers.EVENT.inputEvents.onToggleGPressed += TogglePressed;
+        Managers.EVENT.inputEvents.onToggleGPressed += ToggleGPressed;
     }
 
     private void OnDisable()
     {
         Managers.EVENT.questEvents.onQuestStateChange -= QuestStateChange;
-        Managers.EVENT.inputEvents.onToggleGPressed -= TogglePressed;
+        Managers.EVENT.inputEvents.onToggleGPressed -= ToggleGPressed;
     }
 
     private void QuestStateChange(Quest quest)
@@ -50,9 +46,9 @@ public class QuestPoint : NPC
         }
     }
 
-    protected void TogglePressed()
+    private void ToggleGPressed()
     {
-        if (playerIsNear == false)
+        if (npc.playerIsNear == false || isQuestTalk == false)
             return;
 
         if (npcInfoDialog != null)
@@ -75,13 +71,12 @@ public class QuestPoint : NPC
         }
     }
 
-    protected override void Talking(string[] logs)
+    public void Talking(string[] logs)
     {
-        PlayerOtherAction = true;
         if (logCount < logs.Length)
         {
-            panelLogBox.SetActive(true);
-            txtLogBox.text = logs[logCount++];
+            npc.panelLogBox.SetActive(true);
+            npc.txtLogBox.text = logs[logCount++];
         }
         else
         {
@@ -94,12 +89,10 @@ public class QuestPoint : NPC
                 Managers.EVENT.questEvents.FinishQuest(questId);
             }
             logCount = 0;
-            PlayerOtherAction = false;
-            panelLogBox.SetActive(false);
-        }        
-    }
-    protected override void OnTriggerExit(Collider other)
-    {
-        base.OnTriggerExit(other);
+            isQuestTalk = false;
+            npc.PlayerOtherAction = false;
+            npc.panelLogBoxButtons.SetActive(true);
+            npc.panelLogBox.SetActive(false);
+        }
     }
 }

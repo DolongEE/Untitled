@@ -17,11 +17,7 @@ public class EnemyController : Creature
         if (base.Init() == false)
             return false;
 
-        CreatureType = CreatureType.Enemy;
-        Managers.EVENT.creatureEvents.CreatureCreate(this);
-
         player = GameObject.FindWithTag("Player");
-
         _health.SetHealth(monsterInfo.health);
 
         return true;

@@ -3,13 +3,6 @@ using UnityEngine;
 [RequireComponent(typeof(Health))]
 public class Creature : MonoBehaviour
 {
-    private CreatureType _creatureType;
-    [Header("Creature ID")]
-    [SerializeField] private int _creatureId;
-
-    public CreatureType CreatureType { get { return _creatureType; } set { _creatureType = value; } }    
-    public int CreatureID { get { return _creatureId; } set { _creatureId = value; } }
-
     protected Health _health;
     protected Animator _animator;
     protected Rigidbody _rigidbody;
