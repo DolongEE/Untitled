@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class CraftPoint : MonoBehaviour
 {
-    private GameObject panelCraft;
     [HideInInspector] public bool isCrafting;
 
     private NPC npc;
@@ -10,7 +9,6 @@ public class CraftPoint : MonoBehaviour
     private void Awake()
     {
         npc = GetComponent<NPC>();
-        panelCraft = npc.panelCraft;
         Managers.EVENT.inputEvents.onEscPressed += OnCloseCraftWindow;
     }
 
@@ -22,7 +20,7 @@ public class CraftPoint : MonoBehaviour
     public void OpenCraftWindow()
     {
         isCrafting = true;
-        panelCraft.SetActive(true);
+        npc.panelCraft.SetActive(true);
     }
 
     private void OnCloseCraftWindow()
@@ -31,7 +29,7 @@ public class CraftPoint : MonoBehaviour
             return;
 
         isCrafting = false;
-        panelCraft.SetActive(false);
+        npc.panelCraft.SetActive(false);
         npc.PlayerOtherAction = false;
     }
 }

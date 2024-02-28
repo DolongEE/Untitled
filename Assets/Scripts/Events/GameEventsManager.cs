@@ -8,5 +8,6 @@ public class GameEventsManager
     {
         inputEvents = new InputEvents();
         questEvents = new QuestEvents();
+
     }
 }

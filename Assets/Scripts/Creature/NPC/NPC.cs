@@ -38,28 +38,29 @@ public class NPC : Creature
         craft = GetComponent<CraftPoint>();
         quest.enabled = useQuest;
         craft.enabled = useCrafting;
-    }
+    }    
 
     protected override bool Init()
     {
         if (base.Init() == false)
             return false;
 
-        panelCraft = GameObject.Find("CraftPanel");
-        panelLogBox = GameObject.Find("LogBoxPanel");
-        panelLogBoxButtons = GameObject.Find("LogBoxButtons");
-        questIcon = GetComponentInChildren<QuestIcon>().gameObject;
+        panelLogBox = Managers.CANVAS.panelLogBox;
+        panelLogBoxButtons = Managers.CANVAS.panelLogBoxButtons;
+        txtLogBox = Managers.CANVAS.txtLogBox;        
+        panelCraft = Managers.CANVAS.panelCraft;
+        btnQuestTalk = Managers.CANVAS.btnQuestTalk;
+        btnCraftOpen = Managers.CANVAS.btnCraftOpen;
 
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        txtLogBox = panelLogBox.GetComponentInChildren<TextMeshProUGUI>();
-        btnQuestTalk = GameObject.Find("btnQuestTalk").GetComponent<Button>();
-        btnCraftOpen = GameObject.Find("btnCraftOpen").GetComponent<Button>();
+
         btnQuestTalk.onClick.AddListener(OnClickQuestTalk);
-        btnCraftOpen.onClick.AddListener(OnClickCraftOpen);
-        btnCraftOpen.gameObject.SetActive(useCrafting);
+        btnCraftOpen.onClick.AddListener(OnClickCraftOpen);        
         btnQuestTalk.gameObject.SetActive(useQuest);
+        btnCraftOpen.gameObject.SetActive(useCrafting);
+
+        questIcon = GetComponentInChildren<QuestIcon>().gameObject;
         questIcon.SetActive(useQuest);
-        panelCraft.SetActive(false);
 
         _health.SetHealth(100);
 
@@ -112,6 +113,7 @@ public class NPC : Creature
     {
         panelLogBoxButtons.SetActive(false);
         quest.isQuestTalk = true;
+        Managers.EVENT.inputEvents.ToggleGPressed();
     }
 
     public void OnClickCraftOpen()
