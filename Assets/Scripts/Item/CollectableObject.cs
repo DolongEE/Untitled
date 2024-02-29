@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CollectableObject : MonoBehaviour
 {
-
     public virtual IEnumerator Damage(Transform playerTransform)
     {
         yield return null;

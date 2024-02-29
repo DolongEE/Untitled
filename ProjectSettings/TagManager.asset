@@ -9,6 +9,8 @@ TagManager:
   - NPC
   - Hand
   - Collectable
+  - Rock
+  - Branch
   layers:
   - Default
   - TransparentFX
@@ -45,4 +47,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Top
+    uniqueID: 2323502773
     locked: 0

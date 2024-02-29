@@ -65,7 +65,7 @@ public class InventoryManager
                 weapon.GetComponent<BoxCollider>().center = new Vector3(0f, 0.85f, 0f);
                 weapon.GetComponent<BoxCollider>().size = new Vector3(0.2f, 2.3f, 0.2f);
                 weapon.GetComponent<ItemInfo>().enabled = false;
-
+                
                 Managers.INVENTORY.toolTip.HideTooltip2D();
                 PlayerStatus.Instance.EquipItem(_item);
                 copy.Equip();

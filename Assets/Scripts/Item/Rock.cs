@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Rock : CollectableObject
 {
-    [SerializeField] Health health;
-    [SerializeField] private int hp;
-    [SerializeField] private GameObject little_Gravel;
+    private Health health;
+    private int hp;
+    public GameObject little_Gravel;
+    public GameObject damageTextPrefab;
 
     private Vector3 originRot;
     private Vector3 wantedRot;
@@ -23,15 +24,30 @@ public class Rock : CollectableObject
         originRot = transform.rotation.eulerAngles;
         currentRot = originRot;
     }
+    public void ShowDamageText(Vector3 position, string damage)
+    {
+        if(hp > 0)
+        {
+            GameObject damageText = Instantiate(damageTextPrefab, position, Quaternion.identity);
+            DamageTextUI damageTextUI = damageText.GetComponent<DamageTextUI>();
+
+            if (damageTextUI != null)
+            {
+                damageTextUI.SetText(damage);
+            }
+        }
+    }
 
     public override IEnumerator Damage(Transform playerTransform)
     {
         isDamaged = true;
         float delay = 1.0f;
 
-        StartCoroutine(HitSwayCoroutine(playerTransform));
         health.TakeDamage(this.gameObject, PlayerStatus.Instance.totalDamage);
         hp = (int)health.GetHealth();
+
+        StartCoroutine(HitSwayCoroutine(playerTransform));
+        ShowDamageText(transform.position + new Vector3(0f, 1.5f, 0f), PlayerStatus.Instance.totalDamage.ToString());
 
         if (hp <= 0)
             Destruction();
@@ -79,28 +95,28 @@ public class Rock : CollectableObject
         if (rotationDir.y > 180)
         {
             if (rotationDir.y > 300)
-                wantedRot = new Vector3(-20f, 0, -20f);
+                wantedRot = new Vector3(-10f, 0, -10f);
             else if (rotationDir.y > 240)
-                wantedRot = new Vector3(0f, 0f, -20f);
+                wantedRot = new Vector3(0f, 0f, -10f);
             else
-                wantedRot = new Vector3(20f, 0f, -20f);
+                wantedRot = new Vector3(10f, 0f, -10f);
         }
         else if (rotationDir.y <= 180)
         {
             if (rotationDir.y < 60)
-                wantedRot = new Vector3(-20f, 0f, 20f);
+                wantedRot = new Vector3(-10f, 0f, 10f);
             else if (rotationDir.y > 120)
-                wantedRot = new Vector3(0f, 0f, 20f);
+                wantedRot = new Vector3(0f, 0f, 10f);
             else
-                wantedRot = new Vector3(20f, 0f, 20f);
+                wantedRot = new Vector3(10f, 0f, 10f);
         }
     }
 
     public override void Destruction()
     {
-        GameObject littleGravel1 = Instantiate(little_Gravel, gameObject.transform.position + new Vector3(0.2f, 0f, 0f),
+        GameObject littleGravel1 = Instantiate(little_Gravel, gameObject.transform.position + new Vector3(0.3f, 0f, 0f),
             Quaternion.identity);
-        GameObject littleGravel2 = Instantiate(little_Gravel, gameObject.transform.position + new Vector3(-0.2f, 0f, 0f),
+        GameObject littleGravel2 = Instantiate(little_Gravel, gameObject.transform.position + new Vector3(-0.3f, 0f, 0f),
             Quaternion.identity);
 
         littleGravel1.GetComponent<BoxCollider>().isTrigger = true;

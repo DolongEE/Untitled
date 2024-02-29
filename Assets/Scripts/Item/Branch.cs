@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Branch : CollectableObject
 {
-    [SerializeField] Health health;
-    [SerializeField] private int hp;
-    [SerializeField] private GameObject little_Twig;
+    private Health health;
+    private int hp;
+    public GameObject little_Twig;
+    public GameObject damageTextPrefab;
 
     private Vector3 originRot;
     private Vector3 wantedRot;
@@ -24,15 +25,31 @@ public class Branch : CollectableObject
         currentRot = originRot;
     }
 
+    public void ShowDamageText(Vector3 position, string damage)
+    {
+        if (hp > 0)
+        {
+            GameObject damageText = Instantiate(damageTextPrefab, position, Quaternion.identity);
+            DamageTextUI damageTextUI = damageText.GetComponent<DamageTextUI>();
+
+            if (damageTextUI != null)
+            {
+                damageTextUI.SetText(damage);
+            }
+        }
+    }
+
     public override IEnumerator Damage(Transform playerTransform)
     {
         isDamaged = true;
         float delay = 1.0f;
 
-        StartCoroutine(HitSwayCoroutine(playerTransform));
         //플레이어의 데미지에 따라 달라짐.
         health.TakeDamage(this.gameObject, PlayerStatus.Instance.totalDamage);
         hp = (int)health.GetHealth();
+
+        StartCoroutine(HitSwayCoroutine(playerTransform));
+        ShowDamageText(transform.position + new Vector3(0f, 1.5f, 0f), PlayerStatus.Instance.totalDamage.ToString());
 
         if (hp <= 0)
             Destruction();
@@ -82,28 +99,28 @@ public class Branch : CollectableObject
         if (rotationDir.y > 180)
         {
             if (rotationDir.y > 300)
-                wantedRot = new Vector3(-50f, 0, -50f);
+                wantedRot = new Vector3(-30f, 0, -30f);
             else if (rotationDir.y > 240)
-                wantedRot = new Vector3(0f, 0f, -50f);
+                wantedRot = new Vector3(0f, 0f, -30f);
             else
-                wantedRot = new Vector3(50f, 0f, -50f);
+                wantedRot = new Vector3(30f, 0f, -30f);
         }
         else if (rotationDir.y <= 180)
         {
             if (rotationDir.y < 60)
-                wantedRot = new Vector3(-50f, 0f, 50f);
+                wantedRot = new Vector3(-30f, 0f, 30f);
             else if (rotationDir.y > 120)
-                wantedRot = new Vector3(0f, 0f, 50f);
+                wantedRot = new Vector3(0f, 0f, 30f);
             else
-                wantedRot = new Vector3(50f, 0f, 50f);
+                wantedRot = new Vector3(30f, 0f, 30f);
         }
     }
 
     public override void Destruction()
     {
-        GameObject littleTwig1 = Instantiate(little_Twig, gameObject.transform.position + new Vector3(0.2f, 0f, 0f),
+        GameObject littleTwig1 = Instantiate(little_Twig, gameObject.transform.position + new Vector3(0.25f, 0f, 0f),
             Quaternion.identity);
-        GameObject littleTwig2 = Instantiate(little_Twig, gameObject.transform.position + new Vector3(-0.2f, 0f, 0f),
+        GameObject littleTwig2 = Instantiate(little_Twig, gameObject.transform.position + new Vector3(-0.25f, 0f, 0f),
             Quaternion.identity);
 
         littleTwig1.GetComponent<BoxCollider>().isTrigger = true;
