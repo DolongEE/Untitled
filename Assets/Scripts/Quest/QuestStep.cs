@@ -1,13 +1,18 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class QuestStep : MonoBehaviour
 {
-    private bool isFinished = false;
-    private string _questId;
+    public QuestUI _questUI;
+    protected string description;
 
-    public void InitializeQuestStep(string questId)
+    private bool isFinished = false;
+    private string _questId;   
+
+    public void InitializeQuestStep(string questId, QuestUI questUI)
     {
         _questId = questId;
+        _questUI = questUI;
     }
 
     protected void FinishedQuestStep()
@@ -19,4 +24,6 @@ public abstract class QuestStep : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    public abstract string UpdateDescription();    
 }

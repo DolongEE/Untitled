@@ -93,6 +93,7 @@ public class QuestPoint : MonoBehaviour
             npc.PlayerOtherAction = false;
             npc.panelLogBoxButtons.SetActive(true);
             npc.panelLogBox.SetActive(false);
+            npc.TalkToggleAdd();
         }
     }
 }

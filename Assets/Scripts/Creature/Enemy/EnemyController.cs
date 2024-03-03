@@ -23,7 +23,7 @@ public class EnemyController : Creature
         return true;
     }    
 
-    protected override void OnFixedUpdate()
+    protected override void OnUpdate()
     {
         
     }

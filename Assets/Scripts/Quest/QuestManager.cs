@@ -92,7 +92,7 @@ public class QuestManager
     private void StartQuest(string id)
     {
         Quest quest = GetQuestById(id);
-        quest.InstantiateCurrentQuestStep(QuestRoot.transform);
+        quest.InstantiateCurrentQuestStep(QuestRoot.transform);        
         ChangeQuestState(quest.info.id, QuestStates.IN_PROGRESS);
         Debug.Log($"Quest Start : {quest.info.id}");
     }

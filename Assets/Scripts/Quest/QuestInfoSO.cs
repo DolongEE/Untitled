@@ -18,9 +18,6 @@ public class QuestInfoSO : ScriptableObject
     public int goldReward = 0;
     public ItemAmount[] itemReward;
 
-    [Header("Description")]
-    public string description;
-
     private void OnValidate()
     {
 #if UNITY_EDITOR

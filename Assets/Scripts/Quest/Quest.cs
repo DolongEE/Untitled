@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 public class Quest
@@ -26,11 +27,14 @@ public class Quest
     public void InstantiateCurrentQuestStep(Transform parentTransform)
     {
         GameObject questStepPrefab = GetCurrentQuestStepPrefab();
+        GameObject questUIPrefab = Resources.Load<GameObject>("Quests/QuestUI");
         if (questStepPrefab != null)
         {
-            QuestStep questStep = Object.Instantiate(questStepPrefab, parentTransform)
-                .GetComponent<QuestStep>();
-            questStep.InitializeQuestStep(info.id);
+            QuestStep questStep = Object.Instantiate(questStepPrefab, parentTransform).GetComponent<QuestStep>();
+            QuestUI questUI = Object.Instantiate(questUIPrefab, Managers.CANVAS.panelQuestContent.transform).GetComponent<QuestUI>();
+            questStep.InitializeQuestStep(info.id, questUI);
+            questUI.questName.text = info.displayName;
+            questUI.questDescription.text = questStep.UpdateDescription();
         }
     }
 

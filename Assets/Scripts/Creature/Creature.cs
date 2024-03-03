@@ -21,16 +21,17 @@ public class Creature : MonoBehaviour
     private void Awake()
     {
         Init();
+        Debug.Log(_health);
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        if (_health.IsDead()) return;
+        //if (_health.IsDead()) return;
 
-        OnFixedUpdate();
+        OnUpdate();
     }
 
-    protected virtual void OnFixedUpdate()
+    protected virtual void OnUpdate()
     {
         
     }

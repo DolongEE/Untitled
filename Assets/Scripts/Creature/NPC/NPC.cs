@@ -9,9 +9,7 @@ public class NPC : Creature
 {
     [SerializeField] private NPCInfoDialogSO dialogue;
     [SerializeField] private bool useCrafting;
-    [SerializeField] private bool useQuest;    
-    private CraftPoint craft;
-    private QuestPoint quest;
+    [SerializeField] private bool useQuest;
 
     [HideInInspector] public GameObject panelLogBox;
     [HideInInspector] public GameObject panelLogBoxButtons;
@@ -25,6 +23,9 @@ public class NPC : Creature
     private Button btnCraftOpen;
     private int logCount;
 
+    private CraftPoint craft;
+    private QuestPoint quest;
+
     public bool PlayerOtherAction
     {
         set
@@ -33,51 +34,56 @@ public class NPC : Creature
         }
     }
     private void OnValidate()
-    {        
+    {
         quest = GetComponent<QuestPoint>();
         craft = GetComponent<CraftPoint>();
         quest.enabled = useQuest;
         craft.enabled = useCrafting;
-    }    
 
-    protected override bool Init()
+        Transform canvas = transform.Find("NPC_Canvas");
+        panelLogBox = canvas.Find("LogBoxPanel").gameObject;
+        panelLogBoxButtons = panelLogBox.transform.Find("LogBoxButtons").gameObject;
+        txtLogBox = panelLogBox.transform.Find("txtLogBox").GetComponent<TextMeshProUGUI>();
+        btnQuestTalk = panelLogBoxButtons.transform.Find("btnQuestTalk").GetComponent<Button>();
+        btnCraftOpen = panelLogBoxButtons.transform.Find("btnCraftOpen").GetComponent<Button>();
+    }
+
+    private void Awake()
     {
-        if (base.Init() == false)
-            return false;
-
-        panelLogBox = Managers.CANVAS.panelLogBox;
-        panelLogBoxButtons = Managers.CANVAS.panelLogBoxButtons;
-        txtLogBox = Managers.CANVAS.txtLogBox;        
         panelCraft = Managers.CANVAS.panelCraft;
-        btnQuestTalk = Managers.CANVAS.btnQuestTalk;
-        btnCraftOpen = Managers.CANVAS.btnCraftOpen;
-
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
 
         btnQuestTalk.onClick.AddListener(OnClickQuestTalk);
-        btnCraftOpen.onClick.AddListener(OnClickCraftOpen);        
+        btnCraftOpen.onClick.AddListener(OnClickCraftOpen);
         btnQuestTalk.gameObject.SetActive(useQuest);
         btnCraftOpen.gameObject.SetActive(useCrafting);
 
         questIcon = GetComponentInChildren<QuestIcon>().gameObject;
         questIcon.SetActive(useQuest);
 
-        _health.SetHealth(100);
-
         panelLogBoxButtons.SetActive(false);
         panelLogBox.SetActive(false);
+    }
+
+    protected override bool Init()
+    {
+        if (base.Init() == false)
+            return false;
+
+        _health.SetHealth(100f);
+
 
         return true;
     }
 
     private void OnEnable()
     {
-        Managers.EVENT.inputEvents.onToggleGPressed += ToggleGPressed;
+        TalkToggleAdd();
     }
 
     private void OnDisable()
     {
-        Managers.EVENT.inputEvents.onToggleGPressed -= ToggleGPressed;
+        TalkToggleRemove();
     }
 
     private void ToggleGPressed()
@@ -113,6 +119,7 @@ public class NPC : Creature
     {
         panelLogBoxButtons.SetActive(false);
         quest.isQuestTalk = true;
+        TalkToggleRemove();
         Managers.EVENT.inputEvents.ToggleGPressed();
     }
 
@@ -136,5 +143,14 @@ public class NPC : Creature
         {
             playerIsNear = false;
         }
+    }
+
+    public void TalkToggleAdd()
+    {
+        Managers.EVENT.inputEvents.onToggleGPressed += ToggleGPressed;
+    }
+    public void TalkToggleRemove()
+    {
+        Managers.EVENT.inputEvents.onToggleGPressed -= ToggleGPressed;
     }
 }

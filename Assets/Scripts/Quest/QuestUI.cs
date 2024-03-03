@@ -3,9 +3,9 @@ using TMPro;
 using UnityEngine;
 
 public class QuestUI : MonoBehaviour
-{
-    [SerializeField] private TextMeshProUGUI questName;
-    [SerializeField] private TextMeshProUGUI questDescription;
+{    
+    [SerializeField] public TextMeshProUGUI questName;
+    [SerializeField] public TextMeshProUGUI questDescription;
 
     private void Awake()
     {

@@ -75,7 +75,7 @@ public class EnemyNormal : EnemyController
         return true;
     }
 
-    protected override void OnFixedUpdate()
+    protected override void OnUpdate()
     {
         if (lastEnemyState != EnemyNormalState.MISSTARGET) timeSinceMissTarget = 0;
         PatrolDetect();

@@ -46,7 +46,7 @@ public class EnemyBoss : EnemyController
         return true;
     }
 
-    protected override void OnFixedUpdate()
+    protected override void OnUpdate()
     {
         switch (lastEnemyState)
         {
