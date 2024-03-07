@@ -5,26 +5,16 @@ public class TutorialQuestStep_2 : QuestStep
     private bool isQuest;
     private bool isInven;
 
-    private GameObject door_1;
+    private GameObject door_2;
 
     private void Awake()
     {
-        door_1 = GameObject.Find("Door_1");
+        door_2 = GameObject.Find("Door_2");
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && isQuest == false)
-        {
-            isQuest = true;
-            _questUI.questDescription.text = UpdateDescription();
-        }
-        else if (Input.GetKeyUp(KeyCode.I) && isInven == false)
-        {
-            isInven = true;
-            _questUI.questDescription.text = UpdateDescription();
-        }
-        else if (isQuest && isInven)
+
         {
             FinishedQuestStep();            
         }
@@ -40,6 +30,6 @@ public class TutorialQuestStep_2 : QuestStep
 
     private void OnDisable()
     {        
-        door_1.SetActive(false);
+        door_2.SetActive(false);
     }
 }
