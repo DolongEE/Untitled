@@ -17,7 +17,12 @@ public class Health : MonoBehaviour
     public void SetHealth(float health)
     {
         _health = health;
-        _maxHealth = health;
+    }
+
+    public void SetHealth(float health, float maxHealth)
+    {
+        _health = health;
+        _maxHealth = maxHealth;
     }
 
     //데미지 계산

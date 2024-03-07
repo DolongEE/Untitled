@@ -20,16 +20,14 @@ public class PlayerStatus : MonoBehaviour
     public int baseDamage = 10;
     public int baseDefense = 5;
 
-    public float totalHp;
-    public int totalDamage;
-    public int totalDefense;
+    public float maxHp;
 
-    public bool playerEquipItem;
+    public bool isPlayerEquip;
 
     private void Awake()
     {
         Instance = this;
-        
+
         health = GetComponent<Health>();
         GameObject statBag = GameObject.Find("statBag");
 
@@ -39,7 +37,7 @@ public class PlayerStatus : MonoBehaviour
         playerHealthbar = GameObject.Find("playerHealthBar").GetComponent<Image>();
         playerStaminabar = GameObject.Find("playerStaminaBar").GetComponent<Image>();
 
-        playerEquipItem = false;
+        isPlayerEquip = false;
     }
 
     private void Start()
@@ -48,9 +46,10 @@ public class PlayerStatus : MonoBehaviour
 
         playerHealthbar.fillAmount = health.GetPercentage();
 
-        totalHp = baseHp;
-        totalDamage = baseDamage;
-        totalDefense = baseDefense;
+        baseHp = 100;
+        baseDamage = 10;
+        baseDefense = 5;
+        maxHp = baseHp;
 
         LinkedStatus();
     }
@@ -74,40 +73,33 @@ public class PlayerStatus : MonoBehaviour
 
     public void EquipItem(EquippableItem eItem)
     {
-        totalHp += eItem.hp;
-        health.SetHealth(totalHp);
+        maxHp += eItem.hp;
+        health.SetHealth(baseHp, maxHp);
 
-        totalDamage += eItem.damage;
-        totalDefense += eItem.defense;
-        playerEquipItem = true;
+        baseDamage += eItem.damage;
+        baseDefense += eItem.defense;
+        isPlayerEquip = true;
         UpdateUI();
     }
 
     // 장비를 해제하는 함수
     public void UnequipItem(EquippableItem eItem)
     {
-        totalHp -= eItem.hp;
-        health.SetHealth(totalHp);
+        maxHp -= eItem.hp;
+        health.SetHealth(baseHp, maxHp);
 
-        totalDamage -= eItem.damage;
-        totalDefense -= eItem.defense;
-        playerEquipItem = false;
+        baseDamage -= eItem.damage;
+        baseDefense -= eItem.defense;
+        isPlayerEquip = false;
         UpdateUI();
     }
 
     public void UseItem(UsableItem _item)
     {
-        if(totalHp < 100)
+        baseHp += _item.heal;
+        if (baseHp >= maxHp)
         {
-            totalHp += _item.heal;
-            if(totalHp > 100)
-            {
-                totalHp = 100;
-            }
-        }
-        else
-        {
-            Debug.Log("최대 체력이상입니다.");
+            baseHp = maxHp;
         }
         UpdateUI();
     }
@@ -116,7 +108,7 @@ public class PlayerStatus : MonoBehaviour
     public void UpdateUI()
     {
         // 여기에 UI 업데이트 코드 추가
-        totalHp = health.GetHealth();
+        baseHp = health.GetHealth();
         playerHealthbar.fillAmount = health.GetPercentage() / 100;
 
         LinkedStatus();
@@ -124,9 +116,9 @@ public class PlayerStatus : MonoBehaviour
 
     private void LinkedStatus()
     {
-        playerHp.text = "체  력 : " + totalHp.ToString();
-        playerDamage.text = "공격력 : " + totalDamage.ToString();
-        playerDefense.text = "방어력 : " + totalDefense.ToString();
+        playerHp.text = "체  력 : " + baseHp.ToString();
+        playerDamage.text = "공격력 : " + baseDamage.ToString();
+        playerDefense.text = "방어력 : " + baseDefense.ToString();
     }
     private void OnTriggerEnter(Collider col)
     {

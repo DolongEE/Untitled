@@ -34,8 +34,6 @@ public class Managers : MonoBehaviour
     {
         s_quest.Update();
         s_inventory.Update();
-
-        Debug.Log(otherAction);
     }
 
     private void OnEnable()

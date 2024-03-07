@@ -27,15 +27,12 @@ public class Branch : CollectableObject
 
     public void ShowDamageText(Vector3 position, string damage)
     {
-        if (hp > 0)
-        {
-            GameObject damageText = Instantiate(damageTextPrefab, position, Quaternion.identity);
-            DamageTextUI damageTextUI = damageText.GetComponent<DamageTextUI>();
+        GameObject damageText = Instantiate(damageTextPrefab, position, Quaternion.identity);
+        DamageTextUI damageTextUI = damageText.GetComponent<DamageTextUI>();
 
-            if (damageTextUI != null)
-            {
-                damageTextUI.SetText(damage);
-            }
+        if (damageTextUI != null)
+        {
+            damageTextUI.SetText(damage);
         }
     }
 
@@ -45,11 +42,11 @@ public class Branch : CollectableObject
         float delay = 1.0f;
 
         //플레이어의 데미지에 따라 달라짐.
-        health.TakeDamage(this.gameObject, PlayerStatus.Instance.totalDamage);
+        health.TakeDamage(this.gameObject, PlayerStatus.Instance.baseDamage);
         hp = (int)health.GetHealth();
 
         StartCoroutine(HitSwayCoroutine(playerTransform));
-        ShowDamageText(transform.position + new Vector3(0f, 1.5f, 0f), PlayerStatus.Instance.totalDamage.ToString());
+        ShowDamageText(transform.position + new Vector3(0f, 1.5f, 0f), PlayerStatus.Instance.baseDamage.ToString());
 
         if (hp <= 0)
             Destruction();
@@ -77,7 +74,7 @@ public class Branch : CollectableObject
 
         wantedRot = originRot;
 
-        while(!CheckThreadhold())
+        while (!CheckThreadhold())
         {
             currentRot = Vector3.Lerp(currentRot, wantedRot, 0.15f);
             transform.rotation = Quaternion.Euler(currentRot);

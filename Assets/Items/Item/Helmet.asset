@@ -21,7 +21,7 @@ MonoBehaviour:
   itemPrefab: {fileID: 414541165433859319, guid: d603cf34a692ed94b9ff392949a9e3e3, type: 3}
   isItemStackable: 0
   isEquipped: 0
-  hp: 5
+  hp: 50
   damage: 2
   defense: 20
   wItemType: 1

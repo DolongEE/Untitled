@@ -7,21 +7,26 @@ public class PlayerAnimation : MonoBehaviour
 {
     private Animator animator;
     [SerializeField] private BoxCollider playerLeftHand;
+    [SerializeField] private GameObject playerRightHand;
     [SerializeField] private CapsuleCollider playerLeftWeapon;
+    [SerializeField] private CapsuleCollider playerRightTool;
 
     public bool isItemNear = false;
+    public string tag = null;
 
     void Start()
     {
         animator = GetComponentInChildren<Animator>();
-        playerLeftHand = GameObject.Find("Left Weapon Arm").GetComponent<BoxCollider>();
-        
-        foreach(var animationClip in animator.runtimeAnimatorController.animationClips)
-        {            
-            if(animationClip.isLooping == false)
+        playerLeftHand = GameObject.Find("Left Weapon Hand").GetComponent<BoxCollider>();
+        playerRightHand = GameObject.Find("Right Tool Hand");
+        playerLeftHand.enabled = false;
+
+        foreach (var animationClip in animator.runtimeAnimatorController.animationClips)
+        {
+            if (animationClip.isLooping == false)
             {
                 AddAnimationEvents(animationClip);
-            }            
+            }
         }
     }
 
@@ -66,10 +71,8 @@ public class PlayerAnimation : MonoBehaviour
         if (EventSystem.current.IsPointerOverGameObject())
             return;
 
-        if (PlayerStatus.Instance.playerEquipItem == true)
-            Attack();
-        else
-            Mining();
+        Mining();
+        Attack();
     }
 
     private void AddAnimationEvents(AnimationClip clip)
@@ -102,7 +105,7 @@ public class PlayerAnimation : MonoBehaviour
 
     private void OtherActionStart()
     {
-        Managers.otherAction = true;        
+        Managers.otherAction = true;
     }
 
     private void OtherActionEnd()
@@ -112,10 +115,7 @@ public class PlayerAnimation : MonoBehaviour
 
     private void EquipColliderOn()
     {
-        if (PlayerStatus.Instance.playerEquipItem == false)
-            ActivateHandCollider();
-        else
-            DeactivateHandCollider();
+        ColliderActivate(PlayerStatus.Instance.isPlayerEquip);
     }
 
     private void EquipColliderOff()
@@ -125,13 +125,18 @@ public class PlayerAnimation : MonoBehaviour
             playerLeftWeapon = playerLeftHand.gameObject.transform.GetChild(0).GetComponentInChildren<CapsuleCollider>();
             playerLeftWeapon.enabled = false;
         }
+        if (playerRightHand.transform.childCount > 0)
+        {
+            playerRightTool = playerRightHand.gameObject.transform.GetChild(0).GetComponentInChildren<CapsuleCollider>();
+            playerRightTool.enabled = false;
+        }
         playerLeftHand.enabled = false;
     }
 
     private void PickUpItem()
     {
         if (Input.GetKeyDown(KeyCode.G) && isItemNear == true)
-        {            
+        {
             animator.SetTrigger("isPickUp");
             isItemNear = false;
         }
@@ -139,10 +144,9 @@ public class PlayerAnimation : MonoBehaviour
 
     private void Mining()
     {
-        // 마우스 좌클릭을 했을 때
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(1))
         {
-            animator.SetTrigger("isMining");        
+            animator.SetTrigger("isMining");
         }
     }
 
@@ -155,33 +159,26 @@ public class PlayerAnimation : MonoBehaviour
     }
 
     public void Talk(bool isTalking)
-    {        
+    {
         animator.SetBool("isNPC", isTalking);
         Managers.otherAction = isTalking;
     }
 
     // 플레이어의 손에 있는 콜라이더를 활성 / 비활성화 해주는 함수
     // 손의 자식 오브젝트가 존재할 경우에는 자식 오브젝트의 콜라이더까지 관리해준다.
-    private void ActivateHandCollider()
-    {
-        if(playerLeftHand.gameObject.transform.childCount > 0)
-        {
-            playerLeftWeapon = playerLeftHand.gameObject.transform.GetChild(0).GetComponentInChildren<CapsuleCollider>();
-            playerLeftWeapon.enabled = false;
-        }
-
-        playerLeftHand.enabled = true;
-    }
-    private void DeactivateHandCollider()
+    private void ColliderActivate(bool colliderEnabled)
     {
         if (playerLeftHand.gameObject.transform.childCount > 0)
         {
             playerLeftWeapon = playerLeftHand.gameObject.transform.GetChild(0).GetComponentInChildren<CapsuleCollider>();
-            playerLeftWeapon.enabled = true;
-            Debug.Log("무기");
+            playerLeftWeapon.enabled = colliderEnabled;
         }
-        Debug.Log("attack");
+        if (playerRightHand.transform.childCount > 0)
+        {
+            playerRightTool = playerRightHand.gameObject.transform.GetChild(0).GetComponentInChildren<CapsuleCollider>();
+            playerRightTool.enabled = colliderEnabled;
+        }
 
-        playerLeftHand.enabled = false;
+        playerLeftHand.enabled = !colliderEnabled;
     }
 }
