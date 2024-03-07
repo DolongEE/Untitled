@@ -7,8 +7,7 @@ public class ItemInfo : MonoBehaviour
     public string itemName;
     public string itemTooltip;
 
-    private bool isPlayerNear = false;
-    [SerializeField] private bool isPlayerPickUP = false;
+    [SerializeField]private bool isPlayerNear = false;
     private BoxCollider box;
 
     private void OnValidate()
@@ -30,7 +29,7 @@ public class ItemInfo : MonoBehaviour
     }
     private void OnDisable()
     {
-        Managers.EVENT.inputEvents.onToggleGPressed -= TogglePressed;
+        Managers.EVENT.inputEvents.onToggleGPressed -= TogglePressed;        
     }
 
     public void TogglePressed()
@@ -39,30 +38,29 @@ public class ItemInfo : MonoBehaviour
             return;
         if (Managers.INVENTORY.inventory.IsInventoryFull() == true)
             return;
-        if (isPlayerPickUP == true)
-            return;
 
         if (Managers.INVENTORY.inventory.AcquireItem(item))
         {
             Managers.INVENTORY.toolTip.tooltip.SetActive(false);
-            isPlayerPickUP = true;
             Destroy(this.gameObject, 0.25f);
         }
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && isPlayerPickUP == false)
+        if (other.CompareTag("Player"))
         {
             isPlayerNear = true;
+            other.GetComponentInChildren<PlayerAnimation>().isItemNear = true;
             Managers.INVENTORY.toolTip.tooltip.SetActive(true);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player") && isPlayerPickUP == true)
+        if (other.CompareTag("Player"))
         {
             isPlayerNear = false;
+            other.GetComponentInChildren<PlayerAnimation>().isItemNear = false;
             Managers.INVENTORY.toolTip.tooltip.SetActive(false);
         }
     }

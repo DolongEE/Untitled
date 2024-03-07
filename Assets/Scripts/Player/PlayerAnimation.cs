@@ -8,17 +8,20 @@ public class PlayerAnimation : MonoBehaviour
     [SerializeField] private BoxCollider playerLeftHand;
     [SerializeField] private CapsuleCollider playerLeftWeapon;
 
-    private bool isNPCNear = false;
-    private bool isItemNear = false;
+    public bool isItemNear = false;
 
     void Start()
     {
         animator = GetComponentInChildren<Animator>();
         playerLeftHand = GameObject.Find("Left Weapon Arm").GetComponent<BoxCollider>();
-
-        foreach(var animatorClip in animator.runtimeAnimatorController.animationClips)
-        {
-            Debug.Log($"[애니메이션]{animatorClip.name}");
+        
+        foreach(var animationClip in animator.runtimeAnimatorController.animationClips)
+        {            
+            if(animationClip.isLooping == false)
+            {
+                AddAnimationEvents(animationClip);
+            }
+            
         }
     }
 
@@ -76,20 +79,28 @@ public class PlayerAnimation : MonoBehaviour
         }
     }
 
-    private void OnEnable()
+    private void AddAnimationEvents(AnimationClip clip)
     {
-        Managers.EVENT.inputEvents.onToggleGPressed += TogglePressed;
+        AnimationEvent animationStartEvent = new AnimationEvent();
+        animationStartEvent.time = 0;
+        animationStartEvent.functionName = "OtherActionStart";
+        animationStartEvent.stringParameter = clip.name;
+
+        AnimationEvent animationEndEvent = new AnimationEvent();
+        animationEndEvent.time = clip.length;
+        animationEndEvent.functionName = "OtherActionEnd";
+        animationEndEvent.stringParameter = clip.name;
+
+        clip.AddEvent(animationStartEvent);
+        clip.AddEvent(animationEndEvent);
     }
 
-    private void OnDisable()
+    private void OtherActionStart()
     {
-        Managers.EVENT.inputEvents.onToggleGPressed -= TogglePressed;
+        Managers.otherAction = true;        
     }
-    public void OtherActionStart()
-    {
-        Managers.otherAction = true;
-    }
-    public void OtherActionEnd()
+
+    private void OtherActionEnd()
     {
         Managers.otherAction = false;
     }
@@ -97,8 +108,9 @@ public class PlayerAnimation : MonoBehaviour
     private void PickUpItem()
     {
         if (Input.GetKeyDown(KeyCode.G) && isItemNear == true)
-        {
+        {            
             animator.SetTrigger("isPickUp");
+            isItemNear = false;
         }
     }
 
@@ -127,13 +139,10 @@ public class PlayerAnimation : MonoBehaviour
         }
     }
 
-    private void TogglePressed()
-    {
-        if (isNPCNear == true)
-        {
-            animator.SetBool("isNPC", true);
-            return;
-        }
+    public void Talk(bool isTalking)
+    {        
+        animator.SetBool("isNPC", isTalking);
+        Managers.otherAction = isTalking;
     }
 
     // 플레이어의 손에 있는 콜라이더를 활성 / 비활성화 해주는 함수
@@ -168,30 +177,28 @@ public class PlayerAnimation : MonoBehaviour
         playerLeftHand.enabled = false;
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("NPC"))
-        {
-            isNPCNear = true;
-            Debug.Log("반갑습니다 NPC입니다.");
-        }
-        if (other.gameObject.CompareTag("Item") || other.gameObject.CompareTag("Collectable"))
-        {
-            isItemNear = true;
-        }
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.CompareTag("NPC"))
+    //    {
+    //        isNPCNear = true;
+    //    }
+    //    if (other.gameObject.CompareTag("Item") || other.gameObject.CompareTag("Collectable"))
+    //    {
+    //        isItemNear = true;
+    //    }
+    //}
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("NPC"))
-        {
-            isNPCNear = false;
-            animator.SetBool("isNPC", false);
-            Debug.Log("감사합니다 NPC였습니다.");
-        }
-        if (other.gameObject.CompareTag("Item") || other.gameObject.CompareTag("Collectable"))
-        {
-            isItemNear = false;
-        }
-    }
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if (other.gameObject.CompareTag("NPC"))
+    //    {
+    //        isNPCNear = false;
+    //        animator.SetBool("isNPC", false);
+    //    }
+    //    if (other.gameObject.CompareTag("Item") || other.gameObject.CompareTag("Collectable"))
+    //    {
+    //        isItemNear = false;
+    //    }
+    //}
 }

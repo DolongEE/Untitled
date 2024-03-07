@@ -25,6 +25,8 @@ public class NPC : Creature
     private CraftPoint craft;
     private QuestPoint quest;
 
+    public PlayerController playerController;
+
     public bool PlayerOtherAction
     {
         set
@@ -96,6 +98,7 @@ public class NPC : Creature
         if (dialogue != null)
         {
             Talking(dialogue.init);
+            playerController.GetComponentInChildren<PlayerAnimation>().Talk(true);
         }
     }
 
@@ -132,6 +135,7 @@ public class NPC : Creature
         if (other.CompareTag("Player"))
         {
             playerIsNear = true;
+            playerController = other.GetComponent<PlayerController>();
         }
     }
 
@@ -140,6 +144,7 @@ public class NPC : Creature
         if (other.CompareTag("Player"))
         {
             playerIsNear = false;
+            playerController = null;
         }
     }
 

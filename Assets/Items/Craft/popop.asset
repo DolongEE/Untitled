@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: popop
   m_EditorClassIdentifier: 
   Materials:
-  - Item: {fileID: 11400000, guid: c7711ce7c331eea4198593c3688858bb, type: 2}
+  - Item: {fileID: 0}
     Amount: 1
-  - Item: {fileID: 11400000, guid: 4d7633478aec19f4b98e0c7b24ff9ee1, type: 2}
-    Amount: 1
+  - Item: {fileID: 0}
+    Amount: 0
   Results:
   - Item: {fileID: 11400000, guid: c7711ce7c331eea4198593c3688858bb, type: 2}
-    Amount: 2
+    Amount: 1

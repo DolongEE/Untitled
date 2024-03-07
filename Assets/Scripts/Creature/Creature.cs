@@ -21,7 +21,6 @@ public class Creature : MonoBehaviour
     private void Awake()
     {
         Init();
-        Debug.Log(_health);
     }
 
     private void Update()

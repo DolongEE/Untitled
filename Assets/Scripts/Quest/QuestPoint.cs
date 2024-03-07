@@ -90,6 +90,7 @@ public class QuestPoint : MonoBehaviour
             }
             logCount = 0;
             isQuestTalk = false;
+            npc.playerController.GetComponentInChildren<PlayerAnimation>().Talk(false);
             npc.PlayerOtherAction = false;
             npc.panelLogBoxButtons.SetActive(true);
             npc.panelLogBox.SetActive(false);

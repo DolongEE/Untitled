@@ -15,7 +15,6 @@ public class EnemyNormal : EnemyController
                 return;
 
             lastEnemyState = value;
-            Debug.Log(lastEnemyState);
             switch (value)
             {
                 case EnemyNormalState.NONE:
