@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TutorialQuest_2
   m_EditorClassIdentifier: 
   <id>k__BackingField: TutorialQuest_2
-  displayName: "\uB4C0\uD1A0\uB9AC\uC5BC \uD018\uC2A4\uD2B8 - 1"
+  displayName: "\uB4C0\uD1A0\uB9AC\uC5BC \uD018\uC2A4\uD2B8 - 2"
   questPrerequisites:
   - {fileID: 11400000, guid: ad094ad5051a4bd499652980f53dd127, type: 2}
   questStepPrefabs:

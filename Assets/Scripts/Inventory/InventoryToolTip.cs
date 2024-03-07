@@ -6,17 +6,18 @@ using UnityEngine.UI;
 public class InventoryToolTip : MonoBehaviour
 {
     public static bool inventoryActivated = false;
-    [SerializeField] private GameObject itemBag;
-    [SerializeField] private GameObject equipmentBag;
-    [SerializeField] private GameObject statBag;
+    private GameObject itemBag;
+    private GameObject equipmentBag;
+    private GameObject statBag;
+    private GameObject header;
 
     [Header("툴팁 오브젝트")]
     [SerializeField] private GameObject slotTooltip;
     public GameObject tooltip;
 
-    [SerializeField] private Image itemImage;
-    [SerializeField] private Text itemName;
-    [SerializeField] private Text itemDescription;
+    private Image itemImage;
+    private Text itemName;
+    private Text itemDescription;
 
     private void Awake()
     {
@@ -24,6 +25,7 @@ public class InventoryToolTip : MonoBehaviour
         equipmentBag = GameObject.Find("equipmentBag");
         statBag = GameObject.Find("statBag");
         tooltip = GameObject.Find("tooltip");
+        header = GameObject.Find("MovableHeader");
 
         slotTooltip = GameObject.Find("SlotTooltip");
         itemImage = slotTooltip.transform.Find("imageBG").GetChild(0).GetComponentInChildren<Image>();
@@ -37,7 +39,8 @@ public class InventoryToolTip : MonoBehaviour
         slotTooltip.SetActive(false);
         itemBag.SetActive(false);
         equipmentBag.SetActive(false);
-        statBag.SetActive(false);        
+        statBag.SetActive(false);      
+        header.SetActive(false);
     }
 
     private void Update()
@@ -51,17 +54,13 @@ public class InventoryToolTip : MonoBehaviour
         {
             inventoryActivated = !inventoryActivated;
 
-            if (inventoryActivated)
+            itemBag.SetActive(inventoryActivated);
+            equipmentBag.SetActive(inventoryActivated);
+            statBag.SetActive(inventoryActivated);
+            header.SetActive(inventoryActivated);
+
+            if (inventoryActivated == false)
             {
-                itemBag.SetActive(true);
-                equipmentBag.SetActive(true);
-                statBag.SetActive(true);
-            }
-            else
-            {
-                itemBag.SetActive(false);
-                equipmentBag.SetActive(false);
-                statBag.SetActive(false);
                 HideTooltip2D();
             }
         }

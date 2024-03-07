@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerAnimation : MonoBehaviour
 {
@@ -31,11 +32,6 @@ public class PlayerAnimation : MonoBehaviour
             return;
 
         PickUpItem();
-
-        if (PlayerStatus.Instance.playerEquipItem == true)
-            Attack();
-        else
-            Mining();
 
         float inputHorizontal = Input.GetAxis("Horizontal");
         float inputVertical = Input.GetAxis("Vertical");
@@ -77,6 +73,14 @@ public class PlayerAnimation : MonoBehaviour
             else if (PlayerStatus.Instance.playerEquipItem == true)
                 DeactiveAllColliders();
         }
+
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
+
+        if (PlayerStatus.Instance.playerEquipItem == true)
+            Attack();
+        else
+            Mining();
     }
 
     private void AddAnimationEvents(AnimationClip clip)
