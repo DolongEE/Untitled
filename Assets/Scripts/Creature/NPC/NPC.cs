@@ -18,7 +18,6 @@ public class NPC : Creature
     [HideInInspector] public GameObject questIcon;
     [HideInInspector] public bool playerIsNear = false;
 
-    private PlayerController playerController;
     private Button btnQuestTalk;
     private Button btnCraftOpen;
     private int logCount;
@@ -30,7 +29,7 @@ public class NPC : Creature
     {
         set
         {
-            playerController.otherAction = value;
+            Managers.otherAction = value;
         }
     }
     private void OnValidate()
@@ -51,7 +50,6 @@ public class NPC : Creature
     private void Awake()
     {
         panelCraft = Managers.CANVAS.panelCraft;
-        playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
 
         btnQuestTalk.onClick.AddListener(OnClickQuestTalk);
         btnCraftOpen.onClick.AddListener(OnClickCraftOpen);

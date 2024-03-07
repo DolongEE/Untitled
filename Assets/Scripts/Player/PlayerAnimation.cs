@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class PlayerAnimation : MonoBehaviour
 {
     private Animator animator;
     [SerializeField] private BoxCollider playerLeftHand;
-    [SerializeField] private BoxCollider playerLeftWeapon;
+    [SerializeField] private CapsuleCollider playerLeftWeapon;
 
     private bool isNPCNear = false;
     private bool isItemNear = false;
@@ -16,12 +15,24 @@ public class PlayerAnimation : MonoBehaviour
     {
         animator = GetComponentInChildren<Animator>();
         playerLeftHand = GameObject.Find("Left Weapon Arm").GetComponent<BoxCollider>();
+
+        foreach(var animatorClip in animator.runtimeAnimatorController.animationClips)
+        {
+            Debug.Log($"[애니메이션]{animatorClip.name}");
+        }
     }
 
     void Update()
     {
-        if (EventSystem.current.IsPointerOverGameObject())
+        if (Managers.otherAction)
             return;
+
+        PickUpItem();
+
+        if (PlayerStatus.Instance.playerEquipItem == true)
+            Attack();
+        else
+            Mining();
 
         float inputHorizontal = Input.GetAxis("Horizontal");
         float inputVertical = Input.GetAxis("Vertical");
@@ -54,6 +65,8 @@ public class PlayerAnimation : MonoBehaviour
         animator.SetFloat("Vertical", inputVertical);
         animator.SetFloat("Horizontal", inputHorizontal);
 
+        // 좌우 상하 눌렀을 때
+        // 왼손 콜라이더 꺼주는거 << 켜져있으면 움직일 때 오브젝트 충돌 시 데미지 들어감.
         if (inputHorizontal != 0.0f || inputVertical != 0.0f)
         {
             if (PlayerStatus.Instance.playerEquipItem == false)
@@ -61,13 +74,6 @@ public class PlayerAnimation : MonoBehaviour
             else if (PlayerStatus.Instance.playerEquipItem == true)
                 DeactiveAllColliders();
         }
-
-        PickUpItem();
-        
-        if (PlayerStatus.Instance.playerEquipItem == true)
-            Attack();
-        else
-            Mining();
     }
 
     private void OnEnable()
@@ -78,6 +84,14 @@ public class PlayerAnimation : MonoBehaviour
     private void OnDisable()
     {
         Managers.EVENT.inputEvents.onToggleGPressed -= TogglePressed;
+    }
+    public void OtherActionStart()
+    {
+        Managers.otherAction = true;
+    }
+    public void OtherActionEnd()
+    {
+        Managers.otherAction = false;
     }
 
     private void PickUpItem()
@@ -128,7 +142,7 @@ public class PlayerAnimation : MonoBehaviour
     {
         if(playerLeftHand.gameObject.transform.childCount > 0)
         {
-            playerLeftWeapon = playerLeftHand.gameObject.transform.GetChild(0).GetComponent<BoxCollider>();
+            playerLeftWeapon = playerLeftHand.gameObject.transform.GetChild(0).GetComponentInChildren<CapsuleCollider>();
             playerLeftWeapon.enabled = false;
         }
 
@@ -138,7 +152,7 @@ public class PlayerAnimation : MonoBehaviour
     {
         if (playerLeftHand.gameObject.transform.childCount > 0)
         {
-            playerLeftWeapon = playerLeftHand.gameObject.transform.GetChild(0).GetComponent<BoxCollider>();
+            playerLeftWeapon = playerLeftHand.gameObject.transform.GetChild(0).GetComponentInChildren<CapsuleCollider>();
             playerLeftWeapon.enabled = true;
         }
 
@@ -148,7 +162,7 @@ public class PlayerAnimation : MonoBehaviour
     {
         if (playerLeftHand.gameObject.transform.childCount > 0)
         {
-            playerLeftWeapon = playerLeftHand.gameObject.transform.GetChild(0).GetComponent<BoxCollider>();
+            playerLeftWeapon = playerLeftHand.gameObject.transform.GetChild(0).GetComponentInChildren<CapsuleCollider>();
             playerLeftWeapon.enabled = false;
         }
         playerLeftHand.enabled = false;

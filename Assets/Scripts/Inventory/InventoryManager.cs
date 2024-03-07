@@ -21,33 +21,8 @@ public class InventoryManager
 
     public void Update()
     {
-        //// UI 이벤트가 발생한 경우 처리하지 않음
-        //if (EventSystem.current.IsPointerOverGameObject() == true)
-        //    return;
 
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-        //    RaycastHit hitInfo;
-
-        //    if (Physics.Raycast(ray, out hitInfo) && hitInfo.transform.CompareTag("Item"))
-        //    {
-        //        HitCheckObject(hitInfo);
-        //    }
-        //}
     }
-
-    //void HitCheckObject(RaycastHit hit)
-    //{
-    //    IObjectItem clickInterface = hit.transform.gameObject.GetComponent<IObjectItem>();
-
-    //    if (clickInterface != null)
-    //    {
-    //        Item item = clickInterface.ClickItem();
-    //        inventory.AcquireItem(item);
-    //        Object.Destroy(hit.transform.gameObject);
-    //    }
-    //}
 
     public void EquipItemFromInventory(EquippableItem _item)
     {
@@ -62,8 +37,6 @@ public class InventoryManager
                 GameObject weapon = Object.Instantiate(weaponPrefab, arms.transform.position, Quaternion.identity, arms.transform);
 
                 weapon.name = _item.name;
-                weapon.GetComponent<BoxCollider>().center = new Vector3(0f, 0.85f, 0f);
-                weapon.GetComponent<BoxCollider>().size = new Vector3(0.2f, 2.3f, 0.2f);
                 weapon.GetComponent<ItemInfo>().enabled = false;
                 
                 Managers.INVENTORY.toolTip.HideTooltip2D();
