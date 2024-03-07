@@ -34,26 +34,22 @@ public class InventoryManager
             if (weaponPrefab != null)
             {
                 // 장비 아이템이 무기일 경우
-                if(_item.wItemType == EItemType.Weapon)
+                if (_item.wItemType == EItemType.Weapon)
                 {
                     GameObject hand = GameObject.Find("Left Weapon Hand");
                     GameObject weapon = Object.Instantiate(weaponPrefab, hand.transform.position, hand.transform.rotation, hand.transform);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-                weapon.name = _item.name;
-                weapon.GetComponent<ItemInfo>().enabled = false;
-                weapon.GetComponentInChildren<CapsuleCollider>().enabled = false;
-                
-                Managers.INVENTORY.toolTip.HideTooltip2D();
-                PlayerStatus.Instance.EquipItem(_item);
-                copy.Equip();
-                
-                isEquippedWeapon = true;
-                Debug.Log("아이템 장착 상태 : " + copy.IsEquipped);
-=======
-=======
->>>>>>> e927a5b40377ed1a138cca0eb3134e7e00ed955d
+                    weapon.name = _item.name;
+                    weapon.GetComponent<ItemInfo>().enabled = false;
+                    weapon.GetComponentInChildren<CapsuleCollider>().enabled = false;
+
+                    Managers.INVENTORY.toolTip.HideTooltip2D();
+                    PlayerStatus.Instance.EquipItem(_item);
+                    copy.Equip();
+
+                    isEquippedWeapon = true;
+                    Debug.Log("아이템 장착 상태 : " + copy.IsEquipped);
+
                     weapon.name = _item.name;
                     weapon.GetComponent<ItemInfo>().enabled = false;
                     weapon.GetComponentInChildren<CapsuleCollider>().enabled = false;
@@ -66,7 +62,7 @@ public class InventoryManager
                     Debug.Log("무기 아이템 장착 상태 : " + copy.IsEquipped);
                 }
                 // 장비 아이템이 헬멧일 경우
-                else if(_item.wItemType == EItemType.Helmet)
+                else if (_item.wItemType == EItemType.Helmet)
                 {
                     GameObject head = GameObject.Find("Head_end");
                     GameObject helmet = Object.Instantiate(weaponPrefab, head.transform.position, Quaternion.identity, head.transform);
@@ -97,7 +93,7 @@ public class InventoryManager
 
                     Debug.Log("갑옷 아이템 장착 상태 : " + copy.IsEquipped);
                 }
-                else if(_item.wItemType == EItemType.Tools)
+                else if (_item.wItemType == EItemType.Tools)
                 {
                     GameObject hand = GameObject.Find("Right Tool Hand");
                     GameObject tool = Object.Instantiate(weaponPrefab, hand.transform.position, hand.transform.rotation, hand.transform);
@@ -115,10 +111,6 @@ public class InventoryManager
                 {
                     Debug.Log("장비 아이템의 타입이 다릅니다.");
                 }
-<<<<<<< HEAD
->>>>>>> 960c59f18167945e53bb20cbab7ed9dc6add296d
-=======
->>>>>>> e927a5b40377ed1a138cca0eb3134e7e00ed955d
             }
             else
             {
@@ -138,7 +130,7 @@ public class InventoryManager
         // 장비창에서 클릭했을 경우에도 아이템 슬롯으로 이동되게
         if (equipment.ReturnItem(_item) && inventory.AcquireItem(_item))
         {
-            if(_item.wItemType == EItemType.Weapon || _item.wItemType == EItemType.Tools)
+            if (_item.wItemType == EItemType.Weapon || _item.wItemType == EItemType.Tools)
             {
                 GameObject arms = GameObject.Find("Left Weapon Arm");
 
@@ -153,7 +145,7 @@ public class InventoryManager
                 isEquippedWeapon = false;
                 Debug.Log("아이템 장착 상태 : " + _item.IsEquipped);
             }
-            else if(_item.wItemType == EItemType.Helmet)
+            else if (_item.wItemType == EItemType.Helmet)
             {
                 GameObject head = GameObject.Find("Head_end");
 
