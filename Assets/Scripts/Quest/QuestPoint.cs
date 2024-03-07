@@ -87,11 +87,13 @@ public class QuestPoint : MonoBehaviour
             else if (currentQuestState.Equals(QuestStates.CAN_FINISH) && finishPoint)
             {
                 Managers.EVENT.questEvents.FinishQuest(questId);
+                npc.btnQuestTalk.gameObject.SetActive(false);
             }
+
             logCount = 0;
             isQuestTalk = false;
-            npc.playerController.GetComponentInChildren<PlayerAnimation>().Talk(false);
-            npc.PlayerOtherAction = false;
+            npc.playerAnimation.GetComponentInChildren<PlayerAnimation>().Talk(false);
+            Managers.otherAction = false;
             npc.panelLogBoxButtons.SetActive(true);
             npc.panelLogBox.SetActive(false);
             npc.TalkToggleAdd();

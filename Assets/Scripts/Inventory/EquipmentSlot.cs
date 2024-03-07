@@ -2,8 +2,12 @@ using UnityEngine.EventSystems;
 
 public class EquipmentSlot : ItemSlot
 {
+    public EItemType equipmentType;
     public override void OnPointerClick(PointerEventData eventData)
     {
+        if (Item == null)
+            return;
+
         if (eventData.button == PointerEventData.InputButton.Right)
         {
             if (Item.IsEquipped == true)
@@ -20,8 +24,14 @@ public class EquipmentSlot : ItemSlot
             {
                 if (DragSlot.instance.GetDraggedItem().IsEquipped == false)
                 {
-                    Managers.INVENTORY.EquipItemFromInventory((EquippableItem)DragSlot.instance.GetDraggedItem());
-                    DragSlot.instance.ResetDraggedSlot();
+                    EquippableItem equippableItem = DragSlot.instance.GetDraggedItem() as EquippableItem;
+                    
+                    if(equippableItem.wItemType == equipmentType)
+                    {
+
+                        Managers.INVENTORY.EquipItemFromInventory((EquippableItem)DragSlot.instance.GetDraggedItem());
+                        DragSlot.instance.ResetDraggedSlot();
+                    }
                 }
             }
         }

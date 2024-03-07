@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97a6d093e7874c441b4246a7b4171a03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  little_Twig: {fileID: 8501061965455988695, guid: 909157dd3eefa1944ba3a664442543aa, type: 3}
+  little_Twig: {fileID: 7374803496455710225, guid: 9e0c99a71a74e17429b8f39a2c97e048, type: 3}
   damageTextPrefab: {fileID: 7656396436783345491, guid: 17780a079cd23c84bab25fe93dc01e30, type: 3}
 --- !u!114 &8005600768562442118
 MonoBehaviour:

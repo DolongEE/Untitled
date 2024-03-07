@@ -94,7 +94,6 @@ public class QuestManager
         Quest quest = GetQuestById(id);
         quest.InstantiateCurrentQuestStep(QuestRoot.transform);        
         ChangeQuestState(quest.info.id, QuestStates.IN_PROGRESS);
-        Debug.Log($"Quest Start : {quest.info.id}");
     }
 
     private void AdvanceQuest(string id)
@@ -117,13 +116,15 @@ public class QuestManager
         Quest quest = GetQuestById(id);
         ClaimRewards(quest);
         ChangeQuestState(quest.info.id, QuestStates.FINISHED);
-        Debug.Log($"Quest Finish : {quest.info.id}");
     }
 
     private void ClaimRewards(Quest quest)
     {
         // TODO - 보상 추가
-        Debug.Log($"골드보상    : {quest.info.goldReward}");
+        foreach(var item in quest.info.itemReward)
+        {
+            Managers.INVENTORY.inventory.AcquireItem(item.Item);
+        }
     }
 
     private Dictionary<string, Quest> CreateQuestDictionary()

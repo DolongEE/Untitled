@@ -18,22 +18,15 @@ public class NPC : Creature
     [HideInInspector] public GameObject questIcon;
     [HideInInspector] public bool playerIsNear = false;
 
-    private Button btnQuestTalk;
+    public Button btnQuestTalk;
     private Button btnCraftOpen;
     private int logCount;
 
     private CraftPoint craft;
     private QuestPoint quest;
 
-    public PlayerController playerController;
+    public PlayerAnimation playerAnimation;
 
-    public bool PlayerOtherAction
-    {
-        set
-        {
-            Managers.otherAction = value;
-        }
-    }
     private void OnValidate()
     {
         quest = GetComponent<QuestPoint>();
@@ -88,44 +81,39 @@ public class NPC : Creature
 
     private void ToggleGPressed()
     {
-        if (playerIsNear == false || quest.isQuestTalk == true || craft.isCrafting == true)
-            return;
+        if (playerIsNear == false || quest.isQuestTalk == true || craft.isCrafting == true) return;
+        if (btnQuestTalk.gameObject.activeSelf == false && btnCraftOpen.gameObject.activeSelf == false) return;
 
-        if (quest.currentQuestState.Equals(QuestStates.FINISHED))
-            btnQuestTalk.gameObject.SetActive(false);
-
-        PlayerOtherAction = true;
-        if (dialogue != null)
-        {
+        if (dialogue != null) 
             Talking(dialogue.init);
-            playerController.GetComponentInChildren<PlayerAnimation>().Talk(true);
-        }
     }
 
     private void Talking(string[] logs)
     {
         if (logCount < logs.Length)
         {
+            playerAnimation.Talk(true);
             panelLogBox.SetActive(true);
             txtLogBox.text = logs[logCount++];
         }
         else
         {
-            logCount = 0;
             panelLogBoxButtons.SetActive(true);
         }
     }
 
     public void OnClickQuestTalk()
     {
-        panelLogBoxButtons.SetActive(false);
-        quest.isQuestTalk = true;
+        logCount = 0;
         TalkToggleRemove();
+        quest.isQuestTalk = true; 
+        panelLogBoxButtons.SetActive(false);       
         Managers.EVENT.inputEvents.ToggleGPressed();
     }
 
     public void OnClickCraftOpen()
     {
+        logCount = 0;
         panelLogBox.SetActive(false);
         craft.OpenCraftWindow();
     }
@@ -135,7 +123,7 @@ public class NPC : Creature
         if (other.CompareTag("Player"))
         {
             playerIsNear = true;
-            playerController = other.GetComponent<PlayerController>();
+            playerAnimation = other.GetComponentInChildren<PlayerAnimation>();
         }
     }
 
@@ -144,7 +132,7 @@ public class NPC : Creature
         if (other.CompareTag("Player"))
         {
             playerIsNear = false;
-            playerController = null;
+            playerAnimation = null;
         }
     }
 

@@ -7,8 +7,8 @@ public class ItemInfo : MonoBehaviour
     public string itemName;
     public string itemTooltip;
 
-    [SerializeField]private bool isPlayerNear = false;
-    private BoxCollider box;
+    [SerializeField] private bool isPlayerNear = false;
+    [SerializeField] private BoxCollider box;
 
     private void OnValidate()
     {
@@ -29,7 +29,7 @@ public class ItemInfo : MonoBehaviour
     }
     private void OnDisable()
     {
-        Managers.EVENT.inputEvents.onToggleGPressed -= TogglePressed;        
+        Managers.EVENT.inputEvents.onToggleGPressed -= TogglePressed;
     }
 
     public void TogglePressed()

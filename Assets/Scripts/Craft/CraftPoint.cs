@@ -30,6 +30,6 @@ public class CraftPoint : MonoBehaviour
 
         isCrafting = false;
         npc.panelCraft.SetActive(false);
-        npc.PlayerOtherAction = false;
+        Managers.otherAction = false;
     }
 }

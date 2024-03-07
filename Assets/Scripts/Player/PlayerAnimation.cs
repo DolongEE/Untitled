@@ -21,8 +21,7 @@ public class PlayerAnimation : MonoBehaviour
             if(animationClip.isLooping == false)
             {
                 AddAnimationEvents(animationClip);
-            }
-            
+            }            
         }
     }
 
@@ -64,16 +63,6 @@ public class PlayerAnimation : MonoBehaviour
         animator.SetFloat("Vertical", inputVertical);
         animator.SetFloat("Horizontal", inputHorizontal);
 
-        // 좌우 상하 눌렀을 때
-        // 왼손 콜라이더 꺼주는거 << 켜져있으면 움직일 때 오브젝트 충돌 시 데미지 들어감.
-        if (inputHorizontal != 0.0f || inputVertical != 0.0f)
-        {
-            if (PlayerStatus.Instance.playerEquipItem == false)
-                DeactivateHandCollider();
-            else if (PlayerStatus.Instance.playerEquipItem == true)
-                DeactiveAllColliders();
-        }
-
         if (EventSystem.current.IsPointerOverGameObject())
             return;
 
@@ -95,8 +84,20 @@ public class PlayerAnimation : MonoBehaviour
         animationEndEvent.functionName = "OtherActionEnd";
         animationEndEvent.stringParameter = clip.name;
 
+        AnimationEvent animationEventColliderOn = new AnimationEvent();
+        animationEventColliderOn.time = clip.length / 2;
+        animationEventColliderOn.functionName = "EquipColliderOn";
+        animationEventColliderOn.stringParameter = clip.name;
+
+        AnimationEvent animationEventColliderOff = new AnimationEvent();
+        animationEventColliderOff.time = clip.length;
+        animationEventColliderOff.functionName = "EquipColliderOff";
+        animationEventColliderOff.stringParameter = clip.name;
+
         clip.AddEvent(animationStartEvent);
         clip.AddEvent(animationEndEvent);
+        clip.AddEvent(animationEventColliderOn);
+        clip.AddEvent(animationEventColliderOff);
     }
 
     private void OtherActionStart()
@@ -107,6 +108,24 @@ public class PlayerAnimation : MonoBehaviour
     private void OtherActionEnd()
     {
         Managers.otherAction = false;
+    }
+
+    private void EquipColliderOn()
+    {
+        if (PlayerStatus.Instance.playerEquipItem == false)
+            ActivateHandCollider();
+        else
+            DeactivateHandCollider();
+    }
+
+    private void EquipColliderOff()
+    {
+        if (playerLeftHand.gameObject.transform.childCount > 0)
+        {
+            playerLeftWeapon = playerLeftHand.gameObject.transform.GetChild(0).GetComponentInChildren<CapsuleCollider>();
+            playerLeftWeapon.enabled = false;
+        }
+        playerLeftHand.enabled = false;
     }
 
     private void PickUpItem()
@@ -123,11 +142,7 @@ public class PlayerAnimation : MonoBehaviour
         // 마우스 좌클릭을 했을 때
         if (Input.GetMouseButtonDown(0))
         {
-            animator.SetTrigger("isMining");
-            if (PlayerStatus.Instance.playerEquipItem == false)
-                ActivateHandCollider();
-            else
-                DeactivateHandCollider();
+            animator.SetTrigger("isMining");        
         }
     }
 
@@ -136,10 +151,6 @@ public class PlayerAnimation : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             animator.SetTrigger("isAttack");
-            if (PlayerStatus.Instance.playerEquipItem == false)
-                ActivateHandCollider();
-            else
-                DeactivateHandCollider();
         }
     }
 
@@ -167,42 +178,10 @@ public class PlayerAnimation : MonoBehaviour
         {
             playerLeftWeapon = playerLeftHand.gameObject.transform.GetChild(0).GetComponentInChildren<CapsuleCollider>();
             playerLeftWeapon.enabled = true;
+            Debug.Log("무기");
         }
+        Debug.Log("attack");
 
         playerLeftHand.enabled = false;
     }
-    private void DeactiveAllColliders()
-    {
-        if (playerLeftHand.gameObject.transform.childCount > 0)
-        {
-            playerLeftWeapon = playerLeftHand.gameObject.transform.GetChild(0).GetComponentInChildren<CapsuleCollider>();
-            playerLeftWeapon.enabled = false;
-        }
-        playerLeftHand.enabled = false;
-    }
-
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.gameObject.CompareTag("NPC"))
-    //    {
-    //        isNPCNear = true;
-    //    }
-    //    if (other.gameObject.CompareTag("Item") || other.gameObject.CompareTag("Collectable"))
-    //    {
-    //        isItemNear = true;
-    //    }
-    //}
-
-    //private void OnTriggerExit(Collider other)
-    //{
-    //    if (other.gameObject.CompareTag("NPC"))
-    //    {
-    //        isNPCNear = false;
-    //        animator.SetBool("isNPC", false);
-    //    }
-    //    if (other.gameObject.CompareTag("Item") || other.gameObject.CompareTag("Collectable"))
-    //    {
-    //        isItemNear = false;
-    //    }
-    //}
 }

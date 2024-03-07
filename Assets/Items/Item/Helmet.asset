@@ -10,17 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90c892c860bacef45af48fda1faf745b, type: 3}
-  m_Name: Pickaxe
+  m_Name: Helmet
   m_EditorClassIdentifier: 
-  id: 4ce188995c3260a499c213abf5c29a67
-  itemName: "\uB2E4\uC774\uC544 \uACE1\uAD2D\uC774"
-  itemImage: {fileID: 21300000, guid: e49dc83d702a71f43ae508f4ecf9fcac, type: 3}
-  itemDescription: "\uACE1\uAD2D\uC774."
+  id: a4f2fcef09114d94595c52798e55eaba
+  itemName: "\uBA38\uCC10 \uB69D\uBC30\uAE30"
+  itemImage: {fileID: 21300000, guid: 11497421820b4c44f8fa0bd0cc98f1fd, type: 3}
+  itemDescription: "\uC720\uBA85 \uBB34\uC0AC \uAE40\uC0BF\uAC13\uC774 \uC4F0\uB358
+    \uC0BF\uAC13."
   itemType: 0
-  itemPrefab: {fileID: 29129674497395103, guid: 797e9745fbb841542851f26c7ac9e14e, type: 3}
+  itemPrefab: {fileID: 414541165433859319, guid: d603cf34a692ed94b9ff392949a9e3e3, type: 3}
   isItemStackable: 0
   isEquipped: 0
-  hp: 0
-  damage: 5
-  defense: 0
-  wItemType: 3
+  hp: 5
+  damage: 2
+  defense: 20
+  wItemType: 1
