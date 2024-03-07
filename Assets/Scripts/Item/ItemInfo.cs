@@ -1,11 +1,6 @@
 using UnityEngine;
 
-//public interface IObjectItem
-//{
-//    Item ClickItem();
-//}
-
-public class ItemInfo : MonoBehaviour//, IObjectItem
+public class ItemInfo : MonoBehaviour
 {
     public Item item;
     public Sprite itemImage;
@@ -14,12 +9,19 @@ public class ItemInfo : MonoBehaviour//, IObjectItem
 
     private bool isPlayerNear = false;
     [SerializeField] private bool isPlayerPickUP = false;
+    private BoxCollider box;
 
+    private void OnValidate()
+    {
+        box = GetComponent<BoxCollider>();
+        box.enabled = false;
+    }
     private void Start()
     {
         itemName = item.itemName;
         itemTooltip = item.itemDescription;
         itemImage = item.itemImage;
+        box.enabled = true;
     }
 
     private void OnEnable()
@@ -47,15 +49,6 @@ public class ItemInfo : MonoBehaviour//, IObjectItem
             Destroy(this.gameObject, 0.25f);
         }
     }
-    //private void OnMouseEnter()
-    //{
-    //    Managers.INVENTORY.toolTip.ShowTooltip2D(item, Input.mousePosition);
-    //}
-
-    //private void OnMouseExit()
-    //{
-    //    Managers.INVENTORY.toolTip.HideTooltip2D();
-    //}
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") && isPlayerPickUP == false)

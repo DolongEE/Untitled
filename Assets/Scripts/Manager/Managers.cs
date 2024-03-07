@@ -5,6 +5,7 @@ public class Managers : MonoBehaviour
 {
     private static Managers s_instance = null;
     public static Managers Instance { get { return s_instance; } }
+    public static bool otherAction;
 
     #region Core    
     private static CoroutineManager s_coroutine = new CoroutineManager();

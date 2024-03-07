@@ -15,8 +15,6 @@ public class PlayerController : MonoBehaviour
     public bool webGLRightClickRotation = true;
     float gravity = -9.8f;
 
-    public bool otherAction = false;
-
     void Start()
     {
         character = GetComponent<CharacterController>();
@@ -46,7 +44,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (otherAction == true)
+        if (Managers.otherAction)
             return;
 
         moveFB = Input.GetAxis("Horizontal") * speed;
