@@ -40,6 +40,7 @@ public class InventoryManager
                     GameObject weapon = Object.Instantiate(weaponPrefab, hand.transform.position, hand.transform.rotation, hand.transform);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
                 weapon.name = _item.name;
                 weapon.GetComponent<ItemInfo>().enabled = false;
                 weapon.GetComponentInChildren<CapsuleCollider>().enabled = false;
@@ -51,6 +52,8 @@ public class InventoryManager
                 isEquippedWeapon = true;
                 Debug.Log("아이템 장착 상태 : " + copy.IsEquipped);
 =======
+=======
+>>>>>>> e927a5b40377ed1a138cca0eb3134e7e00ed955d
                     weapon.name = _item.name;
                     weapon.GetComponent<ItemInfo>().enabled = false;
                     weapon.GetComponentInChildren<CapsuleCollider>().enabled = false;
@@ -112,7 +115,10 @@ public class InventoryManager
                 {
                     Debug.Log("장비 아이템의 타입이 다릅니다.");
                 }
+<<<<<<< HEAD
 >>>>>>> 960c59f18167945e53bb20cbab7ed9dc6add296d
+=======
+>>>>>>> e927a5b40377ed1a138cca0eb3134e7e00ed955d
             }
             else
             {
