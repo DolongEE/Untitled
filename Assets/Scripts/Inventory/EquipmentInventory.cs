@@ -42,7 +42,7 @@ public class EquipmentInventory : MonoBehaviour
             equipItems.Add(_item);
             for (int i = 0; i < equipSlots.Length; i++)
             {
-                if (equipSlots[i].Item == null)
+                if (equipSlots[i].equipmentType == _item.wItemType)
                 {
                     equipSlots[i].SetItemImage(_item);
                     return true;

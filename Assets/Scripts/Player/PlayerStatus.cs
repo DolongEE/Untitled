@@ -74,6 +74,9 @@ public class PlayerStatus : MonoBehaviour
 
     public void EquipItem(EquippableItem eItem)
     {
+        totalHp += eItem.hp;
+        health.SetHealth(totalHp);
+
         totalDamage += eItem.damage;
         totalDefense += eItem.defense;
         playerEquipItem = true;
@@ -83,6 +86,9 @@ public class PlayerStatus : MonoBehaviour
     // 장비를 해제하는 함수
     public void UnequipItem(EquippableItem eItem)
     {
+        totalHp -= eItem.hp;
+        health.SetHealth(totalHp);
+
         totalDamage -= eItem.damage;
         totalDefense -= eItem.defense;
         playerEquipItem = false;
@@ -112,6 +118,7 @@ public class PlayerStatus : MonoBehaviour
         // 여기에 UI 업데이트 코드 추가
         totalHp = health.GetHealth();
         playerHealthbar.fillAmount = health.GetPercentage() / 100;
+
         LinkedStatus();
     }
 
@@ -125,7 +132,7 @@ public class PlayerStatus : MonoBehaviour
     {
         if (col.gameObject.CompareTag("Enemy"))
         {
-            health.TakeDamage(this.gameObject, 5f);
+            health.TakeDamage(this.gameObject, 10f);
             UpdateUI();
         }
     }
