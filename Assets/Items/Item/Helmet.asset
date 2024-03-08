@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: a4f2fcef09114d94595c52798e55eaba
   itemName: "\uBA38\uCC10 \uB69D\uBC30\uAE30"
-  itemImage: {fileID: 21300000, guid: 11497421820b4c44f8fa0bd0cc98f1fd, type: 3}
+  itemImage: {fileID: 21300000, guid: 5391ef33f3713724689c6244b54d5aa1, type: 3}
   itemDescription: "\uC720\uBA85 \uBB34\uC0AC \uAE40\uC0BF\uAC13\uC774 \uC4F0\uB358
     \uC0BF\uAC13."
   itemType: 0

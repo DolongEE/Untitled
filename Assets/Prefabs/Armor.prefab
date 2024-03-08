@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 3078855711873584190}
   m_Layer: 0
   m_Name: Armor
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9cb89fb6645cba4ea535db673dabd4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 0}
+  item: {fileID: 11400000, guid: 8e7ba0857bcda80408235eedc902de87, type: 2}
   itemImage: {fileID: 0}
   itemName: 
   itemTooltip: 
