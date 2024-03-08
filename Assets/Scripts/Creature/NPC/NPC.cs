@@ -16,16 +16,17 @@ public class NPC : Creature
     [HideInInspector] public TextMeshProUGUI txtLogBox;
     [HideInInspector] public GameObject panelCraft;
     [HideInInspector] public GameObject questIcon;
+    [HideInInspector] public PlayerAnimation playerAnimation;
+    [HideInInspector] public Button btnQuestTalk;
     [HideInInspector] public bool playerIsNear = false;
 
-    public Button btnQuestTalk;
     private Button btnCraftOpen;
     private int logCount;
 
     private CraftPoint craft;
     private QuestPoint quest;
 
-    public PlayerAnimation playerAnimation;
+
 
     private void OnValidate()
     {
@@ -84,7 +85,7 @@ public class NPC : Creature
         if (playerIsNear == false || quest.isQuestTalk == true || craft.isCrafting == true) return;
         if (btnQuestTalk.gameObject.activeSelf == false && btnCraftOpen.gameObject.activeSelf == false) return;
 
-        if (dialogue != null) 
+        if (dialogue != null)
             Talking(dialogue.init);
     }
 
@@ -106,8 +107,8 @@ public class NPC : Creature
     {
         logCount = 0;
         TalkToggleRemove();
-        quest.isQuestTalk = true; 
-        panelLogBoxButtons.SetActive(false);       
+        quest.isQuestTalk = true;
+        panelLogBoxButtons.SetActive(false);
         Managers.EVENT.inputEvents.ToggleGPressed();
     }
 

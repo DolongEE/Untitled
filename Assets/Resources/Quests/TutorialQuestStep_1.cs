@@ -25,7 +25,7 @@ public class TutorialQuestStep_1 : QuestStep
             _questUI.questDescription.text = UpdateDescription();
         }
         else if (isQuest && isInven)
-        {
+        {            
             FinishedQuestStep();            
         }
     }
@@ -39,7 +39,7 @@ public class TutorialQuestStep_1 : QuestStep
     }
 
     private void OnDisable()
-    {        
-        door_1.SetActive(false);
+    {
+        door_1.GetComponent<Door>().OpenDoor();
     }
 }

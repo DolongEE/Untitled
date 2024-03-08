@@ -5,6 +5,9 @@ public class TutorialQuestStep_2 : QuestStep
     private bool isQuest;
     private bool isInven;
 
+    private float branch;
+    private float rock;
+
     private GameObject door_2;
 
     private void Awake()
@@ -14,9 +17,19 @@ public class TutorialQuestStep_2 : QuestStep
 
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.Q) && isQuest == false)
         {
-            FinishedQuestStep();            
+            isQuest = true;
+            _questUI.questDescription.text = UpdateDescription();
+        }
+        else if (Input.GetKeyUp(KeyCode.I) && isInven == false)
+        {
+            isInven = true;
+            _questUI.questDescription.text = UpdateDescription();
+        }
+        else if (isQuest && isInven)
+        {
+            FinishedQuestStep();
         }
     }
 
@@ -29,7 +42,7 @@ public class TutorialQuestStep_2 : QuestStep
     }
 
     private void OnDisable()
-    {        
-        door_2.SetActive(false);
+    {
+        door_2.GetComponent<Door>().OpenDoor();
     }
 }
