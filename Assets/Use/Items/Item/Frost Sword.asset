@@ -22,5 +22,5 @@ MonoBehaviour:
   isEquipped: 0
   hp: 0
   damage: 10
-  defense: 5
+  defense: 0
   wItemType: 0

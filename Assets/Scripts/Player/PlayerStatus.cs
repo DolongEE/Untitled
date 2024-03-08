@@ -116,7 +116,7 @@ public class PlayerStatus : MonoBehaviour
 
     private void LinkedStatus()
     {
-        playerHp.text = "체  력 : " + baseHp.ToString();
+        playerHp.text = "체  력 : " + baseHp.ToString() + " / " + maxHp.ToString();
         playerDamage.text = "공격력 : " + baseDamage.ToString();
         playerDefense.text = "방어력 : " + baseDefense.ToString();
     }
