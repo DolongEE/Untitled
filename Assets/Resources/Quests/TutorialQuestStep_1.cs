@@ -1,16 +1,10 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TutorialQuestStep_1 : QuestStep
 {
     private bool isQuest;
     private bool isInven;
-
-    private GameObject door_1;
-
-    private void Awake()
-    {
-        door_1 = GameObject.Find("Door_1");
-    }
 
     void Update()
     {
@@ -27,6 +21,7 @@ public class TutorialQuestStep_1 : QuestStep
         else if (isQuest && isInven)
         {            
             FinishedQuestStep();            
+            
         }
     }
 
@@ -38,8 +33,9 @@ public class TutorialQuestStep_1 : QuestStep
         return description;
     }
 
-    private void OnDisable()
+    public override void OpenDoor()
     {
-        door_1.GetComponent<Door>().OpenDoor();
+        Door = GameObject.Find("Door_1").GetComponent<Door>();
+        Door.OpenDoor();
     }
 }

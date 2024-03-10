@@ -54,6 +54,7 @@ public class PlayerController : MonoBehaviour
         rotY = Input.GetAxis("Mouse Y") * sensitivity;
 
         CheckForWaterHeight();
+        gravity = -9.8f;
         Vector3 movement = new Vector3(moveFB, gravity, moveLR);
 
         if (webGLRightClickRotation)

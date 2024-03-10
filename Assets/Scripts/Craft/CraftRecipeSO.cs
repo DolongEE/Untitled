@@ -79,6 +79,7 @@ public class CraftRecipeSO : ScriptableObject
             for (int i = 0; i < itemAmount.Amount; i++)
             {
                 itemContainer.AcquireItem(itemAmount.Item.GetCopy());
+                Debug.Log(itemAmount.Item.ID);
             }
         }
     }

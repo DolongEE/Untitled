@@ -23,7 +23,7 @@ public class ItemDatabase : ScriptableObject
 
     private void LoadItems()
     {
-        items = FindAssetByType<Item>("Assets/Items");
+        items = FindAssetByType<Item>("Assets/Use/Items");
     }
 
     public static T[] FindAssetByType<T>(params string[] folders) where T : Object
@@ -49,5 +49,23 @@ public class ItemDatabase : ScriptableObject
         }
 
         return assets;
+    }
+
+    public string GetItemId(string name)
+    {
+        string id = null;
+        foreach (var item in items)
+        {
+            if (item.name.Equals(name))
+            {
+                id = item.ID;
+            }
+        }
+        if(id == null)
+        {
+            Debug.LogError($"Cant Found {name}'s ID");
+        }
+
+        return id;
     }
 }

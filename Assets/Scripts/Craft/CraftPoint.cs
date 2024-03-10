@@ -30,6 +30,6 @@ public class CraftPoint : MonoBehaviour
 
         isCrafting = false;
         npc.panelCraft.SetActive(false);
-        Managers.otherAction = false;
+        npc.playerAnimation.GetComponentInChildren<PlayerAnimation>().Talk(false);        
     }
 }

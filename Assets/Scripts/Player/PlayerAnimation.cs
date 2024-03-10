@@ -12,7 +12,6 @@ public class PlayerAnimation : MonoBehaviour
     [SerializeField] private CapsuleCollider playerRightTool;
 
     public bool isItemNear = false;
-    public string tag = null;
 
     void Start()
     {

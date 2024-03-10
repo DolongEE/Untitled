@@ -18,15 +18,13 @@ public class NPC : Creature
     [HideInInspector] public GameObject questIcon;
     [HideInInspector] public PlayerAnimation playerAnimation;
     [HideInInspector] public Button btnQuestTalk;
+    [HideInInspector] public Button btnCraftOpen;
     [HideInInspector] public bool playerIsNear = false;
 
-    private Button btnCraftOpen;
     private int logCount;
 
     private CraftPoint craft;
     private QuestPoint quest;
-
-
 
     private void OnValidate()
     {

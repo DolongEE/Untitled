@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
-    private bool isOpen;
+    [SerializeField]private bool isOpen;
     private Quaternion rotate;
 
     private void Awake()
-    {
-        rotate = Quaternion.Euler(0, -80, 0);
+    {        
+        rotate = Quaternion.Euler(0, transform.eulerAngles.y - 80, 0);
     }
 
     void Update()

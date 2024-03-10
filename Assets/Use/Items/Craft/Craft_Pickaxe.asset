@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3df8e99bc7b98c7489667d5671339aa5, type: 3}
-  m_Name: popop
+  m_Name: Craft_Pickaxe
   m_EditorClassIdentifier: 
   Materials:
-  - Item: {fileID: 0}
-    Amount: 1
-  - Item: {fileID: 0}
-    Amount: 0
+  - Item: {fileID: 11400000, guid: 0f556106e2b2b37479f0dd20475e8f9c, type: 2}
+    Amount: 3
+  - Item: {fileID: 11400000, guid: 313efbf080672394b9167bfd689c2cbd, type: 2}
+    Amount: 2
   Results:
-  - Item: {fileID: 11400000, guid: c7711ce7c331eea4198593c3688858bb, type: 2}
-    Amount: 1
+  - Item: {fileID: 11400000, guid: 4ce188995c3260a499c213abf5c29a67, type: 2}
+    Amount: 0

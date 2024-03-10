@@ -4,6 +4,7 @@ using UnityEngine;
 public abstract class QuestStep : MonoBehaviour
 {
     public QuestUI _questUI;
+    [SerializeField] protected Door Door;
     protected string description;
 
     private bool isFinished = false;
@@ -21,9 +22,10 @@ public abstract class QuestStep : MonoBehaviour
         {
             isFinished = true;
             Managers.EVENT.questEvents.AdvanceQuest(_questId);
-            Destroy(gameObject);
+            transform.SetParent(Managers.QUEST.QuestEndRoot.transform);
         }
-    }
+    }  
 
-    public abstract string UpdateDescription();    
+    public abstract string UpdateDescription();
+    public abstract void OpenDoor();
 }

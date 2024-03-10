@@ -29,7 +29,7 @@ public class Health : MonoBehaviour
     public void TakeDamage(GameObject instigator, float damage)
     {
         _health = Mathf.Max(_health - damage, 0);
-        print("체력 : " + _health);
+        print($"{instigator.name} 체력 : " + _health);
 
         if (_health <= 0)
         {

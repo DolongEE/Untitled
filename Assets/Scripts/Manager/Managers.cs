@@ -1,11 +1,17 @@
-
+using Unity.VisualScripting;
+using UnityEditor;
+using UnityEditor.VersionControl;
 using UnityEngine;
 
 public class Managers : MonoBehaviour
 {
+    private ItemDatabase itemdatabase;
+
     private static Managers s_instance = null;
     public static Managers Instance { get { return s_instance; } }
+    public static ItemDatabase ItemDatabase { get { return Instance.itemdatabase; } }
     public static bool otherAction;
+    
 
     #region Core    
     private static CoroutineManager s_coroutine = new CoroutineManager();
@@ -27,7 +33,8 @@ public class Managers : MonoBehaviour
 
     private void Awake()
     {
-        Init();
+        itemdatabase = Resources.Load<ItemDatabase>("ItemDatabase");
+        Init();        
     }
 
     private void Update()
@@ -53,14 +60,17 @@ public class Managers : MonoBehaviour
         {
             if (go == null)
                 go = new GameObject { name = "@Managers" };
+            s_instance = go.GetComponent<Managers>();
             DontDestroyOnLoad(go);
         }
+        
         s_resource.Init();
         s_event.Init();       
         s_inventory.Init();
         s_canvas.Init();
         s_craft.Init();
         s_quest.Init();
+        
     }
 
     public GameObject CreateObject(string objName, Transform parent)

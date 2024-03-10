@@ -2,47 +2,52 @@ using UnityEngine;
 
 public class TutorialQuestStep_2 : QuestStep
 {
-    private bool isQuest;
-    private bool isInven;
+    private int twigAmount;
+    private int gravelAmount;
 
-    private float branch;
-    private float rock;
+    private const int MAX_TWIG_AMOUNT = 1;
+    private const int MAX_GRAVEL_AMOUNT = 2;
 
-    private GameObject door_2;
+    private string twigId;
+    private string gravelId;
+
+    private Inventory inventory;
 
     private void Awake()
     {
-        door_2 = GameObject.Find("Door_2");
+
+        inventory = Managers.INVENTORY.inventory;
+        twigId = Managers.ItemDatabase.GetItemId("Twig");
+        gravelId = Managers.ItemDatabase.GetItemId("Gravel");
+        GetItemAmount();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && isQuest == false)
-        {
-            isQuest = true;
-            _questUI.questDescription.text = UpdateDescription();
-        }
-        else if (Input.GetKeyUp(KeyCode.I) && isInven == false)
-        {
-            isInven = true;
-            _questUI.questDescription.text = UpdateDescription();
-        }
-        else if (isQuest && isInven)
+        GetItemAmount();
+
+        if (twigAmount >= MAX_TWIG_AMOUNT && gravelAmount >= MAX_GRAVEL_AMOUNT)
         {
             FinishedQuestStep();
         }
+        _questUI.questDescription.text = UpdateDescription();
     }
 
     public override string UpdateDescription()
     {
-        string reuslt1 = isQuest ? "1/1" : "0/1";
-        string reuslt2 = isInven ? "1/1" : "0/1";
-        description = $"퀘스트 창 : Q - {reuslt1}\n인벤토리 창 : I - {reuslt2}";
+        description = $"나뭇가지 : {twigAmount} / {MAX_TWIG_AMOUNT}\n자갈 : {gravelAmount} / {MAX_GRAVEL_AMOUNT}";
         return description;
     }
 
-    private void OnDisable()
+    private void GetItemAmount()
     {
-        door_2.GetComponent<Door>().OpenDoor();
+        twigAmount = inventory.ItemCount(twigId);
+        gravelAmount = inventory.ItemCount(gravelId);
+    }
+
+    public override void OpenDoor()
+    {
+        Door = GameObject.Find("Door_2").GetComponent<Door>();
+        Door.OpenDoor();
     }
 }

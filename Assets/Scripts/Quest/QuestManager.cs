@@ -31,6 +31,32 @@ public class QuestManager
         }
     }
 
+    public GameObject QuestEndRoot
+    {
+        get
+        {
+            GameObject root = GameObject.Find("QuestListEnd");
+            Transform[] objects = root.GetComponentsInChildren<Transform>();
+            GameObject newGameObject = null;
+            bool isExist = false;
+            foreach (Transform go in objects)
+            {
+                isExist = go.name.Equals("QuestListEnd");
+                if (isExist)
+                {
+                    newGameObject = go.gameObject;
+                    break;
+                }
+            }
+            if (isExist == false)
+            {
+                newGameObject = Managers.Instance.CreateObject("QuestListEnd", root.transform);
+            }
+
+            return newGameObject;
+        }
+    }
+
     public void Init()
     {
         _questDictionary = CreateQuestDictionary();

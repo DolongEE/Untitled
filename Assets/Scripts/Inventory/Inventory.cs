@@ -37,7 +37,7 @@ public class Inventory : MonoBehaviour
     public bool AcquireItem(Item _item)
     {
         if (IsInventoryFull())
-            return false;
+            return false;        
 
         for (int i = 0; i < itemSlots.Length; i++)
         {

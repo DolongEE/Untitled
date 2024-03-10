@@ -21,7 +21,7 @@ public class QuestPoint : MonoBehaviour
     private void Awake()
     {
         npc = GetComponent<NPC>();
-        questId = questInfoQuest.id;
+        questId = questInfoQuest.id;        
         questIcon = npc.questIcon.GetComponent<QuestIcon>();
     }
 
@@ -86,14 +86,14 @@ public class QuestPoint : MonoBehaviour
             }
             else if (currentQuestState.Equals(QuestStates.CAN_FINISH) && finishPoint)
             {
+                questInfoQuest.questStepPrefabs[0].GetComponent<QuestStep>().OpenDoor();
                 Managers.EVENT.questEvents.FinishQuest(questId);
                 npc.btnQuestTalk.gameObject.SetActive(false);
             }
 
             logCount = 0;
             isQuestTalk = false;
-            npc.playerAnimation.GetComponentInChildren<PlayerAnimation>().Talk(false);
-            Managers.otherAction = false;
+            npc.playerAnimation.GetComponentInChildren<PlayerAnimation>().Talk(false);            
             npc.panelLogBoxButtons.SetActive(true);
             npc.panelLogBox.SetActive(false);
             npc.TalkToggleAdd();
