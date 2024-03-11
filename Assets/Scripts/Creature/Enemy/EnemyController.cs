@@ -8,7 +8,7 @@ public class EnemyController : Creature
     protected GameObject player;
     protected Transform playerTransform;
 
-    protected float attackDamage { get { return monsterInfo.attackDamage; } }
+    public float attackDamage { get { return monsterInfo.attackDamage; } }
     protected float moveSpeed { get { return monsterInfo.moveSpeed; } }
     protected float attackRange { get { return monsterInfo.attackRange; } }
 

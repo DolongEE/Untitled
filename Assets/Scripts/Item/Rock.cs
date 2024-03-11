@@ -43,6 +43,7 @@ public class Rock : CollectableObject
         health.TakeDamage(this.gameObject, PlayerStatus.Instance.baseDamage);
         hp = (int)health.GetHealth();
 
+        // ÃÆÀ» ¶§ Èçµé¸®´Â°Å.
         StartCoroutine(HitSwayCoroutine(playerTransform));
         ShowDamageText(transform.position + new Vector3(0f, 1.5f, 0f), PlayerStatus.Instance.baseDamage.ToString());
 

@@ -16717,6 +16717,7 @@ MonoBehaviour:
   playerDefense: {fileID: 0}
   playerHealthbar: {fileID: 0}
   playerStaminabar: {fileID: 0}
+  damageTextPrefab: {fileID: 7656396436783345491, guid: 17780a079cd23c84bab25fe93dc01e30, type: 3}
   baseHp: 100
   baseDamage: 10
   baseDefense: 5

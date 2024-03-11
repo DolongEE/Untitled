@@ -15,6 +15,7 @@ public class PlayerStatus : MonoBehaviour
     public TextMeshProUGUI playerDefense;
     public Image playerHealthbar;
     public Image playerStaminabar;
+    public GameObject damageTextPrefab;
 
     public float baseHp = 100;
     public int baseDamage = 10;
@@ -53,6 +54,18 @@ public class PlayerStatus : MonoBehaviour
 
         LinkedStatus();
     }
+
+    public void ShowDamageText(Vector3 position, string damage)
+    {
+        GameObject damageText = Instantiate(damageTextPrefab, position, Quaternion.identity);
+        DamageTextUI damageTextUI = damageText.GetComponent<DamageTextUI>();
+
+        if (damageTextUI != null)
+        {
+            damageTextUI.SetText(damage);
+        }
+    }
+
     public void RechargingStamina()
     {
         if (playerStaminabar.fillAmount <= 1.0f)
@@ -124,7 +137,9 @@ public class PlayerStatus : MonoBehaviour
     {
         if (col.gameObject.CompareTag("Enemy"))
         {
-            health.TakeDamage(this.gameObject, 10f);
+            health.TakeDamage(this.gameObject, col.gameObject.GetComponent<EnemyNormal>().attackDamage);
+            ShowDamageText(transform.position + new Vector3(0f, 2.3f, 0f), 
+                col.gameObject.GetComponent<EnemyNormal>().attackDamage.ToString());
             UpdateUI();
         }
     }
