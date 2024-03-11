@@ -10,14 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1559ebc5bdccb4408b070298f4b4b52, type: 3}
-  m_Name: TutorialQuest_3
+  m_Name: TutorialQuest_4
   m_EditorClassIdentifier: 
-  <id>k__BackingField: TutorialQuest_3
+  <id>k__BackingField: TutorialQuest_4
   displayName: 
   questPrerequisites:
   - {fileID: 11400000, guid: ad094ad5051a4bd499652980f53dd127, type: 2}
   - {fileID: 11400000, guid: 62fd9230c70f8274b8569eb81439e89e, type: 2}
+  - {fileID: 11400000, guid: c57d73267e417d544af7984c76d6c9a2, type: 2}
   questStepPrefabs:
-  - {fileID: 7974775759013371453, guid: e9a7e7c036517de4c8c383c5335f6e6c, type: 3}
+  - {fileID: 7974775759013371453, guid: ab4465ed2bb03434dbde2bbf0456be6f, type: 3}
   goldReward: 0
   itemReward: []

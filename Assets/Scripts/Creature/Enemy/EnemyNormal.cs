@@ -285,7 +285,7 @@ public class EnemyNormal : EnemyController
     }
 
     private void OnDisable()
-    {
+    {        
         StopAllCoroutines();
     }
 }

@@ -44,4 +44,6 @@ public class EnemyController : Creature
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 2f);
         transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
     }
+
+    
 }

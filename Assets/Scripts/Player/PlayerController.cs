@@ -8,12 +8,12 @@ public class PlayerController : MonoBehaviour
 
     public float sensitivity = 30.0f;
     public float WaterHeight = 15.5f;
-    CharacterController character;
     public GameObject cam;
-    float moveFB, moveLR;
-    float rotX, rotY;
     public bool webGLRightClickRotation = true;
-    float gravity = -9.8f;
+    private CharacterController character;
+    private float moveFB, moveLR;
+    private float rotX, rotY;
+    private float gravity = -9.8f;
 
     void Start()
     {
@@ -29,19 +29,6 @@ public class PlayerController : MonoBehaviour
             LockCursor();
         }
     }
-
-    void CheckForWaterHeight()
-    {
-        if (transform.position.y < WaterHeight)
-        {
-            gravity = 0f;
-        }
-        else
-        {
-            gravity = -9.8f;
-        }
-    }
-
     void Update()
     {
         if (Managers.otherAction)
@@ -53,7 +40,6 @@ public class PlayerController : MonoBehaviour
         rotX = Input.GetAxis("Mouse X") * sensitivity;
         rotY = Input.GetAxis("Mouse Y") * sensitivity;
 
-        CheckForWaterHeight();
         gravity = -9.8f;
         Vector3 movement = new Vector3(moveFB, gravity, moveLR);
 
