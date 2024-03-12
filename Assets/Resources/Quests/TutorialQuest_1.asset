@@ -18,6 +18,4 @@ MonoBehaviour:
   questStepPrefabs:
   - {fileID: 7974775759013371453, guid: cf9fcc37843e82d49ae3c08252eb1cbe, type: 3}
   goldReward: 0
-  itemReward:
-  - Item: {fileID: 11400000, guid: 4ce188995c3260a499c213abf5c29a67, type: 2}
-    Amount: 0
+  itemReward: []

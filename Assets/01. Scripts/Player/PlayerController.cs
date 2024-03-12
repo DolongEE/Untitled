@@ -1,33 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
     public float speed = 10.0f;
 
-    public float sensitivity = 30.0f;
+    public float sensitivity;
     public float WaterHeight = 15.5f;
     public GameObject cam;
-    public bool webGLRightClickRotation = true;
     private CharacterController character;
     private float moveFB, moveLR;
     private float rotX, rotY;
     private float gravity = -9.8f;
 
+    public Texture2D cursorTexture;
+    private Vector2 cursorHotspot;
+
     void Start()
     {
         character = GetComponent<CharacterController>();
-        if (Application.isEditor)
-        {
-            webGLRightClickRotation = false;
-            sensitivity = sensitivity * 1.5f;
-            //LockCursor();
-        }
-        else
-        {
-            LockCursor();
-        }
+        cursorHotspot = new Vector2(cursorTexture.width / 2, cursorTexture.height / 2);
+        Cursor.SetCursor(cursorTexture, cursorHotspot, CursorMode.ForceSoftware);
+
+        sensitivity *= sensitivity;
     }
     void Update()
     {
@@ -43,22 +40,10 @@ public class PlayerController : MonoBehaviour
         gravity = -9.8f;
         Vector3 movement = new Vector3(moveFB, gravity, moveLR);
 
-        if (webGLRightClickRotation)
-        {
-            if (Input.GetKey(KeyCode.Mouse0))
-            {
-                CameraRotation(cam, rotX, rotY);
-            }
-        }
-        else if (!webGLRightClickRotation)
-        {
-            CameraRotation(cam, rotX, rotY);
-        }
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            PlayerStatus.Instance.playerStaminabar.fillAmount -= 0.3f;
-        }
+        CameraRotation(cam, rotX, rotY);
 
         movement = transform.rotation * movement;
         character.Move(movement * Time.deltaTime);
@@ -73,10 +58,5 @@ public class PlayerController : MonoBehaviour
 
         float clampRotY = Mathf.Clamp(cam.transform.rotation.eulerAngles.x - rotY * Time.deltaTime, 0f, 30f);
         cam.transform.rotation = Quaternion.Euler(clampRotY, cam.transform.rotation.eulerAngles.y, cam.transform.rotation.eulerAngles.z);
-    }
-
-    void LockCursor()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
     }
 }

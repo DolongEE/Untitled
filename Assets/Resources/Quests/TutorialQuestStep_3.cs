@@ -1,32 +1,24 @@
+using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 
 public class TutorialQuestStep_3 : QuestStep
 {
-    private int twigAmount;
-    private int gravelAmount;
-
-    private const int MAX_TWIG_AMOUNT = 1;
-    private const int MAX_GRAVEL_AMOUNT = 2;
-
-    private string twigId;
-    private string gravelId;
-
-    private Inventory inventory;
+    private EquipmentInventory equipmentInventory;
+    private bool equipHelmet;
+    private bool equipArmor;
 
     private void Awake()
     {
+        equipmentInventory = Managers.INVENTORY.equipment;  
 
-        inventory = Managers.INVENTORY.inventory;
-        twigId = Managers.ItemDatabase.GetItemId("Twig");
-        gravelId = Managers.ItemDatabase.GetItemId("Gravel");
-        GetItemAmount();
+        CheckEquipItem();
     }
 
     void Update()
     {
-        GetItemAmount();
+        CheckEquipItem();
 
-        if (twigAmount >= MAX_TWIG_AMOUNT && gravelAmount >= MAX_GRAVEL_AMOUNT)
+        if (equipHelmet && equipArmor)
         {
             FinishedQuestStep();
         }
@@ -35,19 +27,30 @@ public class TutorialQuestStep_3 : QuestStep
 
     public override string UpdateDescription()
     {
-        description = $"나뭇가지 : {twigAmount} / {MAX_TWIG_AMOUNT}\n자갈 : {gravelAmount} / {MAX_GRAVEL_AMOUNT}";
+        string reuslt1 = equipArmor ? "1/1" : "0/1";
+        string reuslt2 = equipHelmet ? "1/1" : "0/1";
+        description = $"Armor :{reuslt1} \nHelmet{reuslt2}";
         return description;
     }
 
-    private void GetItemAmount()
+    private void CheckEquipItem()
     {
-        twigAmount = inventory.ItemCount(twigId);
-        gravelAmount = inventory.ItemCount(gravelId);
+        foreach (var slot in equipmentInventory.equipSlots)
+        {
+            if (equipHelmet == false && slot.equipmentType == EItemType.Helmet && slot.Item != null)
+            {
+                equipHelmet = true;
+            }
+            if (equipArmor == false && slot.equipmentType == EItemType.Armor && slot.Item != null)
+            {
+                equipArmor = true;
+            }
+        }
     }
 
     public override void OpenDoor()
     {
-        Door = GameObject.Find("Door_2").GetComponent<Door>();
+        Door = GameObject.Find("Door_3").GetComponent<Door>();
         Door.OpenDoor();
     }
 }

@@ -145,11 +145,13 @@ public class QuestManager
     }
 
     private void ClaimRewards(Quest quest)
-    {
-        // TODO - 보상 추가
-        foreach(var item in quest.info.itemReward)
+    {        
+        foreach(ItemAmount item in quest.info.itemReward)
         {
-            Managers.INVENTORY.inventory.AcquireItem(item.Item);
+            for(int i = 0; i < item.Amount; i++)
+            {
+                Managers.INVENTORY.inventory.AcquireItem(item.Item);
+            }            
         }
     }
 

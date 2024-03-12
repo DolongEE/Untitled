@@ -1,10 +1,11 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class InventoryManager
 {
     public Inventory inventory;
-    [SerializeField] EquipmentInventory equipment;
+    [SerializeField] public EquipmentInventory equipment;
     public InventoryToolTip toolTip;
     public Camera cam;
     public bool isEquippedWeapon;
@@ -26,10 +27,9 @@ public class InventoryManager
 
     public void EquipItemFromInventory(EquippableItem _item)
     {
-        EquippableItem copy = _item.GetCopy() as EquippableItem;
         GameObject weaponPrefab = _item.itemPrefab;
 
-        if (inventory.ReturnItem(_item) && equipment.AcquireItem(copy) && weaponPrefab != null)
+        if (inventory.ReturnItem(_item) && equipment.AcquireItem(_item) && weaponPrefab != null)
         {
             // 장비 아이템이 무기일 경우
             if (_item.wItemType == EItemType.Weapon)
@@ -43,7 +43,7 @@ public class InventoryManager
 
                 Managers.INVENTORY.toolTip.HideTooltip2D();
                 PlayerStatus.Instance.EquipItem(_item);
-                copy.Equip();
+                _item.Equip();
 
                 isEquippedWeapon = true;
             }
@@ -51,27 +51,27 @@ public class InventoryManager
             else if (_item.wItemType == EItemType.Helmet)
             {
                 GameObject head = GameObject.Find("Head_end");
-                GameObject helmet = Object.Instantiate(weaponPrefab, head.transform.position, Quaternion.identity, head.transform);
+                GameObject helmet = Object.Instantiate(weaponPrefab, head.transform.position, head.transform.rotation, head.transform);
 
                 helmet.name = _item.name;
                 helmet.GetComponent<ItemInfo>().enabled = false;
 
                 Managers.INVENTORY.toolTip.HideTooltip2D();
                 PlayerStatus.Instance.EquipItem(_item);
-                copy.Equip();
+                _item.Equip();
             }
             // 장비 아이템이 갑옷일 경우
             else if (_item.wItemType == EItemType.Armor)
             {
                 GameObject spine = GameObject.Find("Spine 2");
-                GameObject armor = Object.Instantiate(weaponPrefab, spine.transform.position, Quaternion.identity, spine.transform);
+                GameObject armor = Object.Instantiate(weaponPrefab, spine.transform.position, Quaternion.Euler(90f, spine.transform.rotation.y, spine.transform.rotation.z), spine.transform);
 
                 armor.name = _item.name;
                 armor.GetComponent<ItemInfo>().enabled = false;
 
                 Managers.INVENTORY.toolTip.HideTooltip2D();
                 PlayerStatus.Instance.EquipItem(_item);
-                copy.Equip();
+                _item.Equip();
             }
             else if (_item.wItemType == EItemType.Tools)
             {
@@ -84,7 +84,7 @@ public class InventoryManager
 
                 Managers.INVENTORY.toolTip.HideTooltip2D();
                 PlayerStatus.Instance.EquipItem(_item);
-                copy.Equip();
+                _item.Equip();
             }
         }
         else
@@ -133,7 +133,7 @@ public class InventoryManager
 
                 if (spine.transform.childCount > 0)
                 {
-                    Object.Destroy(GameObject.Find("Armor"));
+                    Object.Destroy(spine.transform.GetChild(1).gameObject);
                 }
 
                 PlayerStatus.Instance.UnequipItem(_item);
@@ -147,7 +147,7 @@ public class InventoryManager
 
                 if (rHand.transform.childCount > 0)
                 {
-                    Object.Destroy(GameObject.Find("Pickaxe"));
+                    Object.Destroy(rHand.transform.GetChild(0).gameObject);
                 }
 
                 PlayerStatus.Instance.UnequipItem(_item);

@@ -25,11 +25,6 @@ public class EnemyController : Creature
         hp = (int)_health.GetHealth();
 
         return true;
-    }    
-
-    protected override void OnUpdate()
-    {
-        
     }
 
     protected Vector3 TargetDir(Vector3 target) { return (target - transform.position).normalized; }
@@ -83,4 +78,5 @@ public class EnemyController : Creature
         }
     }
 
+    protected override void OnUpdate() { }
 }

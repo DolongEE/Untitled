@@ -7,7 +7,7 @@ public class EquipmentInventory : MonoBehaviour
 {
     public List<EquippableItem> equipItems;
     [SerializeField] private Transform equipmentBag;
-    [SerializeField] private EquipmentSlot[] equipSlots;
+    [SerializeField] public EquipmentSlot[] equipSlots;
 
     private void Start()
     {

@@ -17,15 +17,16 @@ public class PlayerStatus : MonoBehaviour
     public Image playerStaminabar;
     public GameObject damageTextPrefab;
 
-    public float baseHp = 100;
     public int baseDamage = 10;
     public int baseDefense = 5;
 
-    public float maxHp;
+    private float maxHp;
 
     public bool isPlayerEquip;
 
     private bool isDamaged;
+
+    public int KillCount;
 
     private void Awake()
     {
@@ -45,9 +46,8 @@ public class PlayerStatus : MonoBehaviour
 
     private void Start()
     {
-        maxHp = baseHp;
-
-        health.SetHealth(baseHp, maxHp);
+        maxHp = 100;
+        health.SetHealth(maxHp, maxHp);
         playerHealthbar.fillAmount = health.GetPercentage() / 100;
 
         LinkedStatus();
@@ -85,7 +85,7 @@ public class PlayerStatus : MonoBehaviour
     public void EquipItem(EquippableItem eItem)
     {
         maxHp += eItem.hp;
-        health.SetHealth(baseHp, maxHp);
+        health.SetHealth(health.GetHealth(), maxHp);
 
         baseDamage += eItem.damage;
         baseDefense += eItem.defense;
@@ -97,7 +97,7 @@ public class PlayerStatus : MonoBehaviour
     public void UnequipItem(EquippableItem eItem)
     {
         maxHp -= eItem.hp;
-        health.SetHealth(baseHp, maxHp);
+        health.SetHealth(health.GetHealth(), maxHp);
 
         baseDamage -= eItem.damage;
         baseDefense -= eItem.defense;
@@ -107,10 +107,10 @@ public class PlayerStatus : MonoBehaviour
 
     public void UseItem(UsableItem _item)
     {
-        baseHp += _item.heal;
-        if (baseHp >= maxHp)
+        health.SetHealth(health.GetHealth() + _item.heal);
+        if (health.GetHealth() >= maxHp)
         {
-            baseHp = maxHp;
+            health.SetHealth(health.GetHealth(), maxHp);
         }
         UpdateUI();
     }
@@ -119,7 +119,6 @@ public class PlayerStatus : MonoBehaviour
     public void UpdateUI()
     {
         // 여기에 UI 업데이트 코드 추가
-        baseHp = health.GetHealth();
         playerHealthbar.fillAmount = health.GetPercentage() / 100;
 
         LinkedStatus();
@@ -127,7 +126,7 @@ public class PlayerStatus : MonoBehaviour
 
     private void LinkedStatus()
     {
-        playerHp.text = "체  력 : " + baseHp.ToString() + " / " + maxHp.ToString();
+        playerHp.text = "체  력 : " + health.GetHealth().ToString() + " / " + maxHp.ToString();
         playerDamage.text = "공격력 : " + baseDamage.ToString();
         playerDefense.text = "방어력 : " + baseDefense.ToString();
     }

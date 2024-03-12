@@ -15,8 +15,8 @@ MonoBehaviour:
   <id>k__BackingField: TutorialQuest_2
   init:
   - "\uC7AC\uB8CC\uB97C \uBAA8\uC740\uD6C4 \uB2E4\uC2DC \uC640\uB77C"
+  - "(\uC88C \uD074\uB9AD\uC73C\uB85C \uACF5\uACA9) "
   progress: []
   reward:
-  - "\uC774\uC81C\uBD80\uD130 \uD544\uC694\uD55C \uB3C4\uAD6C\uB97C \uB9CC\uB4E4\uC5B4
-    \uC8FC\uC9C0"
+  - "\uB2E4\uC74C \uC9C0\uC5ED\uC73C\uB85C \uC774\uB3D9\uD574\uB77C"
   end: []

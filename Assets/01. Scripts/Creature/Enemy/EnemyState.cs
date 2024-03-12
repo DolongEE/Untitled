@@ -8,4 +8,5 @@ public enum EnemyNormalState
     ATTACK,
     HIT,
     MISSTARGET,
+    DEATH,
 }

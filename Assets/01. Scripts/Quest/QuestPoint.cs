@@ -3,7 +3,7 @@ using UnityEngine;
 public class QuestPoint : MonoBehaviour
 {
     [Header("Quest")]
-    [SerializeField] private QuestInfoSO questInfoQuest;
+    [SerializeField] private QuestInfoSO questInfo;
     [SerializeField] private NPCInfoDialogSO npcInfoDialog;
 
     [Header("Config")]
@@ -17,11 +17,11 @@ public class QuestPoint : MonoBehaviour
     [HideInInspector] public bool isQuestTalk;
 
     private int logCount;
-    
+
     private void Awake()
     {
         npc = GetComponent<NPC>();
-        questId = questInfoQuest.id;        
+        questId = questInfo.id;
         questIcon = npc.questIcon.GetComponent<QuestIcon>();
     }
 
@@ -86,7 +86,9 @@ public class QuestPoint : MonoBehaviour
             }
             else if (currentQuestState.Equals(QuestStates.CAN_FINISH) && finishPoint)
             {
-                questInfoQuest.questStepPrefabs[0].GetComponent<QuestStep>().OpenDoor();
+                if (questInfo.questStepPrefabs[0].GetComponent<QuestStep>() != null)
+                    questInfo.questStepPrefabs[0].GetComponent<QuestStep>().OpenDoor();
+                Destroy(FindObjectOfType<QuestUI>().gameObject);
                 Managers.EVENT.questEvents.FinishQuest(questId);
                 npc.btnQuestTalk.gameObject.SetActive(false);
             }

@@ -514,8 +514,10 @@ MonoBehaviour:
   txtLogBox: {fileID: 2551241062275405992}
   panelCraft: {fileID: 0}
   questIcon: {fileID: 1329217787052859862}
+  playerAnimation: {fileID: 0}
+  btnQuestTalk: {fileID: 6618183885266096407}
+  btnCraftOpen: {fileID: 7845988631732131532}
   playerIsNear: 0
-  playerController: {fileID: 0}
 --- !u!114 &5214147810149304804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1089,10 +1091,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2945459243400523201}
     m_Modifications:
-    - target: {fileID: 3196280426804442751, guid: 4921fcd859a7b0c45848c5f54d6077ad, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 6e9f7d23aaf9b4a4aa92311f4d6fd929, type: 2}
     - target: {fileID: 8210207690257594047, guid: 4921fcd859a7b0c45848c5f54d6077ad, type: 3}
       propertyPath: m_Name
       value: PT_Male_Armors_Skeleton_Modular
@@ -1140,41 +1138,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8210207690257594047, guid: 4921fcd859a7b0c45848c5f54d6077ad, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6264577878363686951}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4921fcd859a7b0c45848c5f54d6077ad, type: 3}
 --- !u!4 &1249567353585603456 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8843755518075579397, guid: 4921fcd859a7b0c45848c5f54d6077ad, type: 3}
   m_PrefabInstance: {fileID: 7776606233035718533}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1881530818989738298 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8210207690257594047, guid: 4921fcd859a7b0c45848c5f54d6077ad, type: 3}
-  m_PrefabInstance: {fileID: 7776606233035718533}
-  m_PrefabAsset: {fileID: 0}
---- !u!136 &6264577878363686951
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1881530818989738298}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.25
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}

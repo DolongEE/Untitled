@@ -4,7 +4,7 @@ using UnityEngine;
 public class Quest
 {
     public QuestInfoSO info;
-    public QuestStates state;
+    public QuestStates state;    
     private int currentQuestStepIndex;
 
     public Quest(QuestInfoSO questInfo)
@@ -34,7 +34,7 @@ public class Quest
             QuestUI questUI = Object.Instantiate(questUIPrefab, Managers.CANVAS.panelQuestContent.transform).GetComponent<QuestUI>();
             questStep.InitializeQuestStep(info.id, questUI);
             questUI.questName.text = info.displayName;
-            questUI.questDescription.text = questStep.UpdateDescription();
+            questUI.questDescription.text = questStep.UpdateDescription();            
         }
     }
 

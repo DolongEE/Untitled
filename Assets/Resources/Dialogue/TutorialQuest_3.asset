@@ -12,11 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4e371d88de017744afe6966f4d0d668, type: 3}
   m_Name: TutorialQuest_3
   m_EditorClassIdentifier: 
-  <id>k__BackingField: TutorialQuest_2
+  <id>k__BackingField: TutorialQuest_3
   init:
-  - "\uC7AC\uB8CC\uB97C \uBAA8\uC740\uD6C4 \uB2E4\uC2DC \uC640\uB77C"
+  - "\uBC14\uB2E5\uC5D0 \uC788\uB294 \uC544\uC774\uD15C\uC744 \uC8FC\uC6CC \uC7A5\uCC29\uD574\uB77C"
+  - "\uC7A5\uCC29\uD558\uBA74 \uCCB4\uB825\uC774 \uC624\uB974\uB294 \uAC83\uC744
+    \uD655\uC778 \uD560 \uC218 \uC788\uB2E4"
+  - "\uBA3C\uC800 \uC544\uC774\uD15C\uC744 \uC7A5\uCC29\uD558\uACE0 \uB098\uC5D0\uAC8C
+    \uB2E4\uC2DC \uC640\uB77C"
   progress: []
   reward:
-  - "\uC774\uC81C\uBD80\uD130 \uD544\uC694\uD55C \uB3C4\uAD6C\uB97C \uB9CC\uB4E4\uC5B4
-    \uC8FC\uC9C0"
+  - "\uC774 \uD3EC\uC158\uC744 \uC6B0\uD074\uB9AD\uC73C\uB85C \uB9C8\uC2DC\uBA74
+    \uCCB4\uB825\uC774 \uD68C\uBCF5\uB420 \uAC83\uC774\uB2E4"
   end: []

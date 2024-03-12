@@ -2,18 +2,22 @@ using UnityEngine;
 
 public class TutorialQuestStep_4 : QuestStep
 {
+    private GameObject player;
+
     private int killCount;
     private int oldKillCount;
 
-    private const int MAX_KILL_COUNT = 3;
+    private const int MAX_KILL_COUNT = 2;
 
     private void Awake()
     {
-
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     void Update()
     {
+        GetKillCountToPlayer();
+
         if (killCount.Equals(oldKillCount) == false)
         {
             oldKillCount = killCount;
@@ -26,14 +30,14 @@ public class TutorialQuestStep_4 : QuestStep
         }
     }
 
-    public void AddKillCount()
+    private void GetKillCountToPlayer()
     {
-        killCount++;
+        killCount = player.GetComponent<PlayerStatus>().KillCount;
     }
 
     public override string UpdateDescription()
     {
-        description = $"나뭇가지 : {killCount} / {MAX_KILL_COUNT}";
+        description = $"적 처지 : {killCount} / {MAX_KILL_COUNT}";
         return description;
     }
 

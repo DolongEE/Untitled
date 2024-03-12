@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class InventoryToolTip : MonoBehaviour
 {
     public static bool inventoryActivated = false;
+    private GameObject noMovingZone;
     private GameObject itemBag;
     private GameObject equipmentBag;
     private GameObject statBag;
@@ -21,6 +22,7 @@ public class InventoryToolTip : MonoBehaviour
 
     private void Awake()
     {
+        noMovingZone = transform.Find("NoMovingZone").gameObject;
         itemBag = GameObject.Find("itemBag");
         equipmentBag = GameObject.Find("equipmentBag");
         statBag = GameObject.Find("statBag");
@@ -35,6 +37,7 @@ public class InventoryToolTip : MonoBehaviour
 
     private void Start()
     {
+        noMovingZone.SetActive(false);
         tooltip.SetActive(false);
         slotTooltip.SetActive(false);
         itemBag.SetActive(false);
@@ -54,6 +57,7 @@ public class InventoryToolTip : MonoBehaviour
         {
             inventoryActivated = !inventoryActivated;
 
+            noMovingZone.SetActive(inventoryActivated);
             itemBag.SetActive(inventoryActivated);
             equipmentBag.SetActive(inventoryActivated);
             statBag.SetActive(inventoryActivated);

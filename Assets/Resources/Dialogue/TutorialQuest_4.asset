@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4e371d88de017744afe6966f4d0d668, type: 3}
   m_Name: TutorialQuest_4
   m_EditorClassIdentifier: 
-  <id>k__BackingField: TutorialQuest_2
+  <id>k__BackingField: TutorialQuest_4
   init:
   - "\uC7AC\uB8CC\uB97C \uBAA8\uC740\uD6C4 \uB2E4\uC2DC \uC640\uB77C"
   progress: []

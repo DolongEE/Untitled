@@ -43,6 +43,10 @@ public class EnemyNormal : EnemyController
                     MissTargetAnimation();
                     MissTargetBehaviour();
                     break;
+                case EnemyNormalState.DEATH:                    
+                    DeathAnimation();
+                    DeathBehaviour();
+                    break;
             }
         }
     }
@@ -63,6 +67,8 @@ public class EnemyNormal : EnemyController
 
     private int currentWaypointIndex = 0;
     private bool isDetect;
+
+    public const int AddCount = 1;
 
     protected override bool Init()
     {
@@ -99,6 +105,9 @@ public class EnemyNormal : EnemyController
             case EnemyNormalState.MISSTARGET:
                 MissTargetUpdateBehaviour();
                 break;
+            case EnemyNormalState.DEATH:
+                DeathUpdateBehaviour();
+                break;
         }
 
         UpdateTimers();
@@ -108,6 +117,14 @@ public class EnemyNormal : EnemyController
     {
         while (true)
         {
+            if (_health.IsDead())
+            {
+                currentEnemyState = EnemyNormalState.DEATH;
+                gameObject.GetComponent<CapsuleCollider>().enabled = false;
+                _rigidbody.useGravity = false;
+                GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStatus>().KillCount++;
+                break;
+            }            
 
             if (isDetect && AtTarget()) 
             {
@@ -137,6 +154,7 @@ public class EnemyNormal : EnemyController
 
             yield return null;
         }
+        StopCoroutine(EnemyActState());
     }
 
     private void PatrolDetect()
@@ -169,17 +187,12 @@ public class EnemyNormal : EnemyController
     #region Behaviour Group
     private void IdleBehaviour() { }
     private void PatrolBehaviour() { }
-    private void AttackBehaviour() 
-    { 
-    
-    }
-    private void HitBehaviour() 
-    {
-        
-    }
+    private void AttackBehaviour() {    }
+    private void HitBehaviour()   {   }
     private void ChaseBehaviour() { }
     private void MissTargetBehaviour() { }
-    
+    private void DeathBehaviour() { }
+
     private void IdleUpdateBehaviour() { }
     private void PatrolUpdateBehaviour()
     {
@@ -203,14 +216,8 @@ public class EnemyNormal : EnemyController
             currentEnemyState = EnemyNormalState.IDLE;
         }
     }
-    private void AttackUpdateBehaviour()
-    {
-
-    }
-    private void HitUpdateBehaviour()
-    {
-
-    }
+    private void AttackUpdateBehaviour() { }
+    private void HitUpdateBehaviour() { }    
     private void ChaseUpdateBehaviour()
     {
         if (playerTransform == null)
@@ -219,7 +226,7 @@ public class EnemyNormal : EnemyController
         TargetToMove(playerTransform.position);
     }
     private void MissTargetUpdateBehaviour() { }
-
+    private void DeathUpdateBehaviour() { }
     #endregion
 
     #region Animations
@@ -230,6 +237,7 @@ public class EnemyNormal : EnemyController
     private void HitAnimation() { _animator.CrossFade("HitBack", 0.1f); }
     private void ChaseAnimation() { _animator.CrossFade("RunForward", 0.1f); }
     private void MissTargetAnimation() { _animator.CrossFade("Idle", 0.1f); }
+    private void DeathAnimation() { _animator.CrossFade("Death", 0.1f); }
     #endregion
 
     private Vector3 GetCurrentWaypoint() { return patrolPath.GetWaypoint(currentWaypointIndex); }
@@ -289,6 +297,7 @@ public class EnemyNormal : EnemyController
 
     private void OnDisable()
     {        
+   
         StopAllCoroutines();
     }
 }
