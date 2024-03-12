@@ -14,9 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <id>k__BackingField: TutorialQuest_4
   init:
-  - "\uC7AC\uB8CC\uB97C \uBAA8\uC740\uD6C4 \uB2E4\uC2DC \uC640\uB77C"
+  - "\uC801\uC744 \uCC98\uCE58\uD55C \uD6C4 \uB098\uC5D0\uAC8C \uC624\uB3C4\uB85D."
   progress: []
   reward:
-  - "\uC774\uC81C\uBD80\uD130 \uD544\uC694\uD55C \uB3C4\uAD6C\uB97C \uB9CC\uB4E4\uC5B4
-    \uC8FC\uC9C0"
+  - "\uD29C\uD1A0\uB9AC\uC5BC \uC878\uC5C5\uC744 \uCD95\uD558\uD55C\uB2E4."
   end: []

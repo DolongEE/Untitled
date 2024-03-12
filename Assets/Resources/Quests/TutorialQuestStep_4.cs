@@ -37,7 +37,7 @@ public class TutorialQuestStep_4 : QuestStep
 
     public override string UpdateDescription()
     {
-        description = $"利 贸瘤 : {killCount} / {MAX_KILL_COUNT}";
+        description = $"利 贸摹 : {killCount} / {MAX_KILL_COUNT}";
         return description;
     }
 
