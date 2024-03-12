@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: TutorialQuest_4
   m_EditorClassIdentifier: 
   <id>k__BackingField: TutorialQuest_4
-  displayName: 
+  displayName: "\uB4C0\uD1A0\uB9AC\uC5BC \uD018\uC2A4\uD2B8 - 4"
   questPrerequisites:
   - {fileID: 11400000, guid: ad094ad5051a4bd499652980f53dd127, type: 2}
   - {fileID: 11400000, guid: 62fd9230c70f8274b8569eb81439e89e, type: 2}
   - {fileID: 11400000, guid: c57d73267e417d544af7984c76d6c9a2, type: 2}
   questStepPrefabs:
   - {fileID: 7974775759013371453, guid: ab4465ed2bb03434dbde2bbf0456be6f, type: 3}
-  goldReward: 0
+  goldReward: 1
   itemReward: []
